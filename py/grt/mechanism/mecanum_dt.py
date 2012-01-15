@@ -40,7 +40,7 @@ class MecanumDT:
         The front right and rear left motors map to "x_power"
         Rotation is factored in like it always is during a normal arcade drive.
         """
-        rotation *= .1 #scaling down rotation
+        rotation *= .5 #scaling down rotation
         fl_power = y_power + rotation
         fr_power = x_power - rotation
         rl_power = x_power + rotation
@@ -50,9 +50,9 @@ class MecanumDT:
         print(motor_power)
         self.normalize(motor_power)
         self.fl_motor.Set(motor_power[0])
-        self.fr_motor.Set(motor_power[1])
+        self.fr_motor.Set(-motor_power[1])
         self.rl_motor.Set(motor_power[2])
-        self.rr_motor.Set(motor_power[3])
+        self.rr_motor.Set(-motor_power[3])
         print(motor_power)
 
     def limited(self, num):

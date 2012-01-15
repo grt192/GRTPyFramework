@@ -87,6 +87,7 @@ class MyRobot(wpilib.SimpleRobot):
             if self.driver_stick.j.GetRawButton(10):
                 raise NameError('Rebooting')
             wpilib.Wait(0.04 - (time.time() - tinit))
+            print("Gyro: " + str(self.dt.gyro.g.GetAngle()))
 
 
 def run():

@@ -1,9 +1,6 @@
 __author__ = "Calvin Huang"
 
-try:
-    from wpilib import Joystick
-except ImportError:
-    from pyfrc.wpilib import Joystick
+from wpilib import Joystick
 from grt.core import Sensor
 
 BUTTON_TABLE = ['trigger', 'button2', 'button3',
@@ -12,7 +9,7 @@ BUTTON_TABLE = ['trigger', 'button2', 'button3',
                 'button10', 'button11']
 
 
-class TwistJoystick(Sensor):
+class CyborgJoystick(Sensor):
     """
     Sensor wrapper for the Attack 3 Joystick.
 
@@ -20,7 +17,7 @@ class TwistJoystick(Sensor):
     and double x_axis, y_axis for joystick position
     """
 
-    x_axis = y_axis = twist_axis = 0
+    x_axis = y_axis = 0
     trigger = button2 = button3 = \
         button4 = button5 = button6 = \
         button7 = button8 = button9 = \
