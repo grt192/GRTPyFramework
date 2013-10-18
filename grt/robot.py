@@ -30,7 +30,7 @@ class MyRobot(wpilib.SimpleRobot):
             CheckRestart()
 
             # Motor control
-            print lstick.GetY()
+            print(lstick.GetY())
 
             wpilib.Wait(0.04)
 
