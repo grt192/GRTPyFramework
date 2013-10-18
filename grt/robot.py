@@ -2,7 +2,7 @@ import wpilib
 
 lstick = wpilib.Joystick(1)
 
-motor = wpilib.CANJaguar(8)
+#motor = wpilib.CANJaguar(8)
 
 def CheckRestart():
     if lstick.GetRawButton(10):
@@ -30,7 +30,7 @@ class MyRobot(wpilib.SimpleRobot):
             CheckRestart()
 
             # Motor control
-            motor.Set(lstick.GetY())
+            print lstick.GetY()
 
             wpilib.Wait(0.04)
 
