@@ -3,6 +3,7 @@ import wpilib
 lstick = wpilib.Joystick(1)
 
 #motor = wpilib.CANJaguar(8)
+solenoid = wpilib.Solenoid(7, 1)
 
 def CheckRestart():
     if lstick.GetRawButton(10):
@@ -31,6 +32,12 @@ class MyRobot(wpilib.SimpleRobot):
 
             # Motor control
             print(lstick.GetY())
+            if lstick.GetRawButton(2):
+                solenoid.Set(True)
+                print("ON")
+            elif lstick.GetRawButton(3):
+                solenoid.Set(False)
+                print("OFF")
 
             wpilib.Wait(0.04)
 
