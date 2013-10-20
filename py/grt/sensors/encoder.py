@@ -1,3 +1,5 @@
+__author__ = "Calvin Huang"
+
 from wpilib import Encoder, CounterBase
 from grt.core import Sensor
 

@@ -1,3 +1,5 @@
+__author__ = "Calvin Huang"
+
 from wpilib import ADXL345_I2C
 from grt.core import Sensor
 

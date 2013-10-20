@@ -1,3 +1,5 @@
+__author__ = "Calvin Huang, Sidd Karamcheti"
+
 class DriveTrain:
     '''
     Standard 4-motor drivetrain, with standard tankdrive.

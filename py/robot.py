@@ -1,9 +1,7 @@
+__author__ = "Sidd Karamcheti, Calvin Huang"
+
 import wpilib
-
-lstick = wpilib.Joystick(1)
-
-#motor = wpilib.CANJaguar(8)
-solenoid = wpilib.Solenoid(7, 1)
+from config import *
 
 def CheckRestart():
     if lstick.GetRawButton(10):

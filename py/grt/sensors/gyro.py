@@ -1,4 +1,6 @@
-#from wpilib import Gyro
+__author__ = "Calvin Huang"
+
+from wpilib import Gyro
 from grt.core import Sensor
 
 class Gyro(Sensor):
