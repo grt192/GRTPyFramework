@@ -3,22 +3,13 @@ import time
 
 class Sensor:
     def __init__(self):
-        self.state = {}  # dict, holding previously read sensor values
-        self.listeners = set()  # set of listeners
-
-    def __getattr__(self, name):
-        if name in self.state:
-            return self.state[name]
-        return 0
+        self._listeners = set()  # set of listeners
 
     def get(self, name):
         '''
         Returns the datum associated with some name.
         '''
-        return self.state[name]
-
-    def __dir__(self):
-        return sorted(set(dir(type(self) + self.state.keys())))
+        return self.__dict__[name]
 
     def add_listener(self, l):
         '''
@@ -26,13 +17,16 @@ class Sensor:
         when this sensor's state changes.
         Method has format l(sensor, state_id, datum)
         '''
-        self.listeners.add(l)
+        self._listeners.add(l)
 
     def remove_listener(self, l):
         '''
         Remove a listener.
         '''
-        self.listeners.remove(l)
+        self._listeners.remove(l)
+
+    def __setattr__(self, key, value):
+        self.update_state(key, value)
 
     def update_state(self, state_id, datum):
         '''
@@ -41,14 +35,18 @@ class Sensor:
         Updates state state_id with data datum.
         Also notifies listeners of state change (on change, not add).
         '''
-        if state_id in self.state and self.state[state_id] != datum:
-            self.state[state_id] = datum
-            for l in self.listeners:
+        if state_id not in self.__dict__:
+            self.__dict__[state_id] = datum
+        elif self.__dict__[state_id] != datum:
+            self.__dict__[state_id] = datum
+            for l in self._listeners:
                 l(self, state_id, datum)
 
     def poll(self):
         '''
         Polls the sensor, notifies any listeners if necessary.
+
+        Should be overridden by all sensors.
         '''
         pass
 
@@ -56,9 +54,9 @@ class SensorPoller:
     '''
     Class that periodically polls sensors.
     '''
-    def __init__(self, polltime=0.01, sensors=[]):
+    def __init__(self, polltime=0.01, sensors=set()):
         '''
-        Sets the polltime (in seconds) and the initial list of sensors.
+        Sets the polltime (in seconds) and the initial set of sensors.
         '''
         self.sensors = sensors
         self.polltime = polltime
@@ -107,6 +105,9 @@ class Constants(Sensor):
     '''
 
     def __init__(file_loc='/c/constants.txt'):
+        '''
+        Creates Constants with an initial file.
+        '''
         self.file_loc = file_loc
 
     def poll(self):

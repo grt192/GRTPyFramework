@@ -17,12 +17,13 @@ IOBOARD = DriverStation.GetInstance().GetEnhancedIO()
 
 class ButtonBoard(Sensor):
     '''
-    Sensor wrapper for the Attack 3 Joystick.
-
-    Has boolean attributes for buttons: trigger, button2-9
-    and double x_axis, y_axis for joystick position
+    Sensor wrapper for the HH buttonboard.
+    Has 8 buttons.
     '''
 
+    button1 = button2 = button3 = button4 = button5 = button6 = \
+            button7 = button8 = l_toggle = r_toggle = \
+            orange_button = green_button = False
     def __init__(self):
         '''
         Constructs a new ButtonBoard. Only one should be instantiated.
@@ -36,8 +37,8 @@ class ButtonBoard(Sensor):
 
 
     def poll(self):
-        digstate = IOBOARD.GetDigitals()  # bit-packed button states
+        diostate = IOBOARD.GetDigitals()  # bit-packed button states
         for name, pin in BUTTON_TABLE:
-            self.update_state(name, ((digstate >> (pin - 1)) & 1) == 0)
+            self.update_state(name, ((diostate >> (pin - 1)) & 1) == 0)
 
     # TODO LEDs

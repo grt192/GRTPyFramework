@@ -8,6 +8,7 @@ class Switch(Sensor):
     Has boolean attribute pressed.
     '''
 
+    pressed = False
     def __init__(self, channel, module=1, reverse=False):
         '''
         Initializes the switch on some digital channel and module.
@@ -18,4 +19,4 @@ class Switch(Sensor):
         self.reverse = reverse
 
     def poll(self):
-        self.update_state('pressed', not self.s.Get() and self.reverse)
+        self.pressed = not self.s.Get() ^ self.reverse

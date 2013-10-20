@@ -1,4 +1,7 @@
 class DriveTrain:
+    '''
+    Standard 4-motor drivetrain, with standard tankdrive.
+    '''
 
     left_front_sf = left_back_sf = 1.0
     right_front_sf = right_back_sf = -1.0
@@ -13,8 +16,8 @@ class DriveTrain:
         Initializes the drivetrain with some motors, shifters, encoders
         '''
         self.left_front_motor = left_front_motor
-        self.right_front_motor = right_front_motor
         self.left_back_motor = left_back_motor
+        self.right_front_motor = right_front_motor
         self.right_back_motor = right_back_motor
         self.left_shifter = left_shifter
         self.right_shifter = right_shifter
@@ -32,8 +35,8 @@ class DriveTrain:
         for the speed fed to the motors.
         '''
         self.left_front_sf = left_front_sf
-        self.right_front_sf = right_front_sf
         self.left_back_sf = left_back_sf
+        self.right_front_sf = right_front_sf
         self.right_back_sf = right_back_sf
 
     def set_dt_output(self, left_output, right_output):
@@ -41,8 +44,8 @@ class DriveTrain:
         Sets the DT output values; should be between -1 and 1.
         '''
         left_front_motor.Set(left_output * left_front_sf * power)
-        right_front_motor.Set(right_output * right_front_sf * power)
         left_back_motor.Set(left_output * left_back_sf * power)
+        right_front_motor.Set(right_output * right_front_sf * power)
         right_back_motor.Set(right_output * right_back_sf * power)
 
     def set_power(self, power):
