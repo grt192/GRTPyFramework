@@ -1,4 +1,12 @@
+__author__ = "Calvin Huang, Sidd Karamcheti"
+
 class DriveTrain:
+    """
+    GRT DT
+
+    4-motor Tank Drive System 
+    @param: 
+    """
 
     left_front_sf = left_back_sf = 1.0
     right_front_sf = right_back_sf = -1.0

@@ -1,3 +1,5 @@
+__author__ = "Calvin Huang"
+
 from wpilib import Gyro
 from grt.core import Sensor
 

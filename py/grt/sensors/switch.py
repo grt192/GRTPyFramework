@@ -1,3 +1,5 @@
+__author__ = "Calvin Huang"
+
 from wpilib import DigitalInput
 from grt.core import Sensor
 
