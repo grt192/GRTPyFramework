@@ -10,33 +10,34 @@ BUTTON_TABLE = [('button1', 1), ('button2', 3), ('button3', 5),
                 ('l_toggle', 10), ('r_toggle', 12),
                 ('orange_button', 14), ('green_button', 16)]
 
-REGISTER_CLK = 2;
-REGISTER_D1 = 6;
-REGISTER_D2 = 8;
-REGISTER_LOAD = 4;
+REGISTER_CLK = 2
+REGISTER_D1 = 6
+REGISTER_D2 = 8
+REGISTER_LOAD = 4
 
 IOBOARD = DriverStation.GetInstance().GetEnhancedIO()
 
+
 class ButtonBoard(Sensor):
-    '''
+    """
     Sensor wrapper for the HH buttonboard.
     Has 8 buttons.
-    '''
+    """
 
     button1 = button2 = button3 = button4 = button5 = button6 = \
             button7 = button8 = l_toggle = r_toggle = \
             orange_button = green_button = False
+
     def __init__(self):
-        '''
+        """
         Constructs a new ButtonBoard. Only one should be instantiated.
-        '''
+        """
         super().__init__()
         for name, pin in BUTTON_TABLE:
             IOBOARD.SetDigitalConfig(pin, IOBOARD.tDigitalConfig.kInputPullUp)
 
         for i in (REGISTER_CLK, REGISTER_D1, REGISTER_D2, REGISTER_LOAD):
             IOBOARD.SetDigitalConfig(i, IOBOARD.tDigitalConfig.kOutput)
-
 
     def poll(self):
         diostate = IOBOARD.GetDigitals()  # bit-packed button states

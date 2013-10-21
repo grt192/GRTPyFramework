@@ -1,11 +1,12 @@
-__author__ = "Sidd Karamcheti"
-
-import wpilib
 """
-Config File for Robot 
+Config File for Robot
 
 #TODO: Setup for Constants File
 """
+
+__author__ = "Sidd Karamcheti"
+
+import wpilib
 
 # Joysticks
 lstick = wpilib.Joystick(1)

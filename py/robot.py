@@ -3,9 +3,11 @@ __author__ = "Sidd Karamcheti, Calvin Huang"
 import wpilib
 from config import *
 
+
 def CheckRestart():
     if lstick.GetRawButton(10):
         raise RuntimeError("Restart")
+
 
 class MyRobot(wpilib.SimpleRobot):
     def Disabled(self):
@@ -38,6 +40,7 @@ class MyRobot(wpilib.SimpleRobot):
                 print("OFF")
 
             wpilib.Wait(0.04)
+
 
 def run():
     robot = MyRobot()

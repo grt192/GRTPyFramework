@@ -3,40 +3,48 @@ __author__ = "Calvin Huang"
 import threading
 import time
 
+
 class Sensor:
+    """
+    Abstract sensor class.
+    Stores data as class attributes, updated when poll() is called.
+
+    Take care to not accidentally override vital class attributes
+    with update_state.
+    """
     def __init__(self):
         self._listeners = set()  # set of listeners
 
     def get(self, name):
-        '''
+        """
         Returns the datum associated with some name.
-        '''
+        """
         return self.__dict__[name]
 
     def add_listener(self, l):
-        '''
+        """
         Add a listener, a method that will be called
         when this sensor's state changes.
         Method has format l(sensor, state_id, datum)
-        '''
+        """
         self._listeners.add(l)
 
     def remove_listener(self, l):
-        '''
+        """
         Remove a listener.
-        '''
+        """
         self._listeners.remove(l)
 
     def __setattr__(self, key, value):
         self.update_state(key, value)
 
     def update_state(self, state_id, datum):
-        '''
+        """
         Updates the state of this sensor.
 
         Updates state state_id with data datum.
         Also notifies listeners of state change (on change, not add).
-        '''
+        """
         if state_id not in self.__dict__:
             self.__dict__[state_id] = datum
         elif self.__dict__[state_id] != datum:
@@ -45,46 +53,50 @@ class Sensor:
                 l(self, state_id, datum)
 
     def poll(self):
-        '''
+        """
         Polls the sensor, notifies any listeners if necessary.
 
         Should be overridden by all sensors.
-        '''
+        """
         pass
 
+
 class SensorPoller:
-    '''
+    """
     Class that periodically polls sensors.
-    '''
+    """
+    running = False
+    t = None
+
     def __init__(self, polltime=0.01, sensors=set()):
-        '''
+        """
         Sets the polltime (in seconds) and the initial set of sensors.
-        '''
+        """
         self.sensors = sensors
         self.polltime = polltime
 
-    def add_sensor(sensor):
-        '''
+    def add_sensor(self, sensor):
+        """
         Adds a sensor to poll.
-        '''
-        sensors.append(sensor)
+        """
+        self.sensors.append(sensor)
 
-    def remove_sensor(sensor):
-        '''
+    def remove_sensor(self, sensor):
+        """
         Removes a sensor.
-        '''
-        sensors.remove(sensor)
+        """
+        self.sensors.remove(sensor)
 
     def halt(self):
-        '''
+        """
         Stops this thread from polling.
-        '''
+        """
         self.running = False
 
     def start(self):
-        '''
+        """
         Starts polling.
-        '''
+        """
         self.running = True
         self.t = threading.Thread(target=self._run)
 
@@ -94,8 +106,9 @@ class SensorPoller:
                 sensor.poll()
             time.sleep(self.polltime)
 
+
 class Constants(Sensor):
-    '''
+    """
     Class for reading, and keeping track of, constants in a file.
 
     File is read line by line, in [key],[number] format.
@@ -104,28 +117,29 @@ class Constants(Sensor):
     Blank lines, and lines starting with '#' are ignored.
 
     Behaves more or less like a sensor.
-    '''
+    """
 
-    def __init__(file_loc='/c/constants.txt'):
-        '''
+    def __init__(self, file_loc='/c/constants.txt'):
+        """
         Creates Constants with an initial file.
-        '''
+        """
+        super().__init__()
         self.file_loc = file_loc
 
     def poll(self):
-        '''
+        """
         Reloads file data.
-        '''
+        """
         self.load_file(self.file_loc)
 
-    def load_file(file_loc):
-        '''
+    def load_file(self, file_loc):
+        """
         Loads file data from a file.
         If other files are listed inside this file,
         recursively loads them.
 
         (Beware of "include loops" that will cause a crash)
-        '''
+        """
         f = open(file_loc)
         for line in f:
             line = line.strip()
@@ -142,4 +156,3 @@ class Constants(Sensor):
                 print("Malformed constants file " + file_loc +
                       " with key " + key + " and value " + value)
         f.close()
-
