@@ -7,12 +7,11 @@ class Encoder(Sensor):
     '''
     Sensor wrapper for a quadrature encoder.
 
-    Has double attributes distance, degrees (degrees rotated),
-    rate (distance/second);
+    Has double attributes distance, rate (distance/second);
     boolean attributes stopped and direction.
     '''
 
-    distance = degrees = rate = 0
+    distance = rate = 0
     stopped = direction = True
     def __init__(self, channel_a, channel_b, pulse_dist=1.0,
                  reverse=False, modnum=1, cpr=128,
@@ -30,7 +29,6 @@ class Encoder(Sensor):
     def poll(self):
         dist = self.e.GetDistance()
         self.distance = dist
-        self.degrees = dist / self.pulse_dist * self.cpr / 360.0
         self.rate = self.e.GetRate()
         self.stopped = self.e.GetStopped()
         self.direction = self.e.GetDirection()
