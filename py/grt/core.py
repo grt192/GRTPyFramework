@@ -1,8 +1,5 @@
 __author__ = "Calvin Huang"
 
-import threading
-import time
-
 
 class Sensor:
     """
@@ -66,14 +63,12 @@ class SensorPoller:
     Class that periodically polls sensors.
     """
     running = False
-    t = None
 
-    def __init__(self, polltime=0.01, sensors=set()):
+    def __init__(self, sensors=set()):
         """
         Sets the polltime (in seconds) and the initial set of sensors.
         """
         self.sensors = sensors
-        self.polltime = polltime
 
     def add_sensor(self, sensor):
         """
@@ -93,18 +88,12 @@ class SensorPoller:
         """
         self.running = False
 
-    def start(self):
+    def poll(self):
         """
-        Starts polling.
+        Polls all sensors in this sensorpoller.
         """
-        self.running = True
-        self.t = threading.Thread(target=self._run)
-
-    def _run(self):
-        while self.running:
-            for sensor in self.sensors:
-                sensor.poll()
-            time.sleep(self.polltime)
+        for sensor in self.sensors:
+            sensor.poll()
 
 
 class Constants(Sensor):

@@ -16,7 +16,8 @@ class DriveTrain:
                  left_shifter=None, right_shifter=None,
                  left_encoder=None, right_encoder=None):
         """
-        Initializes the drivetrain with some motors, shifters, encoders
+        Initializes the drivetrain with some motors;
+        optional shifters and encoders
         """
         self.left_front_motor = left_front_motor
         self.left_rear_motor = left_rear_motor
