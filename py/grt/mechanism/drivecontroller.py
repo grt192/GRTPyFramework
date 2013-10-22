@@ -46,8 +46,5 @@ class TankDriveController:
 
     def _joylistener(self, sensor, state_id, datum):
         if sensor in (self.joystick1, self.joystick2) and state_id in ('x_axis', 'y_axis'):
-            power = self.l_joystick.y_axis
-            turnval = self.r_joystick.x_axis if self.r_joystick else self.l_joystick.x_axis
-            # get turn value from joystick2 if it exists, else get it from joystick1
             self.dt.set_dt_output(self.l_joystick.y_axis,
                                   self.r_joystick.y_axis)

@@ -12,6 +12,7 @@ class Accelerometer(Sensor):
     """
 
     x_accel = y_accel = z_accel = 0
+
     def __init__(self, module=1,
                  fmt=ADXL345_I2C.DataFormat_Range.k8G):
         """

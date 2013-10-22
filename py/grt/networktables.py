@@ -50,6 +50,9 @@ class ITable:
             raise Exception("Value given is not a number, string, or list.")
 
     def get_subtable(self, key):
+        """
+        Returns a wrapped subtable.
+        """
         return ITable(self.nettab.GetSubTable(key))
 
 
@@ -85,6 +88,9 @@ def initialize():
 
 
 def get_table(key):
+    """
+    Returns a wrapped subtable.
+    """
     return ITable(NT.GetTable(key))
 
 
@@ -110,4 +116,3 @@ def _list_to_arraydata(lst):
 
 def _arraydata_to_list(arr):
     return [arr.get(i) for i in range(arr.size())]
-
