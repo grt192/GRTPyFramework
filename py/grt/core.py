@@ -10,7 +10,7 @@ class Sensor:
     with update_state.
     """
     def __init__(self):
-        self._listeners = set()  # set of listeners
+        self.listeners = set()  # set of listeners
 
     def get(self, name):
         """
@@ -24,13 +24,13 @@ class Sensor:
         when this sensor's state changes.
         Method has format l(sensor, state_id, datum)
         """
-        self._listeners.add(l)
+        self.listeners.add(l)
 
     def remove_listener(self, l):
         """
         Remove a listener.
         """
-        self._listeners.remove(l)
+        self.listeners.remove(l)
 
     def __setattr__(self, key, value):
         self.update_state(key, value)
@@ -46,7 +46,7 @@ class Sensor:
             self.__dict__[state_id] = datum
         elif self.__dict__[state_id] != datum:
             self.__dict__[state_id] = datum
-            for l in self._listeners:
+            for l in self.listeners:
                 l(self, state_id, datum)
 
     def poll(self):
@@ -64,7 +64,7 @@ class SensorPoller:
     """
     running = False
 
-    def __init__(self, sensors=set()):
+    def __init__(self, sensors):
         """
         Sets the polltime (in seconds) and the initial set of sensors.
         """

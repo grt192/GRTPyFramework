@@ -21,7 +21,7 @@ class ArcadeDriveController:
             joystick2.add_listener(self._joylistener)
 
     def _joylistener(self, sensor, state_id, datum):
-        if sensor == self.joystick1 or sensor == self.joystick2:
+        if sensor in (self.joystick1, self.joystick2) and state_id in ('x_axis', 'y_axis'):
             power = self.joystick1.y_axis
             turnval = self.joystick2.x_axis if self.joystick2 else self.joystick1.x_axis
             # get turn value from joystick2 if it exists, else get it from joystick1
@@ -45,7 +45,7 @@ class TankDriveController:
         r_joystick.add_listener(self._joylistener)
 
     def _joylistener(self, sensor, state_id, datum):
-        if sensor == self.l_joystick or sensor == self.r_joystick:
+        if sensor in (self.joystick1, self.joystick2) and state_id in ('x_axis', 'y_axis'):
             power = self.l_joystick.y_axis
             turnval = self.r_joystick.x_axis if self.r_joystick else self.l_joystick.x_axis
             # get turn value from joystick2 if it exists, else get it from joystick1
