@@ -1,11 +1,11 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
-from config import *
+from config import sp, lstick
 
 
 def CheckRestart():
-    if lstick.GetRawButton(10):
+    if lstick.button10:
         raise RuntimeError("Restart")
 
 
@@ -31,13 +31,7 @@ class MyRobot(wpilib.SimpleRobot):
             CheckRestart()
 
             # Motor control
-            print(lstick.GetY())
-            if lstick.GetRawButton(2):
-                solenoid.Set(True)
-                print("ON")
-            elif lstick.GetRawButton(3):
-                solenoid.Set(False)
-                print("OFF")
+            sp.poll()
 
             wpilib.Wait(0.04)
             #Testing Github editor
