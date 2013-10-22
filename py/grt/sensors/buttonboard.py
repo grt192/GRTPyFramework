@@ -25,8 +25,8 @@ class ButtonBoard(Sensor):
     """
 
     button1 = button2 = button3 = button4 = button5 = button6 = \
-            button7 = button8 = l_toggle = r_toggle = \
-            orange_button = green_button = False
+        button7 = button8 = l_toggle = r_toggle = \
+        orange_button = green_button = False
 
     def __init__(self):
         """

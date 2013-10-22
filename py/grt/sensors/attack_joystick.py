@@ -5,7 +5,8 @@ from grt.core import Sensor
 
 BUTTON_TABLE = ['trigger', 'button2', 'button3',
                 'button4', 'button5', 'button6',
-                'button7', 'button8', 'button9']
+                'button7', 'button8', 'button9',
+                'button10', 'button11']
 
 
 class Attack3Joystick(Sensor):
@@ -18,8 +19,10 @@ class Attack3Joystick(Sensor):
 
     x_axis = y_axis = 0
     trigger = button2 = button3 = \
-            button4 = button5 = button6 = \
-            button7 = button8 = button9 = False
+        button4 = button5 = button6 = \
+        button7 = button8 = button9 = \
+        button10 = button11 = False
+
     def __init__(self, port):
         """
         Initializes the joystick with some USB port.
