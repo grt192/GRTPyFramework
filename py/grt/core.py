@@ -62,7 +62,6 @@ class SensorPoller:
     """
     Class that periodically polls sensors.
     """
-    running = False
 
     def __init__(self, sensors):
         """
@@ -81,12 +80,6 @@ class SensorPoller:
         Removes a sensor.
         """
         self.sensors.remove(sensor)
-
-    def halt(self):
-        """
-        Stops this thread from polling.
-        """
-        self.running = False
 
     def poll(self):
         """
