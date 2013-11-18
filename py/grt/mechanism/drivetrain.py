@@ -6,8 +6,10 @@ class DriveTrain:
     Standard 4-motor drivetrain, with standard tankdrive.
     """
 
-    left_front_sf = left_rear_sf = 1.0
-    right_front_sf = right_rear_sf = -1.0
+    left_front_sf = 1.0
+    left_rear_sf = -1.0
+    right_front_sf = 1.0
+    right_rear_sf = -1.0
     power = 1.0
 
     def __init__(self,

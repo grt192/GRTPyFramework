@@ -27,6 +27,6 @@ rfm = wpilib.Talon(1)
 rrm = wpilib.Talon(2)
 
 dt = DriveTrain(lfm, rfm, lrm, rrm)
-dt.set_scale_factors(1, -1, -1, 1)
+dt.set_scale_factors(1, -1, 1, -1)
 
 ac = ArcadeDriveController(dt, lstick)
