@@ -11,6 +11,7 @@ from grt.sensors.attack_joystick import Attack3Joystick
 from grt.core import SensorPoller
 from grt.mechanism.drivetrain import DriveTrain
 from grt.mechanism.drivecontroller import ArcadeDriveController
+from grt.mechanism.mechs import Mechanisms
 
 # Joysticks
 lstick = Attack3Joystick(1)
@@ -28,7 +29,10 @@ rfm = wpilib.Talon(1)
 rrm = wpilib.Talon(2)
 shooter_pivot_motor = wpilib.Talon(8)
 flywheel_1 = wpilib.Talon(9)
-flywheel_2 = wpilib.Talon(10)
+flywheel_2 = wpilib.Talon(10
+
+compressor = wpilib.Spike(1)
+compressor.set(True)
 
 mechs = Mechanisms(rstick, flywheel_1, flywheel_2, shooter_pivot_motor)
 dt = DriveTrain(lfm, rfm, lrm, rrm)
