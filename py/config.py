@@ -31,9 +31,6 @@ shooter_pivot_motor = wpilib.Talon(8)
 flywheel_1 = wpilib.Talon(9)
 flywheel_2 = wpilib.Talon(10
 
-compressor = wpilib.Spike(1)
-compressor.set(True)
-
 mechs = Mechanisms(rstick, flywheel_1, flywheel_2, shooter_pivot_motor)
 dt = DriveTrain(lfm, rfm, lrm, rrm)
 dt.set_scale_factors(1, -1, 1, -1)
