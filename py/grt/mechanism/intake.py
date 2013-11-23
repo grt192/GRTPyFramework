@@ -19,4 +19,11 @@ class Intake:
 				self.beltsmotor.Set(-1) 
 			else:
 				self.epmotor.Set(0)
+				self.beltsmotor.Set(0)
+		elif id == 'button3':
+			if datum:
+				self.epmotor.Set(-1)
+				self.beltsmotor.Set(1)
+			else:
+				self.epmotor.Set(0)
 				self.beltsmotor.Set(0) 

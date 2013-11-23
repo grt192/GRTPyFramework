@@ -21,12 +21,15 @@ class ArcadeDriveController:
             joystick2.add_listener(self._joylistener)
 
     def _joylistener(self, sensor, state_id, datum):
-        if sensor in (self.joystick1, self.joystick2) and state_id in ('x_axis', 'y_axis'):
+        if state_id in ('x_axis', 'y_axis'):
             power = self.joystick1.y_axis
             turnval = self.joystick2.x_axis if self.joystick2 else self.joystick1.x_axis
             # get turn value from joystick2 if it exists, else get it from joystick1
             self.dt.set_dt_output(power + turnval,
                                   power - turnval)
+        elif state_id == 'trigger':
+            self.dt.shift(datum)
+
 
 
 class TankDriveController:

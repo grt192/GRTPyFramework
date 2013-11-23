@@ -76,3 +76,11 @@ class DriveTrain:
         if self.left_shifter and self.right_shifter:
             self.left_shifter.Set(True)
             self.right_shifter.Set(True)
+
+    def shift(self, gear):
+        """
+        Shifts based on input gear.
+        """
+        if self.left_shifter and self.right_shifter:
+            self.left_shifter.Set(gear)
+            self.right_shifter.Set(gear)
