@@ -31,10 +31,6 @@ lrm = wpilib.Talon(4)
 rfm = wpilib.Talon(1)
 rrm = wpilib.Talon(2)
 
-#Shifting solenoids
-leftShift = wpilib.Solenoid(5)
-rightShift = wpilib.Solenoid(6)
-
 shooter_pivot_motor = wpilib.Victor(8)
 flywheel_1 = wpilib.Talon(9)
 flywheel_2 = wpilib.Talon(10)
@@ -49,11 +45,13 @@ climber_solenoid = wpilib.Solenoid(7)
 compressor = wpilib.Compressor(1, 1)
 compressor.Start()
 
+#mechs = Mechanisms(rstick, flywheel_1, flywheel_2, shooter_pivot_motor, belts, ep_roller, luna, climber)
+
 climber = Climber(rstick, climber_solenoid)
 shooter = Shooter(rstick, flywheel_1, flywheel_2, shooter_pivot_motor, luna)
-intake = Intake(lstick, belts, ep_roller)
+intake = Intake(rstick, belts, ep_roller)
 
-dt = DriveTrain(lfm, rfm, lrm, rrm, leftShift, rightShift)
+dt = DriveTrain(lfm, rfm, lrm, rrm)
 dt.set_scale_factors(1, -1, 1, -1)
 
 ac = ArcadeDriveController(dt, lstick)
