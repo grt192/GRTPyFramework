@@ -11,10 +11,7 @@ from grt.sensors.attack_joystick import Attack3Joystick
 from grt.core import SensorPoller
 from grt.mechanism.drivetrain import DriveTrain
 from grt.mechanism.drivecontroller import ArcadeDriveController
-from grt.mechanism.climber import Climber
-from grt.mechanism.shooter import Shooter
-from grt.mechanism.intake import Intake
-# from grt.mechanism.mechs import Mechanisms
+from grt.mechanism.mechs import Mechanisms
 
 # Joysticks
 lstick = Attack3Joystick(1)
@@ -40,17 +37,12 @@ ep_raiser = wpilib.Victor(6)
 ep_roller = wpilib.Victor(5)
 
 luna = wpilib.Solenoid(8)
-climber_solenoid = wpilib.Solenoid(7)
+climber = wpilib.Solenoid(7)
 
 compressor = wpilib.Compressor(1, 1)
 compressor.Start()
 
-#mechs = Mechanisms(rstick, flywheel_1, flywheel_2, shooter_pivot_motor, belts, ep_roller, luna, climber)
-
-climber = Climber(rstick, climber_solenoid)
-shooter = Shooter(rstick, flywheel_1, flywheel_2, shooter_pivot_motor, luna)
-intake = Intake(rstick, belts, ep_roller)
-
+mechs = Mechanisms(rstick, flywheel_1, flywheel_2, shooter_pivot_motor, belts, ep_roller, luna, climber)
 dt = DriveTrain(lfm, rfm, lrm, rrm)
 dt.set_scale_factors(1, -1, 1, -1)
 
