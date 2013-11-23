@@ -1,6 +1,8 @@
 import wpilib
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.core import SensorPoller
+from grt.mechanism.drivetrain import DriveTrain
+from grt.mechanism.drivecontroller import ArcadeDriveController
 
 #Super Sketch Omega 1
 class Mechanisms:
