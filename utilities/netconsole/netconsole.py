@@ -59,7 +59,7 @@ sock_reader.start()
 
 #send a message out the socket
 def send_msg(msg):
-	out.sendto(line, ('10.1.92.2', UDP_OUT_PORT))
+	out.sendto(line, ('10.255.255.255', UDP_OUT_PORT))
 
 #main loop
 while True:
