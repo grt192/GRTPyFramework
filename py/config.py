@@ -22,8 +22,8 @@ sp = SensorPoller((lstick, ))
 #solenoid = wpilib.Solenoid(7, 1)
 
 #Motors (PINS TENTATIVE)
-l_dt = Motorset(wpilib.Talon(6), wpilib.Talon(7), wpilib.Talon(8))
-r_dt = Motorset(wpilib.Talon(3), wpilib.Talon(4), wpilib.Talon(5), scalefactors=(-1, -1, -1))
+l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(3, 6)))
+r_dt = Motorset(tuple(wpilib.Talon(i) for i in range(8, 11)), scalefactors=(-1, ) * 3)
 
 dt = DriveTrain(l_dt, r_dt)
 
