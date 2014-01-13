@@ -1,5 +1,6 @@
 __author__ = "Calvin Huang"
-
+import time
+import traceback
 
 class Sensor:
     """
@@ -138,3 +139,67 @@ class Constants(Sensor):
                 print("Malformed constants file " + file_loc +
                       " with key " + key + " and value " + value)
         f.close()
+
+
+class GRTMacro(object):
+    hasCompletedExecution = False
+    hasTimedOut = False
+    hasInitialized = False
+    hasStarted = False
+    alive = False
+    macroListeners = []
+    startTime = None
+    NOTIFY_INITIALIZE = 0
+    NOTIFY_COMPLETED = 1
+    NOTIFY_TIMEDOUT = 2
+
+    def __init__(self, name, timeout, pollTime = 50):
+        self.timeout = timeout
+        self.pollTime = pollTime
+
+    def execute(self):
+        if not self.hasStarted:
+            self.hasStarted = True
+
+            self.hasInitialized = True
+            self.alive = True
+            # notifyListeners # TODO
+            self.startTime = time.time()
+            while not self.hasCompletedExecution:
+                self.perform() # TODO
+                try:
+                    time.sleep(self.pollTime)
+                except InterruptedError:
+                    traceback.print_exc()
+
+                if (time.time() - self.startTime) > self.timeout:
+                    self.hasCompletedExecution = True
+                    self.hasTimedOut = True
+                    # notifyListeners(N) TODO
+            self.kill()
+
+    def isInitialized(self):
+        return self.hasInitialized
+
+    def isDone(self):
+        return self.hasCompletedExecution
+    def isTimedOut(self):
+        return self.hasTimedOut
+    def reset(self):
+        self.hasCompletedExecution = self.hasStarted = self.hasTimedOut = self.alive = False
+    def isAlive(self):
+        return self.alive
+    def initialize(self):
+        pass
+    def perform(self):
+        pass
+    def die(self):
+        pass
+    def notifyFinished(self):
+        self.hasCompletedExecution = True
+    def kill(self):
+        if self.isAlive():
+            print("Killing macro: " + self.name)
+            self.hasCompletedExecution = True
+            self.alive = False
+            self.die()
