@@ -6,7 +6,11 @@ Config File for Robot
 
 __author__ = "Sidd Karamcheti"
 
-import wpilib
+try:
+    import wpilib
+except ImportError:
+    from pyfrc import wpilib
+
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.core import SensorPoller
 from grt.mechanism.drivetrain import DriveTrain

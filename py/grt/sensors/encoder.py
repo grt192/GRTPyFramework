@@ -1,7 +1,12 @@
 __author__ = "Calvin Huang"
 
-from wpilib import CounterBase
-from wpilib import Encoder as WEncoder
+try:
+    from wpilib import CounterBase
+    from wpilib import Encoder as WEncoder
+except ImportError:
+    from pyfrc.wpilib import CounterBase
+    from pyfrc.wpilib import Encoder as WEncoder
+
 from grt.core import Sensor
 
 
