@@ -6,11 +6,16 @@ Config File for Robot
 
 __author__ = "Sidd Karamcheti"
 
-import wpilib
+try:
+    import wpilib
+except ImportError:
+    from pyfrc import wpilib
+
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.core import SensorPoller
 from grt.mechanism.drivetrain import DriveTrain
 from grt.mechanism.drivecontroller import ArcadeDriveController
+from grt.mechanism.motorset import Motorset
 
 # Joysticks
 lstick = Attack3Joystick(1)
@@ -21,12 +26,9 @@ sp = SensorPoller((lstick, ))
 #solenoid = wpilib.Solenoid(7, 1)
 
 #Motors (PINS TENTATIVE)
-lfm = wpilib.Talon(3)
-lrm = wpilib.Talon(4)
-rfm = wpilib.Talon(1)
-rrm = wpilib.Talon(2)
+l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(3, 6)))
+r_dt = Motorset(tuple(wpilib.Talon(i) for i in range(8, 11)), scalefactors=(-1, ) * 3)
 
-dt = DriveTrain(lfm, rfm, lrm, rrm)
-dt.set_scale_factors(1, -1, 1, -1)
+dt = DriveTrain(l_dt, r_dt)
 
 ac = ArcadeDriveController(dt, lstick)
