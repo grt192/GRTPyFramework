@@ -16,6 +16,7 @@ from grt.core import SensorPoller
 from grt.mechanism.drivetrain import DriveTrain
 from grt.mechanism.drivecontroller import ArcadeDriveController
 from grt.mechanism.motorset import Motorset
+from grt.mechanism.pickup import Pickup
 
 # Joysticks
 lstick = Attack3Joystick(1)
@@ -28,6 +29,9 @@ sp = SensorPoller((lstick, ))
 #Motors (PINS TENTATIVE)
 l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(3, 6)))
 r_dt = Motorset(tuple(wpilib.Talon(i) for i in range(8, 11)), scalefactors=(-1, ) * 3)
+pickup_motor = wpilib.Talon(2)
+
+pickup = Pickup(pickup_motor, lstick)
 
 dt = DriveTrain(l_dt, r_dt)
 
