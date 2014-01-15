@@ -46,7 +46,6 @@ def main():
             print("-"*60)
             traceback.print_exc(file=sys.stdout)
             print("-"*60)
-            return
 
         print("User code raised SystemExit; waiting 5 seconds before restart")
         time.sleep(5)

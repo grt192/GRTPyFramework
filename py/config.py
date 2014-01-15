@@ -31,7 +31,7 @@ l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(3, 6)))
 r_dt = Motorset(tuple(wpilib.Talon(i) for i in range(8, 11)), scalefactors=(-1, ) * 3)
 pickup_motor = wpilib.Talon(2)
 
-pickup = Pickup(pickup_motor, lstick)
+pckp = Pickup(pickup_motor, lstick)
 
 dt = DriveTrain(l_dt, r_dt)
 

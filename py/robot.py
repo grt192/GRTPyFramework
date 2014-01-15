@@ -5,11 +5,12 @@ try:
 except ImportError:
     from pyfrc import wpilib
 from config import sp, lstick
+import sys
 
 
 def CheckRestart():
     if lstick.button10:
-        raise RuntimeError("Restart")
+        sys.exit()
 
 
 class MyRobot(wpilib.SimpleRobot):
