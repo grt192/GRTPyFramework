@@ -2,18 +2,20 @@ class Intake:
     """
     Intake mechanism
     """
+    motor_power = .8
+
     def __init__(self, roller, extender):
         self.roller = roller
         self.extender = extender  # remainder of code assumes this is a pneumatic
 
     def start_ep(self):
-        self.roller.Set(1)
+        self.roller.Set(self.motor_power)
 
     def end_ep(self):
         self.roller.Set(0)
 
     def reverse(self):
-        self.roller.Set(-1)
+        self.roller.Set(-self.motor_power)
 
     def extend(self):
         self.extender.Set(True)
