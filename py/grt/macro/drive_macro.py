@@ -1,5 +1,6 @@
 __author__ = 'dhruv'
 
+<<<<<<< HEAD
 import core.GRTConstants as GRTConstants
 import py.grt.core.GRTMacro as GRTMacro
 import edu.wpi.first.wpilibj.PIDController as PIDController
@@ -8,6 +9,17 @@ import edu.wpi.first.wpilibj.PIDSource
 import event.listeners.ConstantUpdateListener
 import py.grt.mechanism.drivetrain as drivetrain
 import py.grt.sensors.encoder as GRTEncoder
+=======
+import controller.DeadReckoner
+import core.GRTConstants
+import core.GRTMacro
+import edu.wpi.first.wpilibj.PIDController
+import edu.wpi.first.wpilibj.PIDOutput
+import edu.wpi.first.wpilibj.PIDSource
+import event.listeners.ConstantUpdateListener
+import grt.mechanism.drivetrain
+import grt.sensors.encoder
+>>>>>>> 69e21e14413893d777ff30d92372232435ce0b01
 
 
 class GRTPIDSource(PIDSource):

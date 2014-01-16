@@ -89,3 +89,14 @@ class DriveTrain:
         if self.left_shifter and self.right_shifter:
             self.left_shifter.Set(True)
             self.right_shifter.Set(True)
+
+    def drive_distance(self, feet):
+        """
+        Drives forward a certain number of feet (negative feet = backwards)
+        """
+        self.left_encoder.reset()
+        self.right_encoder.reset()
+        desired_pulses = feet/dist_per_pulse
+
+        while (self.left_encoder.get() + self.right_encoder.get)/2 < desired_pulses:
+            set_dt_output(1, 1)
