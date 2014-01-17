@@ -8,11 +8,6 @@ class Macrodrive(GRTMacro):
     """
     Drive Macro
     """
-    left_initial_distance = None
-    right_initial_distance = None
-    DTContoller = wpilib.PIDController()
-    straight_contoller = wpilib.PIDController()
-    speed = None
     leftSF = 1
     rightSF = 1
     DTP = 1
