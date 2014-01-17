@@ -1,8 +1,9 @@
 __author__ = "Calvin Huang"
 import time
-import traceback
+import threading
 
-class Sensor:
+
+class Sensor(object):
     """
     Abstract sensor class.
     Stores data as class attributes, updated when poll() is called.
@@ -59,7 +60,7 @@ class Sensor:
         pass
 
 
-class SensorPoller:
+class SensorPoller(object):
     """
     Class that periodically polls sensors.
     """
@@ -142,64 +143,50 @@ class Constants(Sensor):
 
 
 class GRTMacro(object):
-    hasCompletedExecution = False
-    hasTimedOut = False
-    hasInitialized = False
-    hasStarted = False
+    running = False
+    timed_out = False
+    has_initialized = False
+    started = False
     alive = False
-    macroListeners = []
-    startTime = None
-    NOTIFY_INITIALIZE = 0
-    NOTIFY_COMPLETED = 1
-    NOTIFY_TIMEDOUT = 2
+    start_time = None
 
-    def __init__(self, name, timeout, pollTime = 50):
+    def __init__(self, timeout, poll_time=0.05):
         self.timeout = timeout
-        self.pollTime = pollTime
+        self.poll_time = poll_time
 
-    def execute(self):
-        if not self.hasStarted:
-            self.hasStarted = True
+    def run(self):
+        self.thread = threading.Thread(target=self._execute)
 
-            self.hasInitialized = True
-            self.alive = True
-            # notifyListeners # TODO
-            self.startTime = time.time()
-            while not self.hasCompletedExecution:
-                self.perform() # TODO
-                try:
-                    time.sleep(self.pollTime)
-                except InterruptedError:
-                    traceback.print_exc()
+    def _execute(self):
+        if not self.started:
+            self.started = True
 
-                if (time.time() - self.startTime) > self.timeout:
-                    self.hasCompletedExecution = True
-                    self.hasTimedOut = True
-                    # notifyListeners(N) TODO
-            self.kill()
+            self.initialize()
+            self.has_initialized = True
+            self.start_time = time.time()
+            while not self.running:
+                self.perform()
+                time.sleep(self.poll_time)
 
-    def isInitialized(self):
-        return self.hasInitialized
+                if (time.time() - self.start_time) > self.timeout:
+                    self.timed_out = True
+                    break
+            self.running = True
+            self.die()
 
-    def isDone(self):
-        return self.hasCompletedExecution
-    def isTimedOut(self):
-        return self.hasTimedOut
     def reset(self):
-        self.hasCompletedExecution = self.hasStarted = self.hasTimedOut = self.alive = False
-    def isAlive(self):
-        return self.alive
+        self.running = self.started = self.timed_out = False
+
     def initialize(self):
         pass
+
     def perform(self):
         pass
+
     def die(self):
         pass
-    def notifyFinished(self):
-        self.hasCompletedExecution = True
+
     def kill(self):
-        if self.isAlive():
+        if self.is_alive():
             print("Killing macro: " + self.name)
-            self.hasCompletedExecution = True
-            self.alive = False
-            self.die()
+            self.running = True

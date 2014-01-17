@@ -1,72 +1,60 @@
 __author__ = 'dhruv and alex m'
 
-
-import core.GRTConstants as GRTConstants
-import grt.mechanism.drivetrain as drivetrain
-import grt.sensors.encoder as GRTEncoder
-#import controller.DeadReckoner
-import core.GRTConstants
-import core.GRTMacro
-
+from grt.core import GRTMacro
 import wpilib
-import grt.mechanism.drivetrain
-
-#import event.listeners.ConstantUpdateListener
-import grt.mechanism.drivetrain
-import grt.sensors.encoder
 
 
-
-
-
-"""
-* Creates a new Driving Macro
-                        *
-                        * @param dt GRTDriveTrain object
-                                                  * @param distance distance to travel in meters (assumes travel in straight line)
-* @param timeout time in ms
-                         */"""
-
-
-class Macrodrive(core.GRTMacro):
-    dt = drivetrain
+class Macrodrive(GRTMacro):
+    """
+    Drive Macro
+    """
     left_initial_distance = None
     right_initial_distance = None
     DTContoller = wpilib.PIDController()
     straight_contoller = wpilib.PIDController()
-    left_encoder = GRTEncoder()
-    right_encoder = GRTEncoder()
     speed = None
     leftSF = 1
     rightSF = 1
-    DTP = None
-    DTI = None
-    DTD = None
-    CP = None
-    CI = None
-    CD = None
-    TOLERANCE = None
-    MAX_MOTOR_OUTPUT = None
+    DTP = 1
+    DTI = 0
+    DTD = 0
+    CP = 1
+    CI = 0
+    CD = 0
+    TOLERANCE = 0.03
+    MAX_MOTOR_OUTPUT = 1
 
     distance = None
     previously_on_target = False
 
     def __init__(self, dt, distance, timeout):
+        """
+        Pass drivetrain, distance to travel, and timeout (secs)
+        """
         GRTMacro.__init__("Drive Macro", timeout)
         self.dt = dt
         self.distance = distance
-        self.leftEncoder = dt.getLeftEncoder()
-        self.rightEncoder = dt.getRightEncoder()
-        self.updateConstants()
-        # GRTConstants.addListener(self) TODO
-    def initialize(self):
-        self.leftInitialDistance = self.leftEncoder.getDistance()
-        self.rightInitialDistance = self.rightEncoder.getDistance()
+        self.left_encoder = dt.left_encoder
+        self.right_encoder = dt.right_encoder
 
-        self.DTController.setSetpoint(self.distance)
-        self.straightController.setSetpoint(0)
-        self.DTController.enable()
-        self.straightController.enable()
+        self.DTController = wpilib.PIDController(self.DTP, self.DTI, self.DTD, self.DTSource, self.DTOutput)
+        self.straight_controller = wpilib.PIDController(self.CP, self.CI, self.CD,
+                                                        self.straightSource, self.straightOutput)
+        self.straight_controller.setOutputRange(0, 1)
+
+        self.DTController.SetPID(self.DTP, self.DTI, self.DTD)
+        self.straight_controller.SetPID(self.CP, self.CI, self.CD)
+        self.DTController.SetAbsoluteTolerance(self.TOLERANCE)
+        self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
+
+    def initialize(self):
+        self.leftInitialDistance = self.left_encoder.distance
+        self.rightInitialDistance = self.right_encoder.distance
+
+        self.DTController.SetSetpoint(self.distance)
+        self.straight_controller.SetSetpoint(0)
+        self.DTController.Enable()
+        self.straight_controller.Enable()
 
         self.leftSF = self.rightSF = 1
         print("MACRODRIVE is initialized")
@@ -74,95 +62,61 @@ class Macrodrive(core.GRTMacro):
     class DTSource(wpilib.PIDSource):
         def __init__(self):
             wpilib.PIDSource.__init__(self)
-        def pidGet(self, right_traveled_distance, left_traveled_distance):
-            self.distance = -(right_traveled_distance() + left_traveled_distance())/2
+
+        def PIDGet(self):
+            self.distance = -(self.right_traveled_distance() + self.left_traveled_distance()) / 2
             print("Distance Traveled: " + self.distance)
             return self.distance
-
 
     class DTOutput(wpilib.PIDOutput):
         def __init__(self):
             wpilib.PIDOutput.__init__(self)
-        def pidWrite(self, output, setSpeed, updateMotorSpeeds):
-            setSpeed(output)
-            updateMotorSpeeds()
 
+        def PIDWrite(self, output):
+            self.setSpeed(output)
+            self.update_motor_speeds()
 
-
-    def updateMotorSpeeds(self):
-        print("Speed: " + self.speed + "\tleftSF: " + self.leftSF + "\trightSF: " + self.rightSF)
+    def update_motor_speeds(self):
         self.dt.setMotorSpeeds(self.speed * self.leftSF, self.speed * self.rightSF)
 
-    def rightTraveledDistance(self):
-        return self.rightEncoder.getDistance() - self.rightInitialDistance
+    def right_traveled_distance(self):
+        return self.right_encoder.distance - self.rightInitialDistance
 
-    def leftTraveledDistance(self):
-        return self.leftEncoder.getDistance() - self.leftInitialDistance
+    def left_traveled_distance(self):
+        return self.left_encoder.distance - self.leftInitialDistance
 
-
-    DTController = wpilib.PIDController(DTP, DTI, DTD, DTSource, DTOutput)
-    straightController = wpilib.PIDController(CP, CI, CD, straightSource, straightOutput)
-    straightController.setOutputRange(0, 1)
-        """
+    """
     * Use distance difference, rather than speed difference, to keep
     * robot straight
     """
     class straightSource(wpilib.PIDSource):
-        def __init__(self):
-            wpilib.PIDSource.__init__(self)
-        def pidGet(self):
-            return self.rightTraveledDistance() - self.leftTraveledDistance()
+        def PIDGet(self):
+            return self.right_traveled_distance() - self.left_traveled_distance()
 
     class straightOutput(wpilib.PIDOutput):
-        def __init__(self):
-            wpilib.PIDOutput.__init__(self)
-        def pidWrite(self, output):
-            modifier = Math.abs(output)
-            print(output)
-            #concise code is better code
-            rightSF = 2 - self.modifier - (leftSF = 1 - (self.speed * output < 0 ? self.modifier : 0))
-            #print("Left Speed: " + leftSF)
-            #print("Right Speed: " + rightSF)
-            self.updateMotorSpeeds()
-
-
-
-
+        def PIDWrite(self, output):
+            modifier = abs(output)
+#rookie puzzle
+            self.leftSF = 1 - (modifier if self.speed * output < 0 else 0)
+            self.rightSF = 2 - modifier - self.leftSF
+            self.update_motor_speeds()
 
     def perform(self):
-        print("DTerror: " + DTController.getError())
+        print("DTerror: " + self.DTController.GetError())
 
-        if (DTController.onTarget()):
+        if (self.DTController.OnTarget()):
             print("On target!")
-            if (self.previouslyOnTarget):
-                self.notifyFinished()
+            if (self.previously_on_target):
+                self.kill()
             else:
-                self.previouslyOnTarget = True
+                self.previously_on_target = True
         else:
-            self.previouslyOnTarget = False
+            self.previously_on_target = False
 
     def die(self):
-        self.dt.setMotorSpeeds(0, 0)
-        DTController.disable()
-        self.straightController.disable()
-        self.DeadReckoner.notifyDrive(self.getDistanceTraveled())
+        self.dt.set_dt_output(0, 0)
+        self.DTController.Disable()
+        self.straight_controller.Disable()
 
-
-    def getDistanceTraveled(self):
-        return (leftTraveledDistance() + rightTraveledDistance()) / 2
-
-
-    def updateConstants(self):
-        self.DTP = GRTConstants.getValue("DMP")
-        self.DTI = GRTConstants.getValue("DMI")
-        self.DTD = GRTConstants.getValue("DMD")
-        self.CP = GRTConstants.getValue("DMCP")
-        self.CI = GRTConstants.getValue("DMCI")
-        self.CD = GRTConstants.getValue("DMCD")
-        self.TOLERANCE = GRTConstants.getValue("DMTol")
-        self.MAX_MOTOR_OUTPUT = GRTConstants.getValue("DMMax")
-
-        DTController.setPID(self.DTP, self.DTI, self.DTD)
-        self.straightController.setPID(self.CP, self.CI, self.CD)
-        DTController.setAbsoluteTolerance(self.TOLERANCE)
-        DTController.setOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
+    def get_distance_traveled(self):
+        return (self.left_traveled_distance() + self.right_traveled_distance()) / 2
