@@ -1,57 +1,51 @@
 __author__ = "Sidd Karamcheti"
 
+from grt.core import GRTMacro
 import wpilib
 
-class TurnMacro:
 
-    class PIDTurnSource(PIDSource):
-        def __init__(self):
-            super.__init__(self)
+class TurnMacro(GRTMacro):
+    P = 1
+    I = 0
+    D = 0
+    TOLERANCE = 1
 
-        def pidGet(self):
+    class PIDTurnSource(wpilib.PIDSource):
+        def PIDGet(self):
             return self.gyro.getAngle()
 
-    class PIDTurnOutput(PIDOutput):
-        def __init__(self):
-            super.__init__(self)
-
-        def pidWrite(self, output):
+    class PIDTurnOutput(wpilib.PIDOutput):
+        def PIDWrite(self, output):
             self.dt.set_dt_output(output, -output)
 
-    def __init__(self, dt, gyro, turnAngle, timeout):
+    def __init__(self, dt, gyro, turn_angle, timeout):
         self.dt = dt
         self.gyro = gyro
-        self.turnAngle = turnAngle
+        self.turn_angle = turn_angle
         self.timeout = timeout
-        self.pidSource = PIDTurnSource(wpilib.PIDSource())
-        self.pidOutput = PIDTurnOutput(wpilib.PIDOutput())
-        self.previouslyOnTarget = False
+        self.pid_source = self.PIDTurnSource()
+        self.pid_output = self.PIDTurnOutput()
+        self.previously_on_target = False
 
-        self.P = 1
-        self.I = 0
-        self.D = 0
-
-        self.controller = wpilib.PIDController(0, 0, 0, self.pidSource, self.pidOutput, .01)
-        self.controller.setPID(self.P, self.I, self.D)
+        self.controller = wpilib.PIDController(self.P, self.I, self.D,
+                                               self.pid_source, self.pid_output)
+        self.controller.SetOutputRange(-1, 1)
+        self.controller.SetAbsoluteTolerance(self.TOLERANCE)
 
     def perform(self):
         if self.controller.onTarget():
-            if self.previouslyOnTarget:
-                notifyFinished()
+            if self.previously_on_target:
+                self.kill()
             else:
-                self.previouslyOnTarget = True
+                self.previously_on_target = True
         else:
-            self.previouslyOnTarget = False
+            self.previously_on_target = False
 
     def die(self):
         self.controller.disable()
 
     def initialize(self):
-        startAngle = self.gyro.getAngle()
-        targetAngle = startAngle + self.turnAngle
-        self.controller.setOutputRange(-1, 1)
-        self.controller.setAbsoluteTolerance(1)
-        self.controller.setSetpoint(targetAngle)
-        self.controller.enable();
-
-
+        start_angle = self.gyro.getAngle()
+        target_angle = start_angle + self.turn_angle
+        self.controller.SetSetpoint(target_angle)
+        self.controller.Enable()
