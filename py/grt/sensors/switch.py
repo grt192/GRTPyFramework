@@ -1,6 +1,10 @@
 __author__ = "Calvin Huang"
 
-from wpilib import DigitalInput
+try:
+    from wpilib import DigitalInput
+except ImportError:
+    from pyfrc.wpilib import DigitalInput
+
 from grt.core import Sensor
 
 
