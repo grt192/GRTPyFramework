@@ -4,4 +4,5 @@ from .. import macro.drive_macro
 def run():
     dm = drive_macro.Macrodrive
     #set set point
+    dm.DTController.SetSetpoint(dm.distance)
     
