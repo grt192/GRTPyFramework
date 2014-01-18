@@ -42,6 +42,7 @@ class TurnMacro(GRTMacro):
             self.previously_on_target = False
 
     def die(self):
+        self.dt.set_dt_output(0, 0)
         self.controller.disable()
 
     def initialize(self):
@@ -49,3 +50,4 @@ class TurnMacro(GRTMacro):
         target_angle = start_angle + self.turn_angle
         self.controller.SetSetpoint(target_angle)
         self.controller.Enable()
+        print ('MacroTurn is initialized')
