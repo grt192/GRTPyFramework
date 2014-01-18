@@ -190,3 +190,5 @@ class GRTMacro(object):
         if self.is_alive():
             print("Killing macro: " + self.name)
             self.running = True
+    def is_alive(self):
+        return self.alive

@@ -8,7 +8,6 @@ class DriveMacro(GRTMacro):
     """
     Drive Macro
     """
-    isAlive = True
     leftSF = 1
     rightSF = 1
     DTP = 1
@@ -33,8 +32,8 @@ class DriveMacro(GRTMacro):
         self.left_encoder = dt.left_encoder
         self.right_encoder = dt.right_encoder
         self.dt_output = self.DTOutput()
-        self.dt_source = self.DTSource()
-        self.straight_source = self.StraightSource()
+        self.dt_source = self.DTSource(self.right_traveled_distance, self.left_traveled_distance)
+        self.straight_source = self.StraightSource(self.right_traveled_distance, self.left_traveled_distance)
         self.straight_output = self.StraightOutput()
         self.DTController = wpilib.PIDController(self.DTP, self.DTI, self.DTD, self.dt_source, self.dt_output)
         self.straight_controller = wpilib.PIDController(self.CP, self.CI, self.CD,
@@ -45,6 +44,7 @@ class DriveMacro(GRTMacro):
         self.straight_controller.SetPID(self.CP, self.CI, self.CD)
         self.DTController.SetAbsoluteTolerance(self.TOLERANCE)
         self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
+        self.initialize() #placed here because GRTMacro is not being used to call it
 
     def initialize(self):
         self.leftInitialDistance = self.left_encoder.distance
@@ -59,13 +59,14 @@ class DriveMacro(GRTMacro):
         print("MACRODRIVE is initialized")
 
     class DTSource(wpilib.PIDSource):
-        def __init__(self):
+        def __init__(self, right_traveled_distance, left_traveled_distance):
             super().__init__()
+            self.right_traveled_distance = right_traveled_distance
+            self.left_traveled_distance = left_traveled_distance
 
         def PIDGet(self):
-            self.distance = -(self.right_traveled_distance() + self.left_traveled_distance()) / 2
-            print("Distance Traveled: " + self.distance)
-            return self.distance
+           # print("Distance Traveled: " + self.distance)
+            return -(self.right_traveled_distance() + self.left_traveled_distance()) / 2
 
     class DTOutput(wpilib.PIDOutput):
         def __init__(self):
@@ -89,8 +90,10 @@ class DriveMacro(GRTMacro):
     * robot straight
     """
     class StraightSource(wpilib.PIDSource):
-        def __init__(self):
+        def __init__(self, right_traveled_distance, left_traveled_distance):
             super().__init__()
+            self.right_traveled_distance = right_traveled_distance
+            self.left_traveled_distance = left_traveled_distance
 
         def PIDGet(self):
             return self.right_traveled_distance() - self.left_traveled_distance()

@@ -18,7 +18,7 @@ class Encoder(Sensor):
 
     def __init__(self, channel_a, channel_b, pulse_dist=1.0,
                  reverse=False, modnum=1, cpr=128,
-                 enctype=CounterBase.k4x):
+                 enctype=CounterBase.k4X):
         """
         Initializes the encoder with two channels,
         distance per pulse (default 1), no reversing,

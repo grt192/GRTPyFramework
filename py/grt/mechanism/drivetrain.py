@@ -1,5 +1,6 @@
 __author__ = "Calvin Huang, Sidd Karamcheti"
 import wpilib
+from grt.sensors.encoder import Encoder
 
 class DriveTrain:
     """
@@ -21,8 +22,8 @@ class DriveTrain:
                  left_mid_motor, right_mid_motor,
                  left_rear_motor, right_rear_motor,
                  left_shifter=None, right_shifter=None,
-                 left_encoder=wpilib.Encoder(5, 4, dist_per_pulse),
-                 right_encoder=wpilib.Encoder(2, 3, dist_per_pulse)):
+                 left_encoder=Encoder(5, 4, dist_per_pulse),
+                 right_encoder=Encoder(2, 3, dist_per_pulse)):
         """
         Initializes the drivetrain with some motors;
         optional shifters and encoders
