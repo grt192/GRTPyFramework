@@ -50,4 +50,4 @@ class TurnMacro(GRTMacro):
         target_angle = start_angle + self.turn_angle
         self.controller.SetSetpoint(target_angle)
         self.controller.Enable()
-        print ('MacroTurn is initialized')
+        print('MacroTurn is initialized')
