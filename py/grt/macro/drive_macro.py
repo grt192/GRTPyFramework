@@ -4,10 +4,11 @@ from grt.core import GRTMacro
 import wpilib
 
 
-class Macrodrive(GRTMacro):
+class DriveMacro(GRTMacro):
     """
     Drive Macro
     """
+    isAlive = True
     leftSF = 1
     rightSF = 1
     DTP = 1
@@ -26,16 +27,19 @@ class Macrodrive(GRTMacro):
         """
         Pass drivetrain, distance to travel, and timeout (secs)
         """
-        GRTMacro.__init__("Drive Macro", timeout)
+        GRTMacro.__init__(self, timeout)
         self.dt = dt
         self.distance = distance
         self.left_encoder = dt.left_encoder
         self.right_encoder = dt.right_encoder
-
-        self.DTController = wpilib.PIDController(self.DTP, self.DTI, self.DTD, self.DTSource, self.DTOutput)
+        self.dt_output = self.DTOutput()
+        self.dt_source = self.DTSource()
+        self.straight_source = self.StraightSource()
+        self.straight_output = self.StraightOutput()
+        self.DTController = wpilib.PIDController(self.DTP, self.DTI, self.DTD, self.dt_source, self.dt_output)
         self.straight_controller = wpilib.PIDController(self.CP, self.CI, self.CD,
-                                                        self.straightSource, self.straightOutput)
-        self.straight_controller.setOutputRange(0, 1)
+                                                        self.straight_source, self.straight_output)
+        self.straight_controller.SetOutputRange(0, 1)
 
         self.DTController.SetPID(self.DTP, self.DTI, self.DTD)
         self.straight_controller.SetPID(self.CP, self.CI, self.CD)
@@ -56,7 +60,7 @@ class Macrodrive(GRTMacro):
 
     class DTSource(wpilib.PIDSource):
         def __init__(self):
-            wpilib.PIDSource.__init__(self)
+            super().__init__()
 
         def PIDGet(self):
             self.distance = -(self.right_traveled_distance() + self.left_traveled_distance()) / 2
@@ -65,7 +69,7 @@ class Macrodrive(GRTMacro):
 
     class DTOutput(wpilib.PIDOutput):
         def __init__(self):
-            wpilib.PIDOutput.__init__(self)
+            super().__init__()
 
         def PIDWrite(self, output):
             self.setSpeed(output)
@@ -84,11 +88,17 @@ class Macrodrive(GRTMacro):
     * Use distance difference, rather than speed difference, to keep
     * robot straight
     """
-    class straightSource(wpilib.PIDSource):
+    class StraightSource(wpilib.PIDSource):
+        def __init__(self):
+            super().__init__()
+
         def PIDGet(self):
             return self.right_traveled_distance() - self.left_traveled_distance()
 
-    class straightOutput(wpilib.PIDOutput):
+    class StraightOutput(wpilib.PIDOutput):
+        def __init__(self):
+            super().__init__()
+
         def PIDWrite(self, output):
             modifier = abs(output)
 #rookie puzzle
@@ -97,7 +107,7 @@ class Macrodrive(GRTMacro):
             self.update_motor_speeds()
 
     def perform(self):
-        print("DTerror: " + self.DTController.GetError())
+        print("DTerror: " + str(self.DTController.GetError()))
 
         if (self.DTController.OnTarget()):
             print("On target!")

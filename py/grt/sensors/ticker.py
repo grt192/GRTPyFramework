@@ -3,12 +3,14 @@ import time
 import grt.core as Sensor
 
 
-class ticker(Sensor):
+#class ticker(Sensor):
 
-    def __init__(self, duration):
-        self.time = time.time()
-        self.duration = duration
+   # def __init__(self, duration):
 
-    def poll(self):
-        if time.time() - self.time > self.duration:
-            self.time = time.time()
+        #self.time = time.time()
+        #self.duration = duration
+
+    #def poll(self):
+
+       # if time.time() - self.time > self.duration:
+        #    self.time = time.time()

@@ -11,7 +11,9 @@ from grt.sensors.attack_joystick import Attack3Joystick
 from grt.core import SensorPoller
 from grt.mechanism.drivetrain import DriveTrain
 from grt.mechanism.drivecontroller import ArcadeDriveController
-from grt.sensors.ticker import ticker
+#from grt.sensors.ticker import ticker
+from grt.macro.drive_macro import DriveMacro
+
 # Joysticks
 lstick = Attack3Joystick(1)
 
@@ -33,4 +35,5 @@ dt = DriveTrain(lfm, rfm, lmm, rmm, lrm, rrm)
 ac = ArcadeDriveController(dt, lstick)
 
 # Autonomous
-auto_sp = SensorPoller(ticker)
+#auto_sp = SensorPoller(ticker(5))
+drive_macro = DriveMacro(dt, 5, 10)

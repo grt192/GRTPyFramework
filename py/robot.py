@@ -1,7 +1,7 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
-from config import sp, lstick, auto_sp
+from config import sp, lstick, drive_macro
 
 def CheckRestart():
     if lstick.button10:
@@ -17,7 +17,8 @@ class MyRobot(wpilib.SimpleRobot):
         self.GetWatchdog().SetEnabled(False)
         while self.IsAutonomous() and self.IsEnabled():
             CheckRestart()
-            auto_sp.poll()
+            drive_macro.perform()
+            #auto_sp.poll()
             wpilib.Wait(0.01)
 
     def OperatorControl(self):
