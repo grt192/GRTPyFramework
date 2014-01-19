@@ -15,7 +15,7 @@ class AttackMechController:
                 self.intake.start_ep()
             elif state_id is 'button3':
                 self.intake.reverse()
-        elif sensor in self.l_joystick:
+        elif sensor is self.l_joystick and state_id in ('button4', 'trigger'):
             #Shooter Control
             if not datum:
                 self.shooter.winch_stop()
@@ -29,7 +29,7 @@ class AttackMechController:
                     self.shooter.extend()
                 else:
                     self.shooter.latch()
-        elif sensor in self.l_joystick:
+        elif sensor in self.l_joystick and state_id in ('button8', 'button5', 'button9'):
             #Defense Control
             if not datum:
                 self.defense.winch_stop()
