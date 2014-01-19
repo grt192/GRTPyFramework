@@ -9,11 +9,11 @@ class DriveMacro(GRTMacro):
     Drive Macro
     """
     leftSF = 1
-    rightSF = 1
-    DTP = 1
+    rightSF = -1
+    DTP = .1
     DTI = 0
     DTD = 0
-    CP = 1
+    CP = 0 #CP = 1
     CI = 0
     CD = 0
     TOLERANCE = 0.03
@@ -44,7 +44,6 @@ class DriveMacro(GRTMacro):
         self.straight_controller.SetPID(self.CP, self.CI, self.CD)
         self.DTController.SetAbsoluteTolerance(self.TOLERANCE)
         self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
-        self.initialize() #placed here because GRTMacro is not being used to call it
 
     def initialize(self):
         self.leftInitialDistance = self.left_encoder.distance
@@ -64,7 +63,7 @@ class DriveMacro(GRTMacro):
             self.drive_macro = drive_macro
 
         def PIDGet(self):
-            return -(self.drive_macro.right_traveled_distance() + self.drive_macro.left_traveled_distance()) / 2
+            return (self.drive_macro.right_traveled_distance() + self.drive_macro.left_traveled_distance()) / 2
 
     class DTOutput(wpilib.PIDOutput):
         def __init__(self, drive_macro):
@@ -111,7 +110,10 @@ class DriveMacro(GRTMacro):
 
     def perform(self):
         print("DTerror: " + str(self.DTController.GetError()))
-        print("Distance Traveled: " + str(self.dt.left_encoder.e.GetDistance()))
+        print("Left Traveled Distance:" + str(self.left_traveled_distance()))
+        print("Right Traveled Distance:" + str(self.right_traveled_distance()))
+
+        print("Distance Traveled: " + str(self.get_distance_traveled()))
         if (self.DTController.OnTarget()):
             print("On target!")
             if (self.previously_on_target):
