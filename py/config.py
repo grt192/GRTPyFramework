@@ -36,4 +36,4 @@ ac = ArcadeDriveController(dt, lstick)
 
 # Autonomous
 #auto_sp = SensorPoller(ticker(5))
-drive_macro = DriveMacro(dt, 5, 10)
+drive_macro = DriveMacro(dt, 20, 10)

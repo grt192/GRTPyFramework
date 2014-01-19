@@ -64,7 +64,6 @@ class DriveMacro(GRTMacro):
             self.drive_macro = drive_macro
 
         def PIDGet(self):
-           # print("Distance Traveled: " + self.distance)
             return -(self.drive_macro.right_traveled_distance() + self.drive_macro.left_traveled_distance()) / 2
 
     class DTOutput(wpilib.PIDOutput):
@@ -77,7 +76,7 @@ class DriveMacro(GRTMacro):
             self.drive_macro.update_motor_speeds()
 
     def update_motor_speeds(self):
-        self.dt.setMotorSpeeds(self.speed * self.leftSF, self.speed * self.rightSF)
+        self.dt.set_dt_output(self.speed * self.leftSF, self.speed * self.rightSF)
 
     def right_traveled_distance(self):
         return self.right_encoder.distance - self.rightInitialDistance
@@ -106,13 +105,13 @@ class DriveMacro(GRTMacro):
         def PIDWrite(self, output):
             modifier = abs(output)
 #rookie puzzle
-            self.drive_macro.leftSF = 1 - (modifier if self.speed * output < 0 else 0)
-            self.drive_macro.rightSF = 2 - modifier - self.leftSF
+            self.drive_macro.leftSF = 1 - (modifier if self.drive_macro.speed * output < 0 else 0)
+            self.drive_macro.rightSF = 2 - modifier - self.drive_macro.leftSF
             self.drive_macro.update_motor_speeds()
 
     def perform(self):
         print("DTerror: " + str(self.DTController.GetError()))
-
+        print("Distance Traveled: " + str(self.dt.left_encoder.e.GetDistance()))
         if (self.DTController.OnTarget()):
             print("On target!")
             if (self.previously_on_target):
