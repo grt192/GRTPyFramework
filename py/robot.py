@@ -25,6 +25,7 @@ class MyRobot(wpilib.SimpleRobot):
         #drive_macro.perform()
             #auto_sp.poll()
             wpilib.Wait(0.01)
+        drive_macro.disable()
 
     def OperatorControl(self):
         dog = self.GetWatchdog()

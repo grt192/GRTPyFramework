@@ -74,6 +74,10 @@ class DriveMacro(GRTMacro):
             self.drive_macro.speed = output
             self.drive_macro.update_motor_speeds()
 
+    def disable(self):
+        self.DTController.Disable()
+        self.straight_controller.Disable()
+
     def update_motor_speeds(self):
         self.dt.set_dt_output(self.speed * self.leftSF, self.speed * self.rightSF)
 
