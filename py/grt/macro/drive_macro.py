@@ -10,7 +10,7 @@ class DriveMacro(GRTMacro):
     """
     leftSF = 1
     rightSF = -1
-    DTP = .1
+    DTP = 1.5
     DTI = 0
     DTD = 0
     CP = 0 #CP = 1

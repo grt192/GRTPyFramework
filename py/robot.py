@@ -2,10 +2,11 @@ __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
 from config import sp, lstick, drive_macro, auto_sp
+import sys
 
 def CheckRestart():
     if lstick.button10:
-        raise RuntimeError("Restart")
+        sys.exit()
 
 class MyRobot(wpilib.SimpleRobot):
     def Disabled(self):
