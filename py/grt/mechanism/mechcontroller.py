@@ -1,5 +1,5 @@
 class AttackMechController:
-    def __init__(self, l_joystick, intake):
+    def __init__(self, l_joystick, intake, defense, shooter):
         self.l_joystick = l_joystick
         self.intake = intake
         self.defense = defense
@@ -17,8 +17,6 @@ class AttackMechController:
                 self.intake.reverse()
         elif sensor is self.l_joystick and state_id in ('button4', 'trigger'):
             #Shooter Control
-            if not datum:
-                self.shooter.winch_stop()
             if state_id is 'button4':
                 if datum:
                     self.shooter.winch_wind(1)
@@ -31,14 +29,8 @@ class AttackMechController:
                     self.shooter.latch()
         elif sensor in self.l_joystick and state_id in ('button8', 'button5', 'button9'):
             #Defense Control
-            if not datum:
-                self.defense.winch_stop()
             if state_id is 'button8':
                 if datum:
-                    self.defense.winch_wind(1)
+                    self.defense.extend()
                 else:
-                    self.defense.winch_stop()
-            elif state_id is 'button5':
-                self.defense.extend()
-            elif state_id is 'button9':
-                self.defense.latch() 
+                    self.defense.retract()

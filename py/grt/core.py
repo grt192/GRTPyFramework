@@ -1,7 +1,9 @@
 __author__ = "Calvin Huang"
+import time
+import threading
 
 
-class Sensor:
+class Sensor(object):
     """
     Abstract sensor class.
     Stores data as class attributes, updated when poll() is called.
@@ -58,7 +60,7 @@ class Sensor:
         pass
 
 
-class SensorPoller:
+class SensorPoller(object):
     """
     Class that periodically polls sensors.
     """
@@ -138,3 +140,84 @@ class Constants(Sensor):
                 print("Malformed constants file " + file_loc +
                       " with key " + key + " and value " + value)
         f.close()
+
+
+class GRTMacro(object):
+    """
+    Abstract macro class.
+    """
+    running = False
+    timed_out = False
+    started = False
+    start_time = None
+
+    def __init__(self, timeout=float('inf'), poll_time=0.05):
+        """
+        Creates a macro with timeout (infinite by default)
+        and poll interval, in seconds (0.05s by default)
+        """
+        self.timeout = timeout
+        self.poll_time = poll_time
+
+    def run(self):
+        """
+        Start macro in new thread.
+        See execute() for more details on macro execution.
+        """
+        self.thread = threading.Thread(target=self.execute)
+        self.thread.run()
+
+    def execute(self):
+        """
+        Starts macro in current thread.
+        First calls initialize(), then calls perform()
+        periodically until timeout or completion.
+        After completion, calls die().
+        """
+        if not self.started:
+            self.started = True
+            self.start_time = time.time()
+
+            self.initialize()
+            self.running = True
+            while not self.running:
+                self.perform()
+                time.sleep(self.poll_time)
+
+                if (time.time() - self.start_time) > self.timeout:
+                    self.timed_out = True
+                    break
+            self.running = False
+            self.die()
+
+    def reset(self):
+        """
+        Resets a macro, allowing it to be started again
+        """
+        self.running = self.started = self.timed_out = False
+
+    def initialize(self):
+        """
+        Run once, at the beginning of macro execution.
+        """
+        pass
+
+    def perform(self):
+        """
+        Macro execution body, run periodically.
+        """
+        pass
+
+    def die(self):
+        """
+        Cleanup after macro execution.
+        """
+        pass
+
+    def kill(self):
+        """
+        Stop macro execution.
+        """
+        if self.running:
+            print("Killing macro: " + self.name)
+            self.running = False

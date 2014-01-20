@@ -60,12 +60,14 @@ class Shooter:
 
 class Defense:
     """
-    Defense mechanism, using winch.
+    Defense mechanism, using pneumatic solenoid.
     Pass winch args to constructor.
     """
-    def __init__(self, *args):
-        self.winch = Winch(*args)
-        self.winch_wind = self.winch.winch_wind
-        self.winch_stop = self.winch.winch_stop
-        self.extend = self.winch.release
-        self.latch = self.winch.unrelease
+    def __init__(self, solenoid):
+        self.solenoid = solenoid
+
+    def extend():
+        self.solenoid.Set(True)
+
+    def retract():
+        self.solenoid.Set(False)

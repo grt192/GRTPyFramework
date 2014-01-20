@@ -4,7 +4,7 @@ try:
     import wpilib
 except ImportError:
     from pyfrc import wpilib
-from config import sp, lstick
+from config import sp, lstick, drive_macro, auto_sp
 import sys
 
 
@@ -21,9 +21,13 @@ class MyRobot(wpilib.SimpleRobot):
 
     def Autonomous(self):
         self.GetWatchdog().SetEnabled(False)
+        drive_macro.initialize()
         while self.IsAutonomous() and self.IsEnabled():
             CheckRestart()
+            auto_sp.poll()
+            drive_macro.perform()
             wpilib.Wait(0.01)
+        drive_macro.disable()
 
     def OperatorControl(self):
         dog = self.GetWatchdog()

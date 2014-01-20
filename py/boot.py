@@ -47,8 +47,7 @@ def main():
             traceback.print_exc(file=sys.stdout)
             print("-"*60)
 
-        print("User code raised SystemExit; waiting 5 seconds before restart")
-        time.sleep(5)
+        print("User code raised SystemExit; waiting 0 seconds before restart")
         sys.exc_traceback = None
         sys.last_traceback = None
         rollback.uninstall()
