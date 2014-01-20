@@ -48,7 +48,8 @@ def main():
             print("-"*60)
             return
 
-        print("User code raised SystemExit; waiting 0 seconds before restart")
+        print("User code raised SystemExit; waiting 5 seconds before restart")
+        time.sleep(5)
         sys.exc_traceback = None
         sys.last_traceback = None
         rollback.uninstall()
