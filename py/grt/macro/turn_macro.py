@@ -5,20 +5,29 @@ import wpilib
 
 
 class TurnMacro(GRTMacro):
+    """
+    Macro that turns a set distance.
+    """
     P = 1
     I = 0
     D = 0
     TOLERANCE = 1
 
     class PIDTurnSource(wpilib.PIDSource):
+        """
+        PIDSource for turning; uses gyro angle as feedback.
+        """
         def PIDGet(self):
-            return self.gyro.getAngle()
+            return self.gyro.angle
 
     class PIDTurnOutput(wpilib.PIDOutput):
         def PIDWrite(self, output):
             self.dt.set_dt_output(output, -output)
 
-    def __init__(self, dt, gyro, turn_angle, timeout):
+    def __init__(self, dt, gyro, turn_angle, timeout=None):
+        """
+        Initialize with drivetrain, gyroscope, desired turn angle and timeout.
+        """
         self.dt = dt
         self.gyro = gyro
         self.turn_angle = turn_angle
@@ -33,7 +42,7 @@ class TurnMacro(GRTMacro):
         self.controller.SetAbsoluteTolerance(self.TOLERANCE)
 
     def perform(self):
-        if self.controller.onTarget():
+        if self.controller.OnTarget():
             if self.previously_on_target:
                 self.kill()
             else:
@@ -43,10 +52,10 @@ class TurnMacro(GRTMacro):
 
     def die(self):
         self.dt.set_dt_output(0, 0)
-        self.controller.disable()
+        self.controller.Disable()
 
     def initialize(self):
-        start_angle = self.gyro.getAngle()
+        start_angle = self.gyro.angle
         target_angle = start_angle + self.turn_angle
         self.controller.SetSetpoint(target_angle)
         self.controller.Enable()
