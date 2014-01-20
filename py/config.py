@@ -30,14 +30,14 @@ lstick = Attack3Joystick(1)
 l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(6, 9)))
 r_dt = Motorset(tuple(wpilib.Talon(i) for i in range(1, 4)), scalefactors=(-1, ) * 3)
 
-dt_dpp = (pi * (1.75 * 2)) / (128 * 12)
+dt_dpp = (pi * (1.74 * 2)) / (128 * 12)
 left_encoder = Encoder(2, 3, dt_dpp)
 right_encoder = Encoder(4, 5, dt_dpp)
 dt = DriveTrain(l_dt, r_dt, left_encoder=left_encoder, right_encoder=right_encoder)
 
 #Mechs
 #Pickup stuff
-pickup_motor = (wpilib.Talon(4), wpilib.Talon(10))
+pickup_motor = Motorset((wpilib.Talon(4), wpilib.Talon(10)))
 intake = Intake(pickup_motor, wpilib.Talon(9))
 
 shooter = Shooter(wpilib.Talon(5), wpilib.Solenoid(1))
@@ -49,7 +49,7 @@ mc = AttackMechController(lstick, intake, defense, shooter)
 
 # Autonomous
 auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder))
-drive_macro = DriveMacro(dt, 5, 10)
+drive_macro = DriveMacro(dt, 10, 10)
 
 #Diagnostic ticker
 tick = Ticker(.2)

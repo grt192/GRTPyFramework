@@ -165,9 +165,10 @@ class GRTMacro(object):
         See execute() for more details on macro execution.
         """
         self.thread = threading.Thread(target=self.execute)
-        self.thread.run()
+        self.thread.start()
 
     def execute(self):
+        import time
         """
         Starts macro in current thread.
         First calls initialize(), then calls perform()
@@ -180,10 +181,9 @@ class GRTMacro(object):
 
             self.initialize()
             self.running = True
-            while not self.running:
+            while self.running:
                 self.perform()
                 time.sleep(self.poll_time)
-
                 if (time.time() - self.start_time) > self.timeout:
                     self.timed_out = True
                     break
@@ -219,5 +219,5 @@ class GRTMacro(object):
         Stop macro execution.
         """
         if self.running:
-            print("Killing macro: " + self.name)
+            print("Killing macro: ")
             self.running = False

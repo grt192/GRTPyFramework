@@ -11,7 +11,7 @@ class Intake:
     def start_ep(self):
         self.roller.Set(self.motor_power)
 
-    def end_ep(self):
+    def stop_ep(self):
         self.roller.Set(0)
 
     def reverse(self):

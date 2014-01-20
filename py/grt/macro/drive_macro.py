@@ -11,7 +11,7 @@ class DriveMacro(GRTMacro):
     """
     leftSF = 1
     rightSF = -1
-    DTP = 1.5
+    DTP = 1
     DTI = 0
     DTD = 0
     CP = 0  # CP = 1
@@ -47,8 +47,8 @@ class DriveMacro(GRTMacro):
         self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
 
     def initialize(self):
-        self.left_initial_distance = self.left_encoder.distance
-        self.right_initial_distance = self.right_encoder.distance
+        self.left_initial_distance = self.left_encoder.e.GetDistance()
+        self.right_initial_distance = self.right_encoder.e.GetDistance()
 
         self.DTController.SetSetpoint(self.distance)
         self.straight_controller.SetSetpoint(0)

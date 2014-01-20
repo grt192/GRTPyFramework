@@ -10,17 +10,20 @@ import sys
 
 def CheckRestart():
     if lstick.button10:
+        self.GetWatchdog().SetEnabled(False)
         sys.exit()
 
 
 class MyRobot(wpilib.SimpleRobot):
     def Disabled(self):
+        drive_macro.kill()
         while self.IsDisabled():
             CheckRestart()
             wpilib.Wait(0.01)
 
     def Autonomous(self):
         self.GetWatchdog().SetEnabled(False)
+        drive_macro.reset()
         drive_macro.run()
         while self.IsAutonomous() and self.IsEnabled():
             CheckRestart()
@@ -29,6 +32,7 @@ class MyRobot(wpilib.SimpleRobot):
         drive_macro.kill()
 
     def OperatorControl(self):
+        drive_macro.kill()
         dog = self.GetWatchdog()
         dog.SetEnabled(True)
         dog.SetExpiration(0.25)
