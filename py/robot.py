@@ -21,13 +21,12 @@ class MyRobot(wpilib.SimpleRobot):
 
     def Autonomous(self):
         self.GetWatchdog().SetEnabled(False)
-        drive_macro.initialize()
+        drive_macro.run()
         while self.IsAutonomous() and self.IsEnabled():
             CheckRestart()
             auto_sp.poll()
-            drive_macro.perform()
             wpilib.Wait(0.01)
-        drive_macro.disable()
+        drive_macro.kill()
 
     def OperatorControl(self):
         dog = self.GetWatchdog()
