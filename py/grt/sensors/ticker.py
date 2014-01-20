@@ -10,6 +10,7 @@ class Ticker(Sensor):
     """
 
     def __init__(self, duration):
+        super().__init__()
         self.time = time.time()
         self.duration = duration
 
