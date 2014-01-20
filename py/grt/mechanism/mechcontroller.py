@@ -7,7 +7,7 @@ class AttackMechController:
         l_joystick.add_listener(self._joystick_listener)
 
     def _joystick_listener(self, sensor, state_id, datum):
-        if sensor is self.l_joystick and state_id in ('button2', 'button3'):
+        if sensor is self.l_joystick:
             #Intake Control
             if not datum:
                 self.intake.stop_ep()
@@ -15,9 +15,9 @@ class AttackMechController:
                 self.intake.start_ep()
             elif state_id is 'button3':
                 self.intake.reverse()
-        elif sensor is self.l_joystick and state_id in ('button4', 'trigger'):
+
             #Shooter Control
-            if state_id is 'button4':
+            elif state_id is 'button4':
                 if datum:
                     self.shooter.winch_wind(1)
                 else:
@@ -27,7 +27,7 @@ class AttackMechController:
                     self.shooter.extend()
                 else:
                     self.shooter.latch()
-        elif sensor in self.l_joystick and state_id in ('button8', 'button5', 'button9'):
+
             #Defense Control
             if state_id is 'button8':
                 if datum:
