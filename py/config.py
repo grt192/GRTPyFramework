@@ -24,19 +24,19 @@ sp = SensorPoller((lstick, ))
 #solenoid = wpilib.Solenoid(7, 1)
 
 #Motors (PINS TENTATIVE)
-lfm = wpilib.Talon(6)
+lfm = wpilib.Talon(8)
 lmm = wpilib.Talon(7)
-lrm = wpilib.Talon(8)
-rfm = wpilib.Talon(3)
-rmm = wpilib.Talon(4)
-rrm = wpilib.Talon(5)
+lrm = wpilib.Talon(6)
+rfm = wpilib.Talon(1)
+rmm = wpilib.Talon(3)
+rrm = wpilib.Talon(2)
 import math
 pi = math.pi
 dist_per_pulse = .01 #(pi * (1.75 * 2))/128
-left_encoder=Encoder(2, 3, dist_per_pulse, reverse=True)
-right_encoder=Encoder(4, 5, dist_per_pulse, reverse=True)
+#left_encoder=Encoder(1,2, dist_per_pulse, reverse=True)
+#right_encoder=Encoder(3, 4, dist_per_pulse, reverse=True)
 
-dt = DriveTrain(lfm, rfm, lmm, rmm, lrm, rrm, left_encoder = left_encoder, right_encoder = right_encoder)
+dt = DriveTrain(lfm, rfm, lmm, rmm, lrm, rrm)
 
 ac = ArcadeDriveController(dt, lstick)
 
