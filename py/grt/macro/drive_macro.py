@@ -14,7 +14,7 @@ class DriveMacro(GRTMacro):
     DTP = 1
     DTI = 0
     DTD = 0
-    CP = 0  # CP = 1
+    CP = .1  # CP = 1
     CI = 0
     CD = 0
     TOLERANCE = 0.03

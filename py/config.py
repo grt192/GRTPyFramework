@@ -30,7 +30,7 @@ lstick = Attack3Joystick(1)
 l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(6, 9)))
 r_dt = Motorset(tuple(wpilib.Talon(i) for i in range(1, 4)), scalefactors=(-1, ) * 3)
 
-dt_dpp = (pi * (1.74 * 2)) / (128 * 12)
+dt_dpp = (pi * 3.45/(128*12))#(pi * (1.74 * 2)) / (128 * 12)
 left_encoder = Encoder(2, 3, dt_dpp)
 right_encoder = Encoder(4, 5, dt_dpp)
 dt = DriveTrain(l_dt, r_dt, left_encoder=left_encoder, right_encoder=right_encoder)
