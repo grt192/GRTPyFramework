@@ -37,10 +37,10 @@ dt = DriveTrain(l_dt, r_dt, left_encoder=left_encoder, right_encoder=right_encod
 
 #Mechs
 #Pickup stuff
-pickup_motor = Motorset((wpilib.Talon(4), wpilib.Talon(10)))
+pickup_motor = Motorset((wpilib.Talon(5), wpilib.Talon(10)), (1, -1))
 intake = Intake(pickup_motor, wpilib.Talon(9))
 
-shooter = Shooter(wpilib.Talon(5), wpilib.Solenoid(1))
+shooter = Shooter(wpilib.Talon(4), wpilib.Solenoid(1))
 defense = Defense(wpilib.Solenoid(2))
 
 #Teleop Controllers
@@ -53,7 +53,7 @@ drive_macro = DriveMacro(dt, 10, 10)
 
 #Diagnostic ticker
 tick = Ticker(.2)
-tick.tick = lambda: print(str(left_encoder.distance) + " " + str(right_encoder.distance) + "\n")
+#tick.tick = lambda: print(str(left_encoder.distance) + " " + str(right_encoder.distance) + "\n")
 
 #Sensor Pollers
 sp = SensorPoller((lstick, dt.right_encoder, dt.left_encoder, tick))

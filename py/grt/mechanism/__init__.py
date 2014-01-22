@@ -18,15 +18,19 @@ class Intake:
         self.roller.Set(-self.motor_power)
 
     def extend(self):
-        self.extender.Set(True)
+        self.extender.Set(1)
+
+    def stop_extend(self):
+        self.extender.Set(0)
 
     def retract(self):
-        self.extender.Set(False)
+        self.extender.Set(-1)
 
 
-class Winch:
+class Shooter:
     """
-    Winch mechanism
+    Shooter mechanism, using winch.
+    Pass winch args to constructor.
     """
     def __init__(self, winchmotor, actuator):
         self.winchmotor = winchmotor
@@ -38,24 +42,11 @@ class Winch:
     def winch_stop(self):
         self.winchmotor.Set(0)
 
-    def release(self):
+    def latch(self):
         self.actuator.Set(True)
 
-    def unrelease(self):
+    def unlatch(self):
         self.actuator.Set(False)
-
-
-class Shooter:
-    """
-    Shooter mechanism, using winch.
-    Pass winch args to constructor.
-    """
-    def __init__(self, *args):
-        self.winch = Winch(*args)
-        self.winch_wind = self.winch.winch_wind
-        self.winch_stop = self.winch.winch_stop
-        self.extend = self.winch.release
-        self.latch = self.winch.unrelease
 
 
 class Defense:
@@ -66,8 +57,8 @@ class Defense:
     def __init__(self, solenoid):
         self.solenoid = solenoid
 
-    def extend():
+    def extend(self):
         self.solenoid.Set(True)
 
-    def retract():
+    def retract(self):
         self.solenoid.Set(False)
