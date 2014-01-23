@@ -3,6 +3,7 @@ class Intake:
     Intake mechanism
     """
     motor_power = .8
+    extender_power = .5
 
     def __init__(self, roller, extender):
         self.roller = roller
@@ -18,13 +19,13 @@ class Intake:
         self.roller.Set(-self.motor_power)
 
     def extend(self):
-        self.extender.Set(1)
+        self.extender.Set(self.extender_power)
 
     def stop_extend(self):
         self.extender.Set(0)
 
     def retract(self):
-        self.extender.Set(-1)
+        self.extender.Set(-self.extender_power)
 
 
 class Shooter:
