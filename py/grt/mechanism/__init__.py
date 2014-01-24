@@ -38,7 +38,7 @@ class Shooter:
         self.actuator = actuator
 
     def winch_wind(self, power):
-        self.winchmotor.Set(power)
+        self.winchmotor.Set(-power)
 
     def winch_stop(self):
         self.winchmotor.Set(0)
