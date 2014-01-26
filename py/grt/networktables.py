@@ -7,7 +7,6 @@ except ImportError:
     from pyfrc.wpilib import BooleanArray, NumberArray, StringArray
     from pyfrc.wpilib import ITableListener
 
-
 class ITable:
     """
     Wrapper for robotpy SIP ITable interface
