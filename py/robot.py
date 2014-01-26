@@ -6,7 +6,7 @@ except ImportError:
     from pyfrc import wpilib
 from config import sp, lstick, drive_macro, auto_sp
 import sys
-
+import time
 
 def CheckRestart():
     if lstick.button10:
@@ -33,9 +33,11 @@ class MyRobot(wpilib.SimpleRobot):
 
     def OperatorControl(self):
         drive_macro.kill()
+
         dog = self.GetWatchdog()
         dog.SetEnabled(True)
         dog.SetExpiration(0.25)
+        t = time.time()
 
         while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()
@@ -43,10 +45,14 @@ class MyRobot(wpilib.SimpleRobot):
 
             # Motor control
 
+            a = time.time()
             sp.poll()
-
-            wpilib.Wait(0.04)
+            b = time.time()
+            print("Loop Time: " + str(b - t))
+            t = time.time()
+            wpilib.Wait(0.04 - (b - a))
             #Testing Github editor
+
 
 
 def run():
