@@ -51,6 +51,7 @@ class DriveMacro(GRTMacro):
             self.__dict__[state_id] = datum
             self.DTController.setPID(self.DTP, self.DTI, self.DPD)
             self.straight_controller.setPID(self.CP, self.CI, self.CD)
+            print("Updated " + str(state_id) + " to be " + str(datum) + "\n")
 
 
     def initialize(self):
