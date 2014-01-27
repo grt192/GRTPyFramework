@@ -1,5 +1,4 @@
 __author__ = "Calvin Huang"
-import time
 import threading
 
 
@@ -93,7 +92,8 @@ class SensorPoller(object):
 
 class Constants(Sensor):
     """
-    Class for reading, and keeping track of, constants in a file.
+    Class for reading, and keeping track of, constants in a file, implemented as a singleton.
+    Retrieve singleton object by calling Constants().
 
     File is read line by line, in [key],[number] format.
     Lines starting with '/' are treated as add'l constants files,
@@ -103,12 +103,19 @@ class Constants(Sensor):
     Behaves more or less like a sensor.
     """
 
-    def __init__(self, file_loc='/c/constants.txt'):
-        """
-        Creates Constants with an initial file.
-        """
-        super().__init__()
-        self.file_loc = file_loc
+    file_loc = '/c/constants.txt'
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(Constants, cls).__new__(cls, *args, **kwargs)
+            super(Constants, cls._instance).__init__()
+        return cls._instance
+
+    def __init__(self, file_loc=None):
+# No super call on purpose
+        if file_loc:
+            self.file_loc = file_loc
 
     def poll(self):
         """
