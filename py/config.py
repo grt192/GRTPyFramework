@@ -26,7 +26,8 @@ from grt.sensors.encoder import Encoder
 import grt.networktables as networktables
 
 # Joysticks
-lstick = Attack3Joystick(1)
+joystick1 = Attack3Joystick(1)
+joystick2 = Attack3Joystick(2)
 
 #DT stuff
 l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(6, 9)))
@@ -49,8 +50,8 @@ shooter = Shooter(wpilib.Talon(4), wpilib.Solenoid(2))
 defense = Defense(wpilib.Solenoid(1))
 
 #Teleop Controllers
-ac = ArcadeDriveController(dt, lstick)
-mc = AttackMechController(lstick, intake, defense, shooter)
+ac = ArcadeDriveController(dt, joystick1)
+mc = AttackMechController(joystick1, joystick2, intake, defense, shooter)
 
 # Autonomous
 auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder))

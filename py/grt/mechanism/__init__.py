@@ -5,9 +5,9 @@ class Intake:
     motor_power = .8
     extender_power = .5
 
-    def __init__(self, roller, extender):
+    def __init__(self, roller, angle_changer):
         self.roller = roller
-        self.extender = extender  # remainder of code assumes this is a pneumatic
+        self.angle_changer = angle_changer  # remainder of code assumes this is a pneumatic
 
     def start_ep(self):
         self.roller.Set(self.motor_power)
@@ -15,17 +15,17 @@ class Intake:
     def stop_ep(self):
         self.roller.Set(0)
 
-    def reverse(self):
+    def reverse_ep(self):
         self.roller.Set(-self.motor_power)
 
-    def extend(self):
-        self.extender.Set(self.extender_power)
+    def forward_angle_change(self):
+        self.angle_changer.Set(self.extender_power)
 
-    def stop_extend(self):
-        self.extender.Set(0)
+    def stop_angle_change(self):
+        self.angle_changer.Set(0)
 
-    def retract(self):
-        self.extender.Set(-self.extender_power)
+    def reverse_angle_change(self):
+        self.angle_changer.Set(-self.extender_power)
 
 
 class Shooter:
