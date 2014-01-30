@@ -4,21 +4,14 @@ try:
     import wpilib
 except ImportError:
     from pyfrc import wpilib
-from config import sp, lstick, drive_macro, auto_sp
-import sys
+from config import sp, drive_macro, auto_sp
 import time
-
-def CheckRestart():
-    if lstick.button10:
-        self.GetWatchdog().SetEnabled(False)
-        sys.exit()
 
 
 class MyRobot(wpilib.SimpleRobot):
     def Disabled(self):
         drive_macro.kill()
         while self.IsDisabled():
-            CheckRestart()
             wpilib.Wait(0.01)
 
     def Autonomous(self):
@@ -26,7 +19,6 @@ class MyRobot(wpilib.SimpleRobot):
         drive_macro.reset()
         drive_macro.run()
         while self.IsAutonomous() and self.IsEnabled():
-            CheckRestart()
             auto_sp.poll()
             wpilib.Wait(0.01)
         drive_macro.kill()
@@ -41,8 +33,6 @@ class MyRobot(wpilib.SimpleRobot):
 
         while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()
-            CheckRestart()
-
             # Motor control
 
             a = time.time()
@@ -52,7 +42,6 @@ class MyRobot(wpilib.SimpleRobot):
             t = time.time()
             wpilib.Wait(0.04 - (b - a))
             #Testing Github editor
-
 
 
 def run():

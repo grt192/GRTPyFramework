@@ -26,8 +26,8 @@ from grt.sensors.encoder import Encoder
 import grt.networktables as networktables
 
 # Joysticks
-joystick1 = Attack3Joystick(1)
-joystick2 = Attack3Joystick(2)
+lstick = Attack3Joystick(1)
+rstick = Attack3Joystick(2)
 
 #DT stuff
 l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(6, 9)))
@@ -50,8 +50,8 @@ shooter = Shooter(wpilib.Talon(4), wpilib.Solenoid(2))
 defense = Defense(wpilib.Solenoid(1))
 
 #Teleop Controllers
-ac = ArcadeDriveController(dt, joystick1)
-mc = AttackMechController(joystick1, joystick2, intake, defense, shooter)
+ac = ArcadeDriveController(dt, lstick)
+mc = AttackMechController(lstick, rstick, intake, defense, shooter)
 
 # Autonomous
 auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder))
@@ -69,12 +69,7 @@ table['one'] = 'two'
 #constants
 c = Constants()
 c.add_listener(drive_macro._constant_listener)
-c.poll
-
-def _constant_update_listener(sensor, state_id, datum):
-	if state_id is 'button11' and datum:
-		c.poll
 
 #Sensor Pollers
-sp = SensorPoller((lstick, dt.right_encoder, dt.left_encoder, tick))
+sp = SensorPoller((lstick, rstick, dt.right_encoder, dt.left_encoder, tick))
 auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder, tick))

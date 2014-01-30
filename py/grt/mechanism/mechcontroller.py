@@ -5,12 +5,10 @@ class AttackMechController:
         self.intake = intake
         self.defense = defense
         self.shooter = shooter
-        joystick1.add_listener(self._joystick_listener)
-        joystick2.add_listener(self._joystick_listener)
+        joystick1.add_listener(self._l_joystick_listener)
+        joystick2.add_listener(self._r_joystick_listener)
 
-
-def _joystick_listener(self, sensor, state_id, datum):
-        if sensor is self.joystick1:
+    def _l_joystick_listener(self, sensor, state_id, datum):
             #Intake Control
             if state_id is 'trigger':
                 if datum:
@@ -23,10 +21,7 @@ def _joystick_listener(self, sensor, state_id, datum):
                 else:
                     self.intake.stop_ep()
 
-
-
-
-        if sensor is self.joystick2:
+    def _r_joystick_listener(self, sensor, state_id, datum):
             if state_id is 'trigger':
                 if datum:
                     self.shooter.winch_wind(1)
