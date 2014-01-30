@@ -17,40 +17,39 @@ def _joystick_listener(self, sensor, state_id, datum):
                     self.intake.start_ep()
                 else:
                     self.intake.stop_ep()
-            elif state_id is 'button4' or state_id is 'button5':
+            elif state_id is 'button3':
                 if datum:
                     self.intake.reverse_ep()
                 else:
                     self.intake.stop_ep()
 
-            elif state_id is 'button3':
-                if datum:
-                    self.intake.forward_angle_change()
-                else:
-                    self.intake.stop_angle_change()
-            elif state_id is 'button2':
-                if datum:
-                    self.intake.reverse_angle_change()
-                else:
-                    self.intake.stop_angle_change()
 
-            #Shooter Control
-            elif state_id is 'button10':
+
+
+        if sensor is self.joystick2:
+            if state_id is 'trigger':
                 if datum:
                     self.shooter.winch_wind(1)
                 else:
                     self.shooter.winch_stop()
-            elif state_id is 'button7':
+            elif state_id is 'button2':
                 if datum:
                     self.shooter.unlatch()
                 else:
                     self.shooter.latch()
-
-            #Defense Control
-            if state_id is 'button8':
+                    #Defense Control
+            if state_id is 'button11':
                 if datum:
                     self.defense.extend()
                 else:
                     self.defense.retract()
-        if sensor is self.joystick2:
-            #
+            elif state_id is 'y_axis':
+                if datum:
+                    self.intake.forward_angle_change(self.joystick2.j.GetY())
+                else:
+                    self.intake.stop_angle_change()
+            elif state_id is 'button2':
+                if datum:
+                    self.intake.reverse_angle_change(self.joystick2.j.GetY())
+                else:
+                    self.intake.stop_angle_change()

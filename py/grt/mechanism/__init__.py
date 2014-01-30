@@ -3,7 +3,7 @@ class Intake:
     Intake mechanism
     """
     motor_power = .8
-    extender_power = .5
+    #extender_power = .5
 
     def __init__(self, roller, angle_changer):
         self.roller = roller
@@ -18,14 +18,14 @@ class Intake:
     def reverse_ep(self):
         self.roller.Set(-self.motor_power)
 
-    def forward_angle_change(self):
-        self.angle_changer.Set(self.extender_power)
+    def forward_angle_change(self, power):
+        self.angle_changer.Set(power)
 
     def stop_angle_change(self):
         self.angle_changer.Set(0)
 
-    def reverse_angle_change(self):
-        self.angle_changer.Set(-self.extender_power)
+    def reverse_angle_change(self, power):
+        self.angle_changer.Set(-power)
 
 
 class Shooter:
