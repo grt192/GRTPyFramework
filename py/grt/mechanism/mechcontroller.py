@@ -1,12 +1,12 @@
 class AttackMechController:
-    def __init__(self, joystick1, joystick2, intake, defense, shooter):
-        self.joystick1 = joystick1
-        self.joystick2 = joystick2
+    def __init__(self, l_joystick, r_joystick, intake, defense, shooter):
+        self.l_joystick = l_joystick
+        self.r_joystick = r_joystick
         self.intake = intake
         self.defense = defense
         self.shooter = shooter
-        joystick1.add_listener(self._l_joystick_listener)
-        joystick2.add_listener(self._r_joystick_listener)
+        l_joystick.add_listener(self._l_joystick_listener)
+        r_joystick.add_listener(self._r_joystick_listener)
 
     def _l_joystick_listener(self, sensor, state_id, datum):
             #Intake Control
@@ -39,12 +39,4 @@ class AttackMechController:
                 else:
                     self.defense.retract()
             elif state_id is 'y_axis':
-                if datum:
-                    self.intake.forward_angle_change(self.joystick2.j.GetY())
-                else:
-                    self.intake.stop_angle_change()
-            elif state_id is 'button2':
-                if datum:
-                    self.intake.reverse_angle_change(self.joystick2.j.GetY())
-                else:
-                    self.intake.stop_angle_change()
+                self.intake.forward_angle_change(datum)
