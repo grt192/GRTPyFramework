@@ -1,7 +1,7 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
-from config import sp, lstick, drive_macro, auto_sp
+from config import sp, lstick, drive_macro, auto_sp, turn_macro
 import sys
 import time
 
@@ -18,37 +18,41 @@ class MyRobot(wpilib.SimpleRobot):
 
     def Autonomous(self):
         self.GetWatchdog().SetEnabled(False)
-        drive_macro.initialize()
+        #drive_macro.initialize()
+        turn_macro.initialize()
         while self.IsAutonomous() and self.IsEnabled():
             CheckRestart()
             auto_sp.poll()
-            drive_macro.perform()
+            #drive_macro.perform()
+            turn_macro.perform()
             #print("Right Encoder: " + str(drive_macro.dt.right_encoder.distance))
             #print("Left Encoder: " + str(drive_macro.dt.left_encoder.distance))
         #drive_macro.perform()
             #auto_sp.poll()
             wpilib.Wait(0.01)
-        drive_macro.disable()
+        #drive_macro.disable()
+        turn_macro.disable()
 
     def OperatorControl(self):
 
         dog = self.GetWatchdog()
         dog.SetEnabled(True)
         dog.SetExpiration(0.25)
-        t = time.time()
-
+        #t = time.time()
+        print("Teleop")
         while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()
             CheckRestart()
-
+            print("Running!")
             # Motor control
 
-            a = time.time()
+            #a = time.time()
             sp.poll()
-            b = time.time()
-            print("Loop Time: " + str(b - t))
-            t = time.time()
-            wpilib.Wait(0.04 - (b - a))
+            #b = time.time()
+            #print("Loop Time: " + str(b - t))
+            #t = time.time()
+            #wpilib.Wait(0.04 - (b - a))
+            wpilib.Wait(0.01)
             #Testing Github editor
 
 
