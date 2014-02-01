@@ -44,7 +44,7 @@ compressor.Start()
 #Mechs
 #Pickup stuff
 pickup_motor = Motorset((wpilib.Talon(5), wpilib.Talon(10)), (1, -1))
-intake = Intake(pickup_motor, wpilib.Talon(9))
+intake = Intake(pickup_motor, wpilib.Talon(9), wpilib.Solenoid(3))
 
 shooter = Shooter(wpilib.Talon(4), wpilib.Solenoid(2))
 defense = Defense(wpilib.Solenoid(1))
