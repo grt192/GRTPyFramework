@@ -7,7 +7,7 @@ class Intake:
 
     def __init__(self, roller, angle_changer, angle_solenoid=None):
         self.roller = roller
-        self.angle_changer = angle_changer  # remainder of code assumes this is a pneumatic
+        self.angle_changer = angle_changer
         self.angle_solenoid = angle_solenoid
 
     def start_ep(self):
@@ -24,9 +24,6 @@ class Intake:
 
     def stop_angle_change(self):
         self.angle_changer.Set(0)
-
-    def reverse_angle_change(self, power):
-        self.angle_changer.Set(-power)
 
     def extend(self):
         self.angle_solenoid.Set(1)

@@ -20,11 +20,11 @@ class AttackMechController:
                     self.intake.reverse_ep()
                 else:
                     self.intake.stop_ep()
-            elif state_id is 'button2':
-                if datum:
-                    self.intake.extend()
-                else:
-                    self.intake.retract()
+            #elif state_id is 'button2':
+                #if datum:
+                    #self.intake.extend()
+                #else:
+                    #self.intake.retract()
 
     def _r_joystick_listener(self, sensor, state_id, datum):
             if state_id is 'trigger':
