@@ -26,7 +26,7 @@ class Encoder(Sensor):
                  enctype=CounterBase.k4X):
         """
         Initializes the encoder with two channels,
-        distance per pulse (default 1), no reversing,
+        distance per pulse (usu. feet, default 1), no reversing,
         on module number 1, 128 CPR, and with 4x counting.
         """
         super().__init__()

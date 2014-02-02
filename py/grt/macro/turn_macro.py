@@ -1,3 +1,4 @@
+__author__ = 'dhruv'
 __author__ = "Sidd Karamcheti"
 
 from grt.core import GRTMacro
@@ -17,12 +18,18 @@ class TurnMacro(GRTMacro):
         """
         PIDSource for turning; uses gyro angle as feedback.
         """
+        def __init__(self, turn_macro):
+            super().__init__()
+            self.turn_macro = turn_macro
         def PIDGet(self):
-            return self.gyro.angle
+            return self.turn_macro.gyro.g.GetAngle()
 
     class PIDTurnOutput(wpilib.PIDOutput):
+        def __init__(self, turn_macro):
+            super().__init__()
+            self.turn_macro = turn_macro
         def PIDWrite(self, output):
-            self.dt.set_dt_output(output, -output)
+            self.turn_macro.dt.set_dt_output(output, -output)
 
     def __init__(self, dt, gyro, turn_angle, timeout=None):
         """
@@ -32,8 +39,8 @@ class TurnMacro(GRTMacro):
         self.gyro = gyro
         self.turn_angle = turn_angle
         self.timeout = timeout
-        self.pid_source = self.PIDTurnSource()
-        self.pid_output = self.PIDTurnOutput()
+        self.pid_source = self.PIDTurnSource(self)
+        self.pid_output = self.PIDTurnOutput(self)
         self.previously_on_target = False
 
         self.controller = wpilib.PIDController(self.P, self.I, self.D,
@@ -53,6 +60,9 @@ class TurnMacro(GRTMacro):
     def die(self):
         self.dt.set_dt_output(0, 0)
         self.controller.Disable()
+
+    def stop(self):
+        self.dt.set_dt_output(0, 0)
 
     def initialize(self):
         start_angle = self.gyro.angle

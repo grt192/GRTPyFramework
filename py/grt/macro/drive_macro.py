@@ -11,10 +11,10 @@ class DriveMacro(GRTMacro):
     """
     leftSF = 1
     rightSF = -1
-    DTP = 1.5
+    DTP = 1
     DTI = 0
     DTD = 0
-    CP = 0  # CP = 1
+    CP = .1  # CP = 1
     CI = 0
     CD = 0
     TOLERANCE = 0.03
@@ -25,7 +25,7 @@ class DriveMacro(GRTMacro):
 
     def __init__(self, dt, distance, timeout):
         """
-        Pass drivetrain, distance to travel, and timeout (secs)
+        Pass drivetrain, distance to travel (ft), and timeout (secs)
         """
         GRTMacro.__init__(self, timeout)
         self.dt = dt
@@ -46,9 +46,17 @@ class DriveMacro(GRTMacro):
         self.DTController.SetAbsoluteTolerance(self.TOLERANCE)
         self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
 
+    def _constant_listener(self, sensor, state_id, datum):
+        if state_id in ('DTP', 'DTI', 'DTD', 'CP', 'CI', 'CD'):
+            self.__dict__[state_id] = datum
+            self.DTController.setPID(self.DTP, self.DTI, self.DPD)
+            self.straight_controller.setPID(self.CP, self.CI, self.CD)
+            print("Updated " + str(state_id) + " to be " + str(datum) + "\n")
+
+
     def initialize(self):
-        self.left_initial_distance = self.left_encoder.distance
-        self.right_initial_distance = self.right_encoder.distance
+        self.left_initial_distance = self.left_encoder.e.GetDistance()
+        self.right_initial_distance = self.right_encoder.e.GetDistance()
 
         self.DTController.SetSetpoint(self.distance)
         self.straight_controller.SetSetpoint(0)

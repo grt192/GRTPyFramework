@@ -2,45 +2,30 @@ class Intake:
     """
     Intake mechanism
     """
-    def __init__(self, roller, extender):
+    motor_power = .8
+    #extender_power = .5
+
+    def __init__(self, roller, angle_changer):
         self.roller = roller
-        self.extender = extender  # remainder of code assumes this is a pneumatic
+        self.angle_changer = angle_changer  # remainder of code assumes this is a pneumatic
 
     def start_ep(self):
-        self.roller.Set(1)
+        self.roller.Set(self.motor_power)
 
-    def end_ep(self):
+    def stop_ep(self):
         self.roller.Set(0)
 
-    def reverse(self):
-        self.roller.Set(-1)
+    def reverse_ep(self):
+        self.roller.Set(-self.motor_power)
 
-    def extend(self):
-        self.extender.Set(True)
+    def forward_angle_change(self, power):
+        self.angle_changer.Set(power)
 
-    def retract(self):
-        self.extender.Set(False)
+    def stop_angle_change(self):
+        self.angle_changer.Set(0)
 
-
-class Winch:
-    """
-    Winch mechanism
-    """
-    def __init__(self, winchmotor, actuator):
-        self.winchmotor = winchmotor
-        self.actuator = actuator
-
-    def winch_wind(self, power):
-        self.winchmotor.Set(power)
-
-    def winch_stop(self):
-        self.winchmotor.Set(0)
-
-    def release(self):
-        self.actuator.Set(True)
-
-    def unrelease(self):
-        self.actuator.Set(False)
+    def reverse_angle_change(self, power):
+        self.angle_changer.Set(-power)
 
 
 class Shooter:
@@ -48,22 +33,33 @@ class Shooter:
     Shooter mechanism, using winch.
     Pass winch args to constructor.
     """
-    def __init__(self, *args):
-        self.winch = Winch(*args)
-        self.winch_wind = self.winch.winch_wind
-        self.winch_stop = self.winch.winch_stop
-        self.extend = self.winch.release
-        self.latch = self.winch.unrelease
+    def __init__(self, winchmotor, actuator):
+        self.winchmotor = winchmotor
+        self.actuator = actuator
+
+    def winch_wind(self, power):
+        self.winchmotor.Set(-power)
+
+    def winch_stop(self):
+        self.winchmotor.Set(0)
+
+    def latch(self):
+        self.actuator.Set(False)
+
+    def unlatch(self):
+        self.actuator.Set(True)
 
 
 class Defense:
     """
-    Defense mechanism, using winch.
+    Defense mechanism, using pneumatic solenoid.
     Pass winch args to constructor.
     """
-    def __init__(self, *args):
-        self.winch = Winch(*args)
-        self.winch_wind = self.winch.winch_wind
-        self.winch_stop = self.winch.winch_stop
-        self.extend = self.winch.release
-        self.latch = self.winch.unrelease
+    def __init__(self, solenoid):
+        self.solenoid = solenoid
+
+    def extend(self):
+        self.solenoid.Set(True)
+
+    def retract(self):
+        self.solenoid.Set(False)
