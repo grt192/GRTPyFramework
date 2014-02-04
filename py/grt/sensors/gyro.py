@@ -24,4 +24,4 @@ class Gyro(Sensor):
         self.g = WGyro(channel)
 
     def poll(self):
-        self.angle = self.g.getAngle()
+        self.angle = self.g.GetAngle()
