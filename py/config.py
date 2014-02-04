@@ -13,6 +13,7 @@ except ImportError:
 
 from math import pi
 from grt.sensors.attack_joystick import Attack3Joystick
+from grt.sensors.gyro import Gyro
 from grt.core import SensorPoller
 from grt.core import Constants
 from grt.mechanism.mechcontroller import AttackMechController
@@ -24,6 +25,7 @@ from grt.sensors.ticker import Ticker
 from grt.macro.drive_macro import DriveMacro
 from grt.sensors.encoder import Encoder
 import grt.networktables as networktables
+from grt.macro.turn_macro import TurnMacro
 
 # Joysticks
 lstick = Attack3Joystick(1)
@@ -54,8 +56,11 @@ ac = ArcadeDriveController(dt, lstick)
 mc = AttackMechController(lstick, rstick, intake, defense, shooter)
 
 # Autonomous
-auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder))
+gyro = Gyro(2)
+auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder, gyro))
 drive_macro = DriveMacro(dt, 10, 10)
+#analog_channel = wpilib.AnalogChannel(3)
+turn_macro = TurnMacro(dt, gyro, 90, 5)
 
 #Diagnostic ticker
 tick = Ticker(.2)
