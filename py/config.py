@@ -32,8 +32,8 @@ lstick = Attack3Joystick(1)
 rstick = Attack3Joystick(2)
 
 #DT stuff
-l_dt = Motorset(tuple(wpilib.Talon(i) for i in range(6, 9)))
-r_dt = Motorset(tuple(wpilib.Talon(i) for i in range(1, 4)), scalefactors=(-1, ) * 3)
+l_dt = Motorset(tuple(wpilib.Talon(i) for i in (1)))
+r_dt = Motorset(tuple(wpilib.Talon(i) for i in (1)), scalefactors=(-1, ))
 
 dt_dpp = (pi * 3.45 / (128 * 12))  # (pi * (1.74 * 2)) / (128 * 12)
 left_encoder = Encoder(2, 3, dt_dpp)
@@ -77,4 +77,4 @@ c.add_listener(drive_macro._constant_listener)
 
 #Sensor Pollers
 sp = SensorPoller((lstick, rstick, dt.right_encoder, dt.left_encoder, tick))
-auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder, tick))
+# auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder, tick))
