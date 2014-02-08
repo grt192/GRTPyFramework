@@ -32,8 +32,8 @@ lstick = Attack3Joystick(1)
 rstick = Attack3Joystick(2)
 
 #DT stuff
-l_dt = Motorset(tuple(wpilib.Talon(i) for i in (1)))
-r_dt = Motorset(tuple(wpilib.Talon(i) for i in (1)), scalefactors=(-1, ))
+l_dt = Motorset(tuple(wpilib.Talon(i) for i in (1,)))
+r_dt = Motorset(tuple(wpilib.Talon(i) for i in (2,)), scalefactors=(-1, ))
 
 dt_dpp = (pi * 3.45 / (128 * 12))  # (pi * (1.74 * 2)) / (128 * 12)
 left_encoder = Encoder(2, 3, dt_dpp)
