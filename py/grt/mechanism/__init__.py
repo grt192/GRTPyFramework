@@ -14,16 +14,16 @@ class Intake:
         self.roller.Set(self.motor_power)
 
     def stop_ep(self):
-        self.roller.Set(0)
+        self.roller.set(0)
 
     def reverse_ep(self):
-        self.roller.Set(-self.motor_power)
+        self.roller.set(-self.motor_power)
 
     def forward_angle_change(self, power):
-        self.angle_changer.Set(power)
+        self.angle_changer.set(power)
 
     def stop_angle_change(self):
-        self.angle_changer.Set(0)
+        self.angle_changer.set(0)
 
     def extend(self):
         self.angle_solenoid.Set(1)

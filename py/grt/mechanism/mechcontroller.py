@@ -25,6 +25,25 @@ class AttackMechController:
                     #self.intake.extend()
                 #else:
                     #self.intake.retract()
+            #Testing Omega2
+            if state_id is 'trigger':
+                if datum:
+                    self.shooter.winch_wind(1)
+                else:
+                    self.shooter.winch_stop()
+            elif state_id is 'button2':
+                if datum:
+                    self.shooter.unlatch()
+                else:
+                    self.shooter.latch()
+                    #Defense Control
+            if state_id is 'button11':
+                if datum:
+                    self.defense.extend()
+                else:
+                    self.defense.retract()
+            elif state_id is 'y_axis':
+                self.intake.forward_angle_change(datum)
 
     def _r_joystick_listener(self, sensor, state_id, datum):
             if state_id is 'trigger':

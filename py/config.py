@@ -32,8 +32,8 @@ lstick = Attack3Joystick(1)
 rstick = Attack3Joystick(2)
 
 #DT stuff
-l_dt = Motorset(tuple(wpilib.Talon(i) for i in (1,)))
-r_dt = Motorset(tuple(wpilib.Talon(i) for i in (2,)), scalefactors=(-1, ))
+l_dt = Motorset(tuple(wpilib.Talon(i) for i in (2,)))
+r_dt = Motorset(tuple(wpilib.Talon(i) for i in (1,)), scalefactors=(-1, ))
 
 dt_dpp = (pi * 3.45 / (128 * 12))  # (pi * (1.74 * 2)) / (128 * 12)
 left_encoder = Encoder(2, 3, dt_dpp)
@@ -45,10 +45,11 @@ compressor.Start()
 
 #Mechs
 #Pickup stuff
-pickup_motor = Motorset((wpilib.Talon(5), wpilib.Talon(10)), (1, -1))
-intake = Intake(pickup_motor, wpilib.Talon(9), wpilib.Solenoid(3))
+pickup_motor = Motorset(tuple((wpilib.Talon(6), wpilib.Talon(9))))
+angle_change = Motorset(tuple((wpilib.Talon(7), wpilib.Talon(8))))
+intake = Intake(pickup_motor, angle_change, wpilib.Solenoid(3))
 
-shooter = Shooter(wpilib.Talon(4), wpilib.Solenoid(2))
+shooter = Shooter(wpilib.Talon(10), wpilib.Solenoid(2))
 defense = Defense(wpilib.Solenoid(1))
 
 #Teleop Controllers
