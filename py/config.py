@@ -40,7 +40,7 @@ left_encoder = Encoder(2, 3, dt_dpp)
 right_encoder = Encoder(4, 5, dt_dpp)
 dt = DriveTrain(l_dt, r_dt, left_encoder=left_encoder, right_encoder=right_encoder)
 
-compressor = wpilib.Compressor(14, 1)
+compressor = wpilib.Compressor(1,2)
 compressor.Start()
 
 #Mechs
