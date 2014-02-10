@@ -27,7 +27,7 @@ class DriveMacro(GRTMacro):
         """
         Pass drivetrain, distance to travel (ft), and timeout (secs)
         """
-        GRTMacro.__init__(self, timeout)
+        super().__init__(timeout)
         self.dt = dt
         self.distance = distance
         self.left_encoder = dt.left_encoder
@@ -150,7 +150,7 @@ class DriveMacro(GRTMacro):
 
         def PIDWrite(self, output):
             modifier = abs(output)
-#rookie puzzle
+            #rookie puzzle
             self.drive_macro.leftSF = 1 - (modifier if self.drive_macro.speed * output < 0 else 0)
             self.drive_macro.rightSF = 2 - modifier - self.drive_macro.leftSF
             self.drive_macro.update_motor_speeds()

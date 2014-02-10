@@ -22,7 +22,8 @@ from grt.mechanism.drivecontroller import ArcadeDriveController
 from grt.mechanism.motorset import Motorset
 from grt.mechanism import Intake, Shooter, Defense
 from grt.sensors.ticker import Ticker
-from grt.macro.drive_macro import DriveMacro
+from grt.core import GRTMacroController
+from grt.autonomous.basic_auto import BasicAuto
 from grt.sensors.encoder import Encoder
 import grt.networktables as networktables
 from grt.macro.turn_macro import TurnMacro
@@ -65,10 +66,21 @@ drive_macro = DriveMacro(dt, 10, 10)
 #analog_channel = wpilib.AnalogChannel(3)
 #turn_macro = TurnMacro(dt, gyro, 90, 5)
 wind_macro = WindMacro(dt, potentiometer, 90, 5)
+#Network Tables
+vision_table = networktables.get_table('vision')
 
 #Diagnostic ticker
 tick = Ticker(.2)
-#tick.tick = lambda: print(str(left_encoder.distance) + " " + str(right_encoder.distance) + "\n")
+tick.tick = lambda: print(str(table['fat']) + "\n")
+
+#Vision key
+key = "locked"
+
+#Auto Mode
+side = "Left"
+
+#Autonomous
+auto = BasicAuto(dt, 10, shooter, vision_table, locked_key, side_key, side)
 
 #networkTablesStuffCauseILoveIt
 table = networktables.get_table('test')
