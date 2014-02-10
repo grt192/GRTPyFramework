@@ -26,6 +26,8 @@ from grt.macro.drive_macro import DriveMacro
 from grt.sensors.encoder import Encoder
 import grt.networktables as networktables
 from grt.macro.turn_macro import TurnMacro
+from grt.macro.wind_macro import WindMacro
+from grt.sensors.potentiometer import Potentiometer
 
 # Joysticks
 lstick = Attack3Joystick(1)
@@ -57,10 +59,12 @@ mc = AttackMechController(lstick, rstick, intake, defense, shooter)
 
 # Autonomous
 gyro = Gyro(2)
+potentiometer = Potentiometer(3)
 auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder, gyro))
 drive_macro = DriveMacro(dt, 10, 10)
 #analog_channel = wpilib.AnalogChannel(3)
-turn_macro = TurnMacro(dt, gyro, 90, 5)
+#turn_macro = TurnMacro(dt, gyro, 90, 5)
+wind_macro = WindMacro(dt, potentiometer, 90, 5)
 
 #Diagnostic ticker
 tick = Ticker(.2)

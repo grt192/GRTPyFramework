@@ -44,8 +44,10 @@ class TurnMacro(GRTMacro):
     def perform(self):
         if self.controller.OnTarget():
             if self.previously_on_target:
-                self.kill()
+                #self.kill()
                 #self.kill will only work if this is called from a multithreaded setup.
+                self.die()
+                #self.die will only work if this is called manually using intialize and perform.
             else:
                 self.previously_on_target = False
         else:
@@ -61,4 +63,4 @@ class TurnMacro(GRTMacro):
         target_angle = start_angle + self.wind_angle
         self.controller.SetSetpoint(target_angle)
         self.controller.Enable()
-        print("Wind is winding.")
+        print("Winch is winding.")
