@@ -22,6 +22,7 @@ from grt.mechanism import Intake, Shooter, Defense
 from grt.sensors.ticker import Ticker
 from grt.autonomous.basic_auto import BasicAuto
 from grt.sensors.encoder import Encoder
+from grt.sensors.switch import Switch
 import grt.networktables as networktables
 from grt.sensors.potentiometer import Potentiometer
 
@@ -47,6 +48,10 @@ defense_actuator = wpilib.Solenoid(3)
 left_encoder = Encoder(2, 3, constants['dt_dpp'])
 right_encoder = Encoder(4, 5, constants['dt_dpp'])
 pressure_sensor_pin = 1
+achange_limit_lf = Switch(13)  # TODO: check accuracy
+achange_limit_lr = Switch(12)
+achange_limit_rf = Switch(11)
+achange_limit_rr = Switch(10)
 
 #Analog Sensors
 potentiometer = Potentiometer(3)
