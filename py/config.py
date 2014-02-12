@@ -39,7 +39,7 @@ achange_right = wpilib.Talon(7)
 shooter_winch = wpilib.Talon(6)
 
 #Solenoids + Relays
-compressor_pin = 2
+compressor_pin = 1
 dt_shifter = wpilib.Solenoid(1)
 shooter_shifter = wpilib.Solenoid(2)
 defense_actuator = wpilib.Solenoid(3)
@@ -47,8 +47,8 @@ defense_actuator = wpilib.Solenoid(3)
 #Digital Sensors
 left_encoder = Encoder(2, 3, constants['dt_dpp'])
 right_encoder = Encoder(4, 5, constants['dt_dpp'])
-pressure_sensor_pin = 1
-achange_limit_lf = Switch(13)  # TODO: check accuracy
+pressure_sensor_pin = 14
+achange_limit_lf = Switch(13)
 achange_limit_lr = Switch(12)
 achange_limit_rf = Switch(11)
 achange_limit_rr = Switch(10)
