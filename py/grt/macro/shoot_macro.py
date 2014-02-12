@@ -20,7 +20,7 @@ class ShootMacro(GRTMacro):
     Shoot Macro; Shoots the ball by unlatching it
     """
     def __init__(self, shooter, timeout=5):
-        super().__init___(timeout)
+        super().__init__(timeout)
         self.shooter = shooter
 
     def perform(self):

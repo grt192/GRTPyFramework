@@ -8,7 +8,7 @@ except ImportError:
 from grt.core import Sensor
 
 
-class Gyro(Sensor):
+class Potentiometer(Sensor):
     """
     Sensor wrapper for an analog gyroscope.
 

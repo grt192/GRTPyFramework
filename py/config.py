@@ -26,6 +26,7 @@ from grt.core import GRTMacroController
 from grt.autonomous.basic_auto import BasicAuto
 from grt.sensors.encoder import Encoder
 import grt.networktables as networktables
+from grt.macro.drive_macro import DriveMacro
 from grt.macro.turn_macro import TurnMacro
 from grt.macro.wind_macro import WindMacro
 from grt.sensors.potentiometer import Potentiometer
@@ -74,13 +75,13 @@ tick = Ticker(.2)
 tick.tick = lambda: print(str(table['fat']) + "\n")
 
 #Vision key
-key = "locked"
+locked_key = "locked"
 
 #Auto Mode
 side = "Left"
 
 #Autonomous
-auto = BasicAuto(dt, 10, shooter, vision_table, locked_key, side_key, side)
+auto = BasicAuto(dt, 10, shooter, vision_table, locked_key, None, side, potentiometer, gyro, 90, 30)
 
 #networkTablesStuffCauseILoveIt
 table = networktables.get_table('test')

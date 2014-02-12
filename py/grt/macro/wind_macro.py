@@ -3,7 +3,7 @@ __author__ = 'dhruv'
 from grt.core import GRTMacro
 import wpilib
 
-class TurnMacro(GRTMacro):
+class WindMacro(GRTMacro):
     """
     Macro that winds the winch a certain distance
     """
@@ -22,7 +22,7 @@ class TurnMacro(GRTMacro):
         def PIDGet(self):
             return self.wind_macro.potentiometer.p.Get()
 
-    class PIDWindOutput(wpilib.PIDOut):
+    class PIDWindOutput(wpilib.PIDOutput):
         def __init__(self, wind_macro):
             super().__init__()
             self.wind_macro = wind_macro
