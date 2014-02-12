@@ -16,9 +16,10 @@ class Motorset:
         self.Set = self.set
         self.Get = self.get
 
-    def set(self, value):
+    def Set(self, value):
         """
         Set motor value.
+        This function is called identically to that for a normal single Talon.
         """
         self.val = value
         for motor, scalefactor in zip(self.motors, self.scalefactors):

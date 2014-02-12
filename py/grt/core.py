@@ -101,6 +101,7 @@ class Constants(Sensor):
     Blank lines, and lines starting with '#' are ignored.
 
     Behaves more or less like a sensor.
+    Access datum like a dictionary.
     """
 
     file_loc = '/c/constants.txt'
@@ -110,12 +111,16 @@ class Constants(Sensor):
         if not cls._instance:
             cls._instance = super(Constants, cls).__new__(cls, *args, **kwargs)
             super(Constants, cls._instance).__init__()
+            cls._instance.poll()
         return cls._instance
 
     def __init__(self, file_loc=None):
 # No super call on purpose
         if file_loc:
             self.file_loc = file_loc
+
+    def __getitem__(self, key):
+        return self.get(key)
 
     def poll(self):
         """
@@ -175,13 +180,13 @@ class GRTMacro(object):
         self.thread.start()
 
     def execute(self):
-        import time
         """
         Starts macro in current thread.
         First calls initialize(), then calls perform()
         periodically until timeout or completion.
         After completion, calls die().
         """
+        import time
         if not self.started:
             self.started = True
             self.start_time = time.time()
@@ -228,3 +233,50 @@ class GRTMacro(object):
         if self.running:
             print("Killing macro: ")
             self.running = False
+
+
+class GRTMacroController(object):
+    """
+    Class for executing a series of macros sequentially. For use with Autonomous, and autonomous programming
+    """
+
+    running = False
+    thread = None
+
+    def __init__(self, macros=[]):
+        """
+        Initializes Controller with an empty list of macros.
+        """
+        self.macros = macros
+
+    def addMacro(self, macro):
+        """
+        Adds a macro to self.macros.
+        """
+        self.macros.append(macro)
+
+    def run_autonomous(self):
+        """
+        Runs exec_autonomous in a new thread.
+        """
+        self.thread = threading.Thread(target=self.exec_autonomous)
+        self.thread.start()
+
+    def exec_autonomous(self):
+        """
+        Iterates through the list of macros, resets them, then runs them sequentially.
+        """
+        self.running = True
+        for macro in self.macros:
+            if not self.running:
+                return
+            macro.reset()
+            macro.execute()
+
+    def stop_autonomous(self):
+        """
+        At the end of autonomous, iterates through the list of macros, kills them all.
+        """
+        self.running = False
+        for macro in self.macros:
+            macro.kill()
