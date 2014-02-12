@@ -1,35 +1,60 @@
 class Intake:
     """
-    Intake mechanism
+    Intake mechanism, with roller motor, two independent angle
+    change motors and 4 (left front/rear, right front/rear) limits
     """
     motor_power = .8
-    #extender_power = .5
 
-    def __init__(self, roller, angle_changer, angle_solenoid=None):
+    def __init__(self, roller, achange_left, achange_right,
+                 achange_limit_lf, achange_limit_lr,
+                 achange_limit_rf, achange_limit_rr):
         self.roller = roller
-        self.angle_changer = angle_changer
-        self.angle_solenoid = angle_solenoid
+        self.achange_l = achange_left
+        self.achange_r = achange_right
+        self.limit_lf = achange_limit_lf
+        self.limit_lr = achange_limit_lr
+        self.limit_rf = achange_limit_rf
+        self.limit_rr = achange_limit_rr
+        self.limit_lf.add_listener(self._limit_listener)
+        self.limit_lr.add_listener(self._limit_listener)
+        self.limit_rf.add_listener(self._limit_listener)
+        self.limit_rr.add_listener(self._limit_listener)
 
     def start_ep(self):
         self.roller.Set(self.motor_power)
 
     def stop_ep(self):
-        self.roller.set(0)
+        self.roller.Set(0)
 
     def reverse_ep(self):
-        self.roller.set(-self.motor_power)
+        self.roller.Set(-self.motor_power)
 
-    def forward_angle_change(self, power):
-        self.angle_changer.set(power)
+    def angle_change(self, power):
+        '''
+        Set power of angle change. Power > 1 --> forwards.
+        '''
+        if power == 0 or\
+           power > 0 and not self.achange_limit_lf.pressed or\
+           power < 0 and not self.achange_limit.lr.pressed:
+            self.achange_left.Set(power)
+        if power == 0 or\
+           power > 0 and not self.achange_limit_rf.pressed or\
+           power < 0 and not self.achange_limit.rr.pressed:
+            self.achange_right.Set(power)
 
     def stop_angle_change(self):
-        self.angle_changer.set(0)
+        self.angle_changer.Set(0)
 
-    def extend(self):
-        self.angle_solenoid.Set(1)
-
-    def retract(self):
-        self.angle_solenoid.Set(0)
+    def _limit_listener(self, source, state_id, datum):
+        if state_id == 'pressed' and datum:
+            if source == self.limit_lf and self.achange_l.Get() > 0:
+                self.achange_l.Set(0)
+            if source == self.limit_lr and self.achange_l.Get() < 0:
+                self.achange_l.Set(0)
+            if source == self.limit_rf and self.achange_r.Get() > 0:
+                self.achange_r.Set(0)
+            if source == self.limit_rr and self.achange_r.Get() < 0:
+                self.achange_r.Set(0)
 
 
 class Shooter:

@@ -71,9 +71,10 @@ compressor.Start()
 
 #Mechs
 #Pickup
-ep_motor = Motorset(tuple(ep_left, ep_right))
-angle_change_motor = Motorset(tuple(achange_left, achange_right))
-intake = Intake(ep_motor, angle_change_motor)
+ep_motors = Motorset(tuple(ep_left, ep_right))
+intake = Intake(ep_motor, achange_left, achange_right,
+                achange_limit_lf, achange_limit_lr,
+                achange_limit_rf, achange_limit_rr)
 
 #Shooter (winch + release)
 shooter = Shooter(shooter_winch, shooter_shifter)
