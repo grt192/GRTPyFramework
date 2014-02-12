@@ -36,11 +36,11 @@ class Intake:
         if power == 0 or\
            power > 0 and not self.achange_limit_lf.pressed or\
            power < 0 and not self.achange_limit.lr.pressed:
-            self.achange_left.Set(power)
+            self.achange_left.Set(-power)
         if power == 0 or\
            power > 0 and not self.achange_limit_rf.pressed or\
            power < 0 and not self.achange_limit.rr.pressed:
-            self.achange_right.Set(power)
+            self.achange_right.Set(-power)
 
     def stop_angle_change(self):
         self.angle_changer.Set(0)
