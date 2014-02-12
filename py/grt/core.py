@@ -101,6 +101,7 @@ class Constants(Sensor):
     Blank lines, and lines starting with '#' are ignored.
 
     Behaves more or less like a sensor.
+    Access datum like a dictionary.
     """
 
     file_loc = '/c/constants.txt'
@@ -110,12 +111,16 @@ class Constants(Sensor):
         if not cls._instance:
             cls._instance = super(Constants, cls).__new__(cls, *args, **kwargs)
             super(Constants, cls._instance).__init__()
+            cls._instance.poll()
         return cls._instance
 
     def __init__(self, file_loc=None):
 # No super call on purpose
         if file_loc:
             self.file_loc = file_loc
+
+    def __getitem__(self, key):
+        return self.get(key)
 
     def poll(self):
         """
