@@ -10,9 +10,9 @@ import time
 
 class MyRobot(wpilib.SimpleRobot):
     def Disabled(self):
+        auto.stop_autonomous()
         while self.IsDisabled():
             wpilib.Wait(0.01)
-            auto.stop_autonomous()
 
 
     def Autonomous(self):
@@ -20,7 +20,8 @@ class MyRobot(wpilib.SimpleRobot):
         auto.run_autonomous()
         while self.IsAutonomous() and self.IsEnabled():
             auto_sp.poll()
-            wpilib.Wait(3)
+            wpilib.Wait(.3)
+        auto.stop_autonomous
 
     def OperatorControl(self):
         dog = self.GetWatchdog()
@@ -30,7 +31,6 @@ class MyRobot(wpilib.SimpleRobot):
 
         while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()
-            # Motor control
             a = time.time()
             sp.poll()
             b = time.time()
