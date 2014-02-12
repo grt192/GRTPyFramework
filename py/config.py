@@ -54,7 +54,7 @@ achange_limit_rf = Switch(11)
 achange_limit_rr = Switch(10)
 
 #Analog Sensors
-potentiometer = Potentiometer(3)
+potentiometer = Potentiometer(3)  # TODO: scale + offset
 gyro = Gyro(2)
 
 # Joysticks
@@ -71,8 +71,8 @@ compressor.Start()
 
 #Mechs
 #Pickup
-ep_motors = Motorset(tuple(ep_left, ep_right))
-intake = Intake(ep_motor, achange_left, achange_right,
+ep_motors = Motorset(tuple(ep_left, ep_right), scalefactors=(1, -1))
+intake = Intake(ep_motors, achange_left, achange_right,
                 achange_limit_lf, achange_limit_lr,
                 achange_limit_rf, achange_limit_rr)
 

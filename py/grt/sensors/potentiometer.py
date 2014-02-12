@@ -16,12 +16,12 @@ class Potentiometer(Sensor):
     """
     angle = 0
 
-    def __init__(self, channel):
+    def __init__(self, channel, scale=1, offset=0):
         """
         Initializes the gyroscope on some analog channel.
         """
         super().__init__()
-        self.p = WPotentiometer(channel)
+        self.p = WPotentiometer(channel, scale, offset)
 
     def poll(self):
         self.angle = self.p.Get()
