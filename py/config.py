@@ -97,6 +97,7 @@ def status_tick():
     status_table['r_speed'] = dt.right_motor.Get()
     status_table['shooter_wound'] = potentiometer.p.Get()
     status_table['shooter_shooting'] = shooter_shifter.Get()
+    status_table['battery_voltage'] = wpilib.DriverStation.GetInstance().GetBatteryVoltage()
 
 status_ticker = Ticker(.05)
 status_ticker.tick = status_tick
