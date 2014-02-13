@@ -62,17 +62,18 @@ class Shooter:
     Shooter mechanism, using winch.
     Pass winch args to constructor.
     """
-    def __init__(self, winchmotor, actuator, potentiometer):
-        self.winchmotor = winchmotor
+    def __init__(self, winch_motor, actuator, potentiometer, wind_macro):
+        self.winch_motor = winchmotor
         self.actuator = actuator
         self.potentiometer = potentiometer
+        self.wind_macro = wind_macro
         # TODO: Potentiometer logic, limits
 
     def winch_wind(self, power):
-        self.winchmotor.Set(-power)
+        self.winch_motor.Set(-power)
 
     def winch_stop(self):
-        self.winchmotor.Set(0)
+        self.winch_motor.Set(0)
 
     def latch(self):
         self.actuator.Set(False)
@@ -81,8 +82,8 @@ class Shooter:
         self.actuator.Set(True)
 
     def set_angle(self, target):
-        # TODO
-        pass
+        self.wind_macro.set_wind_angle(target)
+        self.wind_macro.perform()
 
 
 class Defense:
