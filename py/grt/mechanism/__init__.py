@@ -1,3 +1,8 @@
+from grt.core import Constants
+
+constants = Constants()
+
+
 class Intake:
     """
     Intake mechanism, with roller motor, two independent angle
@@ -62,16 +67,53 @@ class Shooter:
     Shooter mechanism, using winch.
     Pass winch args to constructor.
     """
+    SP = constants['SP']
+    SC = constants['SC']  # uses a constant offset, instead of an integral term
+    LIMIT = constants['SLimit']
+    target = 0
+    autowinding = False
+
     def __init__(self, winch_motor, actuator, potentiometer):
         self.winch_motor = winch_motor
         self.actuator = actuator
         self.potentiometer = potentiometer
-        # TODO: Potentiometer logic, limits
+
+        constants.add_listener(self._constants_listener)
+        potentiometer.add_listener(self._potentiometer_listener)
+
+    def _potentiometer_listener(self, source, state_id, datum):
+        '''
+        Stops winding if going too far.
+        Controls automatic winding if autowinding is enabled.
+        '''
+        if state_id == 'angle':
+            if datum > self.LIMIT:
+                self.winch_stop()
+            elif self.autowinding:
+                if datum > self.target:  # passed target
+                    self.winch_stop()
+                else:
+                    self.winch_motor.Set(self.SC + self.SP * (self.target - datum))
+
+    def _constant_listener(self, sensor, state_id, datum):
+        if state_id in ('SP', 'SC'):
+            self.__dict__[state_id] = datum
+        elif state_id == 'SLimit':
+            self.LIMIT = datum
 
     def winch_wind(self, power):
-        self.winch_motor.Set(-power)
+        '''
+        Winds the winch. Cancels autowinding when called.
+        '''
+        self.autowinding = False
+        if power >= 0 and self.potentiometer.angle < self.LIMIT:
+            self.winch_motor.Set(-power)
 
     def winch_stop(self):
+        '''
+        Stops winding the winch. Cancels autowinding.
+        '''
+        self.autowinding = False
         self.winch_motor.Set(0)
 
     def latch(self):
@@ -81,8 +123,11 @@ class Shooter:
         self.actuator.Set(True)
 
     def set_angle(self, target):
-        pass
-        # TODO: not by Dhruv
+        '''
+        Starts automatically winding shooter.
+        '''
+        self.target = target
+        self.autowinding = True
 
 
 class Defense:

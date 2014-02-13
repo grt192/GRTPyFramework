@@ -6,6 +6,7 @@ DTP,1
 DTI,0
 DTD,0
 DMtol,0.03
+
 #drivemacro straight controller constants
 CP,0.1
 CI,0
@@ -16,3 +17,8 @@ TP,1
 TI,0
 TD,0
 TMtol,1
+
+#shooter "pid" constants, TODO
+SP,1
+SC,0.3
+SLimit,20
