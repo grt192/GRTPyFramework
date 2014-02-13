@@ -28,8 +28,8 @@ class WindMacro(GRTMacro):
             self.wind_macro = wind_macro
         def PIDWrite(self, output):
             self.wind_macro.dt.set_dt_output(output, output)
-    def __init__(self, dt, potentiometer, wind_angle, timeout=None):
-        self.dt = dt
+    def __init__(self, winch_motor, potentiometer, wind_angle, timeout=None):
+        self.dt = winch_motor
         self.potentiometer = potentiometer
         self.wind_angle = wind_angle
         self.timeout = timeout
@@ -64,3 +64,6 @@ class WindMacro(GRTMacro):
         self.controller.SetSetpoint(target_angle)
         self.controller.Enable()
         print("Winch is winding.")
+
+    def set_wind_angle(self, new_angle):
+        self.wind_angle = new_angle
