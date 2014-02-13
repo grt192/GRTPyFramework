@@ -9,24 +9,29 @@ class ArcadeDriveController:
     Class for controlling DT in arcade drive mode, with one or two joysticks.
     """
 
-    def __init__(self, dt, joystick1, joystick2=None):
+    def __init__(self, dt, l_joystick, r_joystick=None):
         """
         Initialize arcade drive controller with a DT and up to two joysticks.
         """
         self.dt = dt
-        self.joystick1 = joystick1
-        self.joystick2 = joystick2
-        joystick1.add_listener(self._joylistener)
-        if joystick2:
-            joystick2.add_listener(self._joylistener)
+        self.l_joystick = l_joystick
+        self.r_joystick = r_joystick
+        l_joystick.add_listener(self._joylistener)
+        if r_joystick:
+            r_joystick.add_listener(self._joylistener)
 
     def _joylistener(self, sensor, state_id, datum):
-        if sensor in (self.joystick1, self.joystick2) and state_id in ('x_axis', 'y_axis'):
-            power = -self.joystick1.y_axis
-            turnval = self.joystick2.x_axis if self.joystick2 else self.joystick1.x_axis
-            # get turn value from joystick2 if it exists, else get it from joystick1
+        if sensor in (self.l_joystick, self.r_joystick) and state_id in ('x_axis', 'y_axis'):
+            power = -self.l_joystick.y_axis
+            turnval = self.r_joystick.x_axis if self.r_joystick else self.l_joystick.x_axis
+            # get turn value from r_joystick if it exists, else get it from l_joystick
             self.dt.set_dt_output(power + turnval,
                                   power - turnval)
+        elif sensor == self.l_joystick and state_id == 'trigger':
+            if datum:
+                self.dt.downshift()
+            else:
+                self.dt.upshift()
 
 
 class TankDriveController:
@@ -45,6 +50,6 @@ class TankDriveController:
         r_joystick.add_listener(self._joylistener)
 
     def _joylistener(self, sensor, state_id, datum):
-        if sensor in (self.joystick1, self.joystick2) and state_id in ('x_axis', 'y_axis'):
+        if sensor in (self.l_joystick, self.r_joystick) and state_id in ('x_axis', 'y_axis'):
             self.dt.set_dt_output(self.l_joystick.y_axis,
                                   self.r_joystick.y_axis)

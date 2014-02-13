@@ -4,7 +4,7 @@ class AttackMechController:
 
     Drive Joystick (intended to be the left one):
         Axis: Drive (duh)
-        Trigger: EP In
+        Button 2: EP In
         Button 3: EP Out
 
     Non-Drive Joystick (intended to be the right one):
@@ -25,7 +25,7 @@ class AttackMechController:
 
     def _l_joystick_listener(self, sensor, state_id, datum):
         #Pickup -- EP Intake
-            if state_id is 'trigger':
+            if state_id is 'button2':
                 if datum:
                     self.intake.start_ep()
                 else:

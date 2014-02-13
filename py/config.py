@@ -100,5 +100,5 @@ tick = Ticker(.2)
 auto = BasicAuto(dt, shooter, vision_table, potentiometer, gyro)
 
 #Sensor Pollers
-sp = SensorPoller((lstick, rstick, dt.right_encoder, dt.left_encoder, tick))
-auto_sp = SensorPoller((dt.right_encoder, dt.left_encoder, gyro, potentiometer, tick))
+sp = SensorPoller((lstick, rstick, gyro, potentiometer, dt.right_encoder, dt.left_encoder, tick))
+auto_sp = SensorPoller((gyro, potentiometer, dt.right_encoder, dt.left_encoder, tick))
