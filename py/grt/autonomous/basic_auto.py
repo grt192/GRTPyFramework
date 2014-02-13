@@ -8,13 +8,13 @@ drives into white zone.
 
 __author__ = "Sidd Karamcheti"
 
-import wpilib
-from grt.core import GRTMacroController, GRTMacro
+from grt.core import GRTMacroController
 from grt.macro.drive_macro import DriveMacro
 from grt.macro.vision_macro import VisionMacro
 from grt.macro.shoot_macro import ShootMacro
-from grt.macro.wind_macro import WindMacro
+#from grt.macro.wind_macro import WindMacro
 from grt.macro.turn_macro import TurnMacro
+
 
 class BasicAuto(GRTMacroController):
     """
@@ -32,7 +32,8 @@ class BasicAuto(GRTMacroController):
         self.vision_macro = VisionMacro(table, self.side, self.locked_key, self.side_key)
         self.shoot_macro = ShootMacro(shooter, timeout)
         self.drive_macro = DriveMacro(dt, self.drive_distance, timeout)
-        self.wind_macro = WindMacro(dt, potentiometer, self.wind_angle)
+        #self.wind_macro = WindMacro(dt, potentiometer, self.wind_angle)
         self.turn_macro = TurnMacro(dt, gyro, self.turn_angle)
-        self.macros = [self.vision_macro, self.shoot_macro, self.drive_macro, self.wind_macro]
+        #self.macros = [self.vision_macro, self.shoot_macro, self.drive_macro, self.wind_macro]
+        self.macros = [self.vision_macro, self.shoot_macro, self.drive_macro]
         super().__init__(macros=self.macros)

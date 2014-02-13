@@ -5,6 +5,7 @@ import wpilib
 
 constants = Constants()
 
+
 class DriveMacro(GRTMacro):
     """
     Drive Macro; drives forwards a certain distance while
@@ -18,7 +19,7 @@ class DriveMacro(GRTMacro):
     CP = constants['CP']
     CI = constants['CI']
     CD = constants['CD']
-    TOLERANCE = constant['DMtol']
+    TOLERANCE = constants['DMtol']
     MAX_MOTOR_OUTPUT = 1
 
     distance = None
