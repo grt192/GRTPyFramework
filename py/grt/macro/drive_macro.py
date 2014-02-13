@@ -1,8 +1,9 @@
 __author__ = 'dhruv and alex m'
 
-from grt.core import GRTMacro
+from grt.core import GRTMacro, Constants
 import wpilib
 
+constants = Constants()
 
 class DriveMacro(GRTMacro):
     """
@@ -11,13 +12,13 @@ class DriveMacro(GRTMacro):
     """
     leftSF = 1
     rightSF = -1
-    DTP = 1
-    DTI = 0
-    DTD = 0
-    CP = .1  # CP = 1
-    CI = 0
-    CD = 0
-    TOLERANCE = 0.03
+    DTP = constants['DTP']
+    DTI = constants['DTI']
+    DTD = constants['DTD']
+    CP = constants['CP']
+    CI = constants['CI']
+    CD = constants['CD']
+    TOLERANCE = constant['DMtol']
     MAX_MOTOR_OUTPUT = 1
 
     distance = None
@@ -45,13 +46,18 @@ class DriveMacro(GRTMacro):
         self.straight_controller.SetPID(self.CP, self.CI, self.CD)
         self.DTController.SetAbsoluteTolerance(self.TOLERANCE)
         self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
+        constants.add_listener(self._constant_listener)
 
     def _constant_listener(self, sensor, state_id, datum):
-        if state_id in ('DTP', 'DTI', 'DTD', 'CP', 'CI', 'CD'):
+        if state_id in ('DTP', 'DTI', 'DTD'):
             self.__dict__[state_id] = datum
             self.DTController.setPID(self.DTP, self.DTI, self.DPD)
+        elif state_id in ('CP', 'CI', 'CD'):
+            self.__dict__[state_id] = datum
             self.straight_controller.setPID(self.CP, self.CI, self.CD)
-            print("Updated " + str(state_id) + " to be " + str(datum) + "\n")
+        elif state_id == 'DMtol':
+            self.TOLERANCE = datum
+            self.DTController.SetAbsoluteTolerance(datum)
 
 
     def initialize(self):

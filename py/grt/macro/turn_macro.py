@@ -1,18 +1,19 @@
 __author__ = 'dhruv'
 __author__ = "Sidd Karamcheti"
 
-from grt.core import GRTMacro
+from grt.core import GRTMacro, Constants
 import wpilib
 
+constants = Constants()
 
 class TurnMacro(GRTMacro):
     """
     Macro that turns a set distance.
     """
-    P = 1
-    I = 0
-    D = 0
-    TOLERANCE = 1
+    TP = constants['TP']
+    TI = constants['TI']
+    TD = constants['TD']
+    TOLERANCE = constants['TMtol']
 
     class PIDTurnSource(wpilib.PIDSource):
         """
@@ -43,10 +44,19 @@ class TurnMacro(GRTMacro):
         self.pid_output = self.PIDTurnOutput(self)
         self.previously_on_target = False
 
-        self.controller = wpilib.PIDController(self.P, self.I, self.D,
+        self.controller = wpilib.PIDController(self.TP, self.TI, self.TD,
                                                self.pid_source, self.pid_output)
         self.controller.SetOutputRange(-1, 1)
         self.controller.SetAbsoluteTolerance(self.TOLERANCE)
+        constants.add_listener(self._constant_listener)
+
+    def _constant_listener(self, sensor, state_id, datum):
+        if state_id in ('TP', 'TI', 'TD'):
+            self.__dict__[state_id] = datum
+            self.controller.setPID(self.TP, self.TI, self.TD)
+        elif state_id == 'TMtol':
+            self.TOLERANCE = datum
+            self.controller.SetAbsoluteTolerance(datum)
 
     def perform(self):
         if self.controller.OnTarget():

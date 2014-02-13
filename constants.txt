@@ -1,1 +1,18 @@
+#dt distance per pulse
 dt_dpp,7.0563e-3
+
+#drivemacro PID constants
+DTP,1
+DTI,0
+DTD,0
+DMtol,0.03
+#drivemacro straight controller constants
+CP,0.1
+CI,0
+CD,0
+
+#turnmacro PID constants
+TP,1
+TI,0
+TD,0
+TMtol,1
