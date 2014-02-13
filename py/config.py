@@ -31,7 +31,7 @@ constants = Constants()
 #Pin/Port map
 #Talons
 dt_left = wpilib.Talon(1)
-dt_right = Motorset(tuple(wpilib.Talon(2)), scalefactors=(-1, ))
+dt_right = Motorset((wpilib.Talon(2), ), scalefactors=(-1, ))
 ep_left = wpilib.Talon(10)
 ep_right = wpilib.Talon(8)
 achange_left = wpilib.Talon(9)
@@ -71,13 +71,13 @@ compressor.Start()
 
 #Mechs
 #Pickup
-ep_motors = Motorset(tuple(ep_left, ep_right), scalefactors=(1, -1))
+ep_motors = Motorset((ep_left, ep_right), scalefactors=(1, -1))
 intake = Intake(ep_motors, achange_left, achange_right,
                 achange_limit_lf, achange_limit_lr,
                 achange_limit_rf, achange_limit_rr)
 
 #Shooter (winch + release)
-shooter = Shooter(shooter_winch, shooter_shifter)
+shooter = Shooter(shooter_winch, shooter_shifter, potentiometer)
 
 #Defense
 defense = Defense(defense_actuator)

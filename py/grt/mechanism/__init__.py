@@ -63,7 +63,7 @@ class Shooter:
     Pass winch args to constructor.
     """
     def __init__(self, winch_motor, actuator, potentiometer):
-        self.winch_motor = winchmotor
+        self.winch_motor = winch_motor
         self.actuator = actuator
         self.potentiometer = potentiometer
         # TODO: Potentiometer logic, limits

@@ -16,7 +16,7 @@ class Motorset:
         self.Set = self.set
         self.Get = self.get
 
-    def Set(self, value):
+    def set(self, value):
         """
         Set motor value.
         This function is called identically to that for a normal single Talon.
