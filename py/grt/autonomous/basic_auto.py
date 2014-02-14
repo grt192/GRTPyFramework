@@ -8,13 +8,13 @@ drives into white zone.
 
 __author__ = "Sidd Karamcheti"
 
-import wpilib
-from grt.core import GRTMacroController, GRTMacro
+from grt.core import GRTMacroController
 from grt.macro.drive_macro import DriveMacro
 from grt.macro.vision_macro import VisionMacro
 from grt.macro.shoot_macro import ShootMacro
 from grt.macro.wind_macro import WindMacro
 from grt.macro.turn_macro import TurnMacro
+
 
 class BasicAuto(GRTMacroController):
     """

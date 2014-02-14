@@ -95,7 +95,7 @@ class Shooter:
                 else:
                     self.winch_motor.Set(self.SC + self.SP * (self.target - datum))
 
-    def _constant_listener(self, sensor, state_id, datum):
+    def _constants_listener(self, sensor, state_id, datum):
         if state_id in ('SP', 'SC'):
             self.__dict__[state_id] = datum
         elif state_id == 'SLimit':

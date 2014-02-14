@@ -59,4 +59,4 @@ class AttackMechController:
 
         #Pickup -- Angle Change
             elif state_id is 'y_axis':
-                self.intake.forward_angle_change(datum)
+                self.intake.angle_change(datum)
