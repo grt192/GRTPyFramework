@@ -1,10 +1,6 @@
 __author__ = "Calvin Huang"
 
-try:
-    from wpilib import Joystick
-except ImportError:
-    from pyfrc.wpilib import Joystick
-
+from wpilib import Joystick
 from grt.core import Sensor
 
 BUTTON_TABLE = ['a_button', 'b_button', 'x_button', 'y_button',

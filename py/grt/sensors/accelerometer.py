@@ -1,9 +1,6 @@
 __author__ = "Calvin Huang"
 
-try:
-    from wpilib import ADXL345_I2C
-except ImportError:
-    from pyfrc.wpilib import ADXL345_I2C
+from wpilib import ADXL345_I2C
 
 from grt.core import Sensor
 

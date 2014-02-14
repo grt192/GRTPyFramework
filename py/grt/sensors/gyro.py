@@ -1,10 +1,6 @@
 __author__ = "Calvin Huang"
 
-try:
-    from wpilib import Gyro as WGyro
-except ImportError:
-    from pyfrc.wpilib import Gyro as WGyro
-
+from wpilib import Gyro as WGyro
 from grt.core import Sensor
 
 

@@ -6,10 +6,7 @@ Config File for Robot
 
 __author__ = "Sidd Karamcheti"
 
-try:
-    import wpilib
-except ImportError:
-    from pyfrc import wpilib
+from wpilib import Talon, Solenoid, Compressor
 
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.sensors.gyro import Gyro
@@ -30,19 +27,19 @@ constants = Constants()
 
 #Pin/Port map
 #Talons
-dt_left = wpilib.Talon(1)
-dt_right = Motorset((wpilib.Talon(2), ), scalefactors=(-1, ))
-ep_left = wpilib.Talon(10)
-ep_right = wpilib.Talon(8)
-achange_left = wpilib.Talon(9)
-achange_right = wpilib.Talon(7)
-shooter_winch = wpilib.Talon(6)
+dt_left = Talon(1)
+dt_right = Motorset((Talon(2), ), scalefactors=(-1, ))
+ep_left = Talon(10)
+ep_right = Talon(8)
+achange_left = Talon(9)
+achange_right = Talon(7)
+shooter_winch = Talon(6)
 
 #Solenoids + Relays
 compressor_pin = 1
-dt_shifter = wpilib.Solenoid(1)
-shooter_shifter = wpilib.Solenoid(2)
-defense_actuator = wpilib.Solenoid(3)
+dt_shifter = Solenoid(1)
+shooter_shifter = Solenoid(2)
+defense_actuator = Solenoid(3)
 
 #Digital Sensors
 left_encoder = Encoder(2, 3, constants['dt_dpp'])
@@ -66,7 +63,7 @@ dt = DriveTrain(dt_left, dt_right, dt_shifter,
                 left_encoder=left_encoder, right_encoder=right_encoder)
 
 #Compressor
-compressor = wpilib.Compressor(pressure_sensor_pin, compressor_pin)
+compressor = Compressor(pressure_sensor_pin, compressor_pin)
 compressor.Start()
 
 #Mechs

@@ -1,9 +1,6 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
-try:
-    import wpilib
-except ImportError:
-    from pyfrc import wpilib
+import wpilib
 from config import auto, sp, auto_sp
 import time
 
@@ -40,7 +37,3 @@ class MyRobot(wpilib.SimpleRobot):
 def run():
     robot = MyRobot()
     robot.StartCompetition()
-    return robot
-
-if __name__ == '__main__':
-    wpilib.run()

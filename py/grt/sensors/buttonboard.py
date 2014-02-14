@@ -1,10 +1,6 @@
 __author__ = "Calvin Huang"
 
-try:
-    from wpilib import DriverStation
-except ImportError:
-    from pyfrc.wpilib import DriverStation
-
+from wpilib import DriverStation
 from grt.core import Sensor
 
 # button/pin pair list
