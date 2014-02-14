@@ -6,7 +6,7 @@ Config File for Robot
 
 __author__ = "Sidd Karamcheti"
 
-from wpilib import Talon, Solenoid, Compressor
+from wpilib import Talon, Solenoid, Compressor, DriverStation
 
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.sensors.gyro import Gyro
@@ -85,11 +85,19 @@ mc = AttackMechController(lstick, rstick, intake, defense, shooter)
 
 #Network Tables
 vision_table = networktables.get_table('vision')
+status_table = networktables.get_table('status')
+
 
 #Diagnostic ticker
-tick = Ticker(.2)
-#Ticker test:
-#tick.tick = lambda: print(str(table['fat']) + "\n")
+def status_tick():
+    status_table['l_speed'] = dt.left_motor.Get()
+    status_table['r_speed'] = dt.right_motor.Get()
+    status_table['shooter_wound'] = potentiometer.p.Get()
+    status_table['shooter_shooting'] = shooter_shifter.Get()
+    status_table['battery_voltage'] = DriverStation.GetInstance().GetBatteryVoltage()
+
+status_ticker = Ticker(.05)
+status_ticker.tick = status_tick
 
 #Autonomous
 #dt and shooter are declared above for mechs
@@ -97,5 +105,6 @@ tick = Ticker(.2)
 auto = BasicAuto(dt, shooter, vision_table, potentiometer, gyro)
 
 #Sensor Pollers
-sp = SensorPoller((lstick, rstick, gyro, potentiometer, dt.right_encoder, dt.left_encoder, tick))
-auto_sp = SensorPoller((gyro, potentiometer, dt.right_encoder, dt.left_encoder, tick))
+sp = SensorPoller((gyro, potentiometer, dt.right_encoder,
+                   dt.left_encoder, status_ticker))  # robot sensors, poll always
+hid_poll = SensorPoller((lstick, rstick))  # human interface devices

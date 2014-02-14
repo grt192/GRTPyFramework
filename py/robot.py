@@ -1,7 +1,7 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
-from config import auto, sp, auto_sp
+from config import auto, sp, hid_sp
 import time
 
 
@@ -9,15 +9,17 @@ class MyRobot(wpilib.SimpleRobot):
     def Disabled(self):
         auto.stop_autonomous()
         while self.IsDisabled():
-            wpilib.Wait(0.01)
-
+            tinit = time.time()
+            sp.poll()
+            wpilib.Wait(0.04 - (time.time() - tinit))
 
     def Autonomous(self):
         self.GetWatchdog().SetEnabled(False)
         auto.run_autonomous()
         while self.IsAutonomous() and self.IsEnabled():
-            auto_sp.poll()
-            wpilib.Wait(.3)
+            tinit = time.time()
+            sp.poll()
+            wpilib.Wait(0.04 - (time.time() - tinit))
         auto.stop_autonomous
 
     def OperatorControl(self):
@@ -28,10 +30,10 @@ class MyRobot(wpilib.SimpleRobot):
 
         while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()
-            a = time.time()
+            tinit = time.time()
             sp.poll()
-            b = time.time()
-            wpilib.Wait(0.04 - (b - a))
+            hid_sp.poll()
+            wpilib.Wait(0.04 - (time.time() - tinit))
 
 
 def run():
