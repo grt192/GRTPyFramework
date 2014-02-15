@@ -17,7 +17,7 @@ from grt.mechanism.drivecontroller import ArcadeDriveController
 from grt.mechanism.motorset import Motorset
 from grt.mechanism import Intake, Shooter, Defense
 from grt.sensors.ticker import Ticker
-from grt.autonomous.basic_auto import BasicAuto
+from grt.autonomous.basicer_auto import BasicerAuto
 from grt.sensors.encoder import Encoder
 from grt.sensors.switch import Switch
 import grt.networktables as networktables
@@ -102,9 +102,9 @@ status_ticker.tick = status_tick
 #Autonomous
 #dt and shooter are declared above for mechs
 #vision_table is declared above for network tables
-auto = BasicAuto(dt, shooter, vision_table, potentiometer, gyro)
+auto = BasicerAuto(shooter, 3)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, potentiometer, dt.right_encoder,
                    dt.left_encoder, status_ticker))  # robot sensors, poll always
-hid_poll = SensorPoller((lstick, rstick))  # human interface devices
+hid_sp = SensorPoller((lstick, rstick))  # human interface devices

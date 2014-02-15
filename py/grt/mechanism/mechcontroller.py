@@ -38,25 +38,35 @@ class AttackMechController:
 
     def _r_joystick_listener(self, sensor, state_id, datum):
         #Shooter -- Winding winch
-            if state_id is 'trigger':
+            if state_id is 'button6':
                 if datum:
                     self.shooter.winch_wind(1)
                 else:
                     self.shooter.winch_stop()
         #Shooter -- Releasing Winch
-            elif state_id is 'button2':
+            if state_id is 'button7':
                 if datum:
                     self.shooter.unlatch()
                 else:
                     self.shooter.latch()
 
         #Defense
-            if state_id is 'button11':
-                if datum:
-                    self.defense.extend()
-                else:
-                    self.defense.retract()
+        #    if state_id is 'button11':
+        #        if datum:
+        #            self.defense.extend()
+        #        else:
+        #            self.defense.retract()
 
         #Pickup -- Angle Change
-            elif state_id is 'y_axis':
-                self.intake.angle_change(datum)
+            if state_id is 'y_axis':
+                self.intake.angle_change(-datum)
+            if state_id is 'button3':
+                if datum:
+                    self.intake.reverse_ep()
+                else:
+                    self.intake.stop_ep()
+            if state_id is 'trigger':
+                if datum:
+                    self.intake.start_ep()
+                else:
+                    self.intake.stop_ep()

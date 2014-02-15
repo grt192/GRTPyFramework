@@ -38,14 +38,18 @@ class Intake:
         '''
         Set power of angle change. Power > 1 --> forwards.
         '''
+        if power > -.5 or power < .5:
+            self.achange_l.Set(0)
+            self.achange_r.Set(0)
+
         if power == 0 or\
-           power > 0 and not self.achange_limit_lf.pressed or\
-           power < 0 and not self.achange_limit.lr.pressed:
-            self.achange_left.Set(-power)
+           power > 0 and not self.limit_lf.pressed or\
+           power < 0 and not self.limit_lr.pressed:
+            self.achange_l.Set(-power)
         if power == 0 or\
-           power > 0 and not self.achange_limit_rf.pressed or\
-           power < 0 and not self.achange_limit.rr.pressed:
-            self.achange_right.Set(-power)
+           power > 0 and not self.limit_rf.pressed or\
+           power < 0 and not self.limit_rr.pressed:
+            self.achange_r.Set(-power)
 
     def stop_angle_change(self):
         self.angle_changer.Set(0)
@@ -79,7 +83,7 @@ class Shooter:
         self.potentiometer = potentiometer
 
         constants.add_listener(self._constants_listener)
-        potentiometer.add_listener(self._potentiometer_listener)
+        #potentiometer.add_listener(self._potentiometer_listener)
 
     def _potentiometer_listener(self, source, state_id, datum):
         '''
