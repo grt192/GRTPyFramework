@@ -42,8 +42,8 @@ shooter_shifter = Solenoid(2)
 defense_actuator = Solenoid(3)
 
 #Digital Sensors
-left_encoder = Encoder(2, 3, constants['dt_dpp'])
-right_encoder = Encoder(4, 5, constants['dt_dpp'])
+left_encoder = Encoder(3, 4, constants['dt_dpp'])
+right_encoder = Encoder(1, 2, constants['dt_dpp'])
 pressure_sensor_pin = 14
 achange_limit_lf = Switch(13)
 achange_limit_lr = Switch(12)
