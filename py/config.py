@@ -106,5 +106,7 @@ auto = BasicerAuto(shooter, 3)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, potentiometer, dt.right_encoder,
-                   dt.left_encoder, status_ticker))  # robot sensors, poll always
+                   dt.left_encoder, status_ticker,
+                   achange_limit_lf, achange_limit_rf,
+                   achange_limit_lr, achange_limit_rr))  # robot sensors, poll always
 hid_sp = SensorPoller((lstick, rstick))  # human interface devices
