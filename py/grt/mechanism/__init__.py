@@ -26,7 +26,7 @@ class Intake:
         self.limit_rr.add_listener(self._limit_listener)
 
     def set_ep(self, power):
-        self.roller.Set(power * motor_power)
+        self.roller.Set(power * self.motor_power)
 
     def start_ep(self):
         self.roller.Set(self.motor_power)
@@ -59,13 +59,13 @@ class Intake:
 
     def _limit_listener(self, source, state_id, datum):
         if state_id == 'pressed' and datum:
-            if source == self.limit_lf and self.achange_l.Get() > 0:
+            if source == self.limit_lf and self.achange_l.Get() < 0:
                 self.achange_l.Set(0)
-            if source == self.limit_lr and self.achange_l.Get() < 0:
+            if source == self.limit_lr and self.achange_l.Get() > 0:
                 self.achange_l.Set(0)
-            if source == self.limit_rf and self.achange_r.Get() > 0:
+            if source == self.limit_rf and self.achange_r.Get() < 0:
                 self.achange_r.Set(0)
-            if source == self.limit_rr and self.achange_r.Get() < 0:
+            if source == self.limit_rr and self.achange_r.Get() > 0:
                 self.achange_r.Set(0)
 
 

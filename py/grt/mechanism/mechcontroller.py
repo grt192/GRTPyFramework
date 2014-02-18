@@ -37,6 +37,7 @@ class MechController:
                     self.intake.stop_ep()
 
     def _xbox_controller_listener(self, sensor, state_id, datum):
+
         #Shooter -- Winding winch
             if state_id is 'y_button':
                 if datum:
@@ -53,15 +54,9 @@ class MechController:
                 else:
                     self.shooter.latch()
 
-        #Defense
-        #    if state_id is 'button11':
-        #        if datum:
-        #            self.defense.extend()
-        #        else:
-        #            self.defense.retract()
-
         #Pickup -- Angle Change
             if state_id is 'l_y_axis':
                 self.intake.angle_change(-datum)
+
             if state_id is 'trigger_pos':
-                self.intake.set_ep(datum)
+                self.intake.set_ep(int(-datum / .2))
