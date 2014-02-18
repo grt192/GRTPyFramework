@@ -64,12 +64,4 @@ class MechController:
             if state_id is 'l_y_axis':
                 self.intake.angle_change(-datum)
             if state_id is 'trigger_pos':
-                if datum > 0.1:
-                    self.intake.reverse_ep()
-                else:
-                    self.intake.stop_ep()
-            if state_id is 'trigger_pos':
-                if datum < -0.1:
-                    self.intake.start_ep()
-                else:
-                    self.intake.stop_ep()
+                self.intake.set_ep(datum)

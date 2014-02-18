@@ -25,6 +25,9 @@ class Intake:
         self.limit_rf.add_listener(self._limit_listener)
         self.limit_rr.add_listener(self._limit_listener)
 
+    def set_ep(self, power):
+        self.roller.Set(power * motor_power)
+
     def start_ep(self):
         self.roller.Set(self.motor_power)
 
