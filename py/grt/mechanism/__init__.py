@@ -77,9 +77,10 @@ class Shooter:
     target = 0
     autowinding = False
 
-    def __init__(self, winch_motor, actuator, potentiometer):
+    def __init__(self, winch_motor, actuator, winch_limit, potentiometer):
         self.winch_motor = winch_motor
         self.actuator = actuator
+        self.winch_limit = winch_limit
         self.potentiometer = potentiometer
 
         constants.add_listener(self._constants_listener)
@@ -91,7 +92,7 @@ class Shooter:
         Controls automatic winding if autowinding is enabled.
         '''
         if state_id == 'angle':
-            if datum > self.LIMIT:
+            if datum > self.LIMIT or self.winch_limit.presed:
                 self.winch_stop()
             elif self.autowinding:
                 if datum > self.target:  # passed target
@@ -110,7 +111,7 @@ class Shooter:
         Winds the winch. Cancels autowinding when called.
         '''
         self.autowinding = False
-        if power >= 0 and self.potentiometer.angle < self.LIMIT:
+        if power >= 0 and self.potentiometer.angle < self.LIMIT and not self.winch_limit.pressed:
             self.winch_motor.Set(-power)
 
     def winch_stop(self):

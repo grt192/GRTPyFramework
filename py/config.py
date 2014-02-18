@@ -49,9 +49,10 @@ achange_limit_lf = Switch(13)
 achange_limit_lr = Switch(12)
 achange_limit_rf = Switch(11)
 achange_limit_rr = Switch(10)
+winch_limit = Switch(9) #TODO, add logic for this switch
 
 #Analog Sensors
-potentiometer = Potentiometer(3)  # TODO: scale + offset
+shooter_potentiometer = Potentiometer(3)  # TODO: scale + offset
 gyro = Gyro(2)
 
 # Joysticks
@@ -74,7 +75,7 @@ intake = Intake(ep_motors, achange_left, achange_right,
                 achange_limit_rf, achange_limit_rr)
 
 #Shooter (winch + release)
-shooter = Shooter(shooter_winch, shooter_shifter, potentiometer)
+shooter = Shooter(shooter_winch, shooter_shifter, winch_limit, shooter_potentiometer)
 
 #Defense
 defense = Defense(defense_actuator)
@@ -92,7 +93,7 @@ status_table = networktables.get_table('status')
 def status_tick():
     status_table['l_speed'] = dt.left_motor.Get()
     status_table['r_speed'] = dt.right_motor.Get()
-    status_table['shooter_wound'] = potentiometer.p.Get()
+    status_table['shooter_wound'] = shooter_potentiometer.p.Get()
     status_table['shooter_shooting'] = shooter_shifter.Get()
     status_table['battery_voltage'] = DriverStation.GetInstance().GetBatteryVoltage()
 
@@ -105,7 +106,7 @@ status_ticker.tick = status_tick
 auto = BasicerAuto(shooter, 3)
 
 #Sensor Pollers
-sp = SensorPoller((gyro, potentiometer, dt.right_encoder,
+sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,
                    dt.left_encoder, status_ticker,
                    achange_limit_lf, achange_limit_rf,
                    achange_limit_lr, achange_limit_rr))  # robot sensors, poll always
