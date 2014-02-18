@@ -9,9 +9,10 @@ __author__ = "Sidd Karamcheti"
 from wpilib import Talon, Solenoid, Compressor, DriverStation
 
 from grt.sensors.attack_joystick import Attack3Joystick
+from grt.sensors.xbox_joystick import XboxJoystick
 from grt.sensors.gyro import Gyro
 from grt.core import SensorPoller, Constants
-from grt.mechanism.mechcontroller import AttackMechController
+from grt.mechanism.mechcontroller import MechController
 from grt.mechanism.drivetrain import DriveTrain
 from grt.mechanism.drivecontroller import ArcadeDriveController
 from grt.mechanism.motorset import Motorset
@@ -28,7 +29,7 @@ constants = Constants()
 #Pin/Port map
 #Talons
 dt_left = Talon(1)
-dt_right = Motorset((Talon(2), ), scalefactors=(-1, ))
+dt_right = Motorset((Talon(2), ), scalefactors=(-1, )) #This is really gross.
 ep_left = Talon(10)
 ep_right = Talon(8)
 achange_left = Talon(9)
@@ -55,9 +56,9 @@ winch_limit = Switch(9) #TODO, add logic for this switch
 shooter_potentiometer = Potentiometer(3)  # TODO: scale + offset
 gyro = Gyro(2)
 
-# Joysticks
-lstick = Attack3Joystick(1)
-rstick = Attack3Joystick(2)
+# Controllers
+driver_stick = Attack3Joystick(1)
+xbox_controller = XboxJoystick(2)
 
 #DT
 dt = DriveTrain(dt_left, dt_right, dt_shifter,
@@ -81,8 +82,8 @@ shooter = Shooter(shooter_winch, shooter_shifter, winch_limit, shooter_potentiom
 defense = Defense(defense_actuator)
 
 #Teleop Controllers
-ac = ArcadeDriveController(dt, lstick)
-mc = AttackMechController(lstick, rstick, intake, defense, shooter)
+ac = ArcadeDriveController(dt, driver_stick)
+mc = MechController(driver_stick, xbox_controller, intake, defense, shooter)
 
 #Network Tables
 vision_table = networktables.get_table('vision')
@@ -110,4 +111,4 @@ sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,
                    dt.left_encoder, status_ticker,
                    achange_limit_lf, achange_limit_rf,
                    achange_limit_lr, achange_limit_rr))  # robot sensors, poll always
-hid_sp = SensorPoller((lstick, rstick))  # human interface devices
+hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface devices
