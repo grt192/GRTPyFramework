@@ -36,6 +36,7 @@ class TurnMacro(GRTMacro):
         """
         Initialize with drivetrain, gyroscope, desired turn angle and timeout.
         """
+        super().__init__(timeout)
         self.dt = dt
         self.gyro = gyro
         self.turn_angle = turn_angle

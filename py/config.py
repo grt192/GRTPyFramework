@@ -28,8 +28,8 @@ constants = Constants()
 
 #Pin/Port map
 #Talons
-dt_left = Talon(1)
-dt_right = Motorset((Talon(2), ), scalefactors=(-1, ))  # This is really gross.
+dt_right = Talon(2)
+dt_left = Motorset((Talon(1), ), scalefactors=(-1, ))  # This is really gross.
 ep_left = Talon(10)
 ep_right = Talon(8)
 achange_left = Talon(9)
@@ -98,9 +98,6 @@ def status_tick():
     status_table['shooter_wound'] = shooter_potentiometer.p.Get()
     status_table['shooter_shooting'] = shooter_shifter.Get()
     status_table['voltage'] = DriverStation.GetInstance().GetBatteryVoltage()
-
-    print("Left Encoder: " + str(left_encoder.distance))
-    print("Right Encoder: " + str(right_encoder.distance))
 
 status_ticker = Ticker(.05)
 status_ticker.tick = status_tick

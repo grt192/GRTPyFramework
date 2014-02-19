@@ -24,6 +24,7 @@ class ShootMacro(GRTMacro):
         self.shooter = shooter
 
     def perform(self):
+        print("shooter perform")
         self.shooter.unlatch()
         time.sleep(1)
         self.shooter.latch()

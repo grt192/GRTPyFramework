@@ -28,11 +28,10 @@ class BasicAuto(GRTMacroController):
     side_key = "left"
     side = "left"
 
-    def __init__(self, dt, shooter, table, potentiometer, gyro, timeout=None):
+    def __init__(self, dt, shooter, table, potentiometer, gyro):
         self.vision_macro = VisionMacro(table, self.side, self.locked_key, self.side_key)
-        self.shoot_macro = ShootMacro(shooter, timeout)
-        self.drive_macro = DriveMacro(dt, self.drive_distance, timeout)
+        self.shoot_macro = ShootMacro(shooter, 1)
+        self.drive_macro = DriveMacro(dt, self.drive_distance, 5)
         self.wind_macro = WindMacro(shooter, self.wind_dist)
-        self.turn_macro = TurnMacro(dt, gyro, self.turn_angle)
-        self.macros = [self.vision_macro, self.shoot_macro, self.drive_macro, self.wind_macro, self.turn_macro]
+        self.macros = [self.vision_macro, self.shoot_macro, self.drive_macro, self.wind_macro]
         super().__init__(macros=self.macros)

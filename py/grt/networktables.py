@@ -34,7 +34,7 @@ class ITable:
                 return _arraydata_to_list(val)
             return val
         else:
-            raise KeyError(key)
+            return None
 
     def __setitem__(self, key, val):
         if isinstance(val, (float, int)):
