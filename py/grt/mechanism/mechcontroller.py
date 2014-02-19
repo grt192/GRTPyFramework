@@ -7,9 +7,9 @@ class MechController:
         Button 2: EP In
         Button 3: EP Out
 
-    Non-Drive Joystick (intended to be the right one):
+    Xbox Controller (intended to be the right one):
         Left Bumper: Winding Winch
-        Right Bumber: Releasing Winch
+        Right Bumper: Releasing Winch
         Y-Button: Manual Winch Wind
         Left-Stick Y-Axis: Pickup Angle Change
     """

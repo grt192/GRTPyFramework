@@ -22,7 +22,7 @@ class BasicAuto(GRTMacroController):
     """
 
     drive_distance = 10
-    turn_angle = 90
+    turn_angle = 360
     wind_dist = 30
     locked_key = "locked"
     side_key = "left"
@@ -34,5 +34,5 @@ class BasicAuto(GRTMacroController):
         self.drive_macro = DriveMacro(dt, self.drive_distance, timeout)
         self.wind_macro = WindMacro(shooter, self.wind_dist)
         self.turn_macro = TurnMacro(dt, gyro, self.turn_angle)
-        self.macros = [self.vision_macro, self.shoot_macro, self.drive_macro, self.wind_macro]
+        self.macros = [self.vision_macro, self.shoot_macro, self.drive_macro, self.wind_macro, self.turn_macro]
         super().__init__(macros=self.macros)

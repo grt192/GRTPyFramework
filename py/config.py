@@ -18,7 +18,7 @@ from grt.mechanism.drivecontroller import ArcadeDriveController
 from grt.mechanism.motorset import Motorset
 from grt.mechanism import Intake, Shooter, Defense
 from grt.sensors.ticker import Ticker
-from grt.autonomous.basicer_auto import BasicerAuto
+from grt.autonomous.basic_auto import BasicAuto
 from grt.sensors.encoder import Encoder
 from grt.sensors.switch import Switch
 import grt.networktables as networktables
@@ -29,7 +29,7 @@ constants = Constants()
 #Pin/Port map
 #Talons
 dt_left = Talon(1)
-dt_right = Motorset((Talon(2), ), scalefactors=(-1, )) #This is really gross.
+dt_right = Motorset((Talon(2), ), scalefactors=(-1, ))  # This is really gross.
 ep_left = Talon(10)
 ep_right = Talon(8)
 achange_left = Talon(9)
@@ -43,17 +43,18 @@ shooter_shifter = Solenoid(2)
 defense_actuator = Solenoid(3)
 
 #Digital Sensors
-left_encoder = Encoder(3, 4, constants['dt_dpp'])
+left_encoder = Encoder(3, 4, constants['dt_dpp'], reverse=True)
 right_encoder = Encoder(1, 2, constants['dt_dpp'])
 pressure_sensor_pin = 14
 achange_limit_lf = Switch(13)
 achange_limit_lr = Switch(12)
 achange_limit_rf = Switch(11)
 achange_limit_rr = Switch(10)
-winch_limit = Switch(9) #TODO, add logic for this switch
+winch_limit = Switch(9)
 
 #Analog Sensors
-shooter_potentiometer = Potentiometer(3)  # TODO: scale + offset
+shooter_potentiometer = Potentiometer(3, scale=constants['spot_scale'],
+                                      offset=constants['spot_offset'])
 gyro = Gyro(2)
 
 # Controllers
@@ -98,17 +99,23 @@ def status_tick():
     status_table['shooter_shooting'] = shooter_shifter.Get()
     status_table['voltage'] = DriverStation.GetInstance().GetBatteryVoltage()
 
+    print("Left Encoder: " + str(left_encoder.distance))
+    print("Right Encoder: " + str(right_encoder.distance))
+
 status_ticker = Ticker(.05)
 status_ticker.tick = status_tick
 
 #Autonomous
 #dt and shooter are declared above for mechs
 #vision_table is declared above for network tables
-auto = BasicerAuto(shooter, 3)
+#auto = BasicerAuto(shooter, 3)
+
+auto = BasicAuto(dt, shooter, vision_table, shooter_potentiometer, gyro)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,
                    dt.left_encoder, status_ticker,
                    achange_limit_lf, achange_limit_rf,
-                   achange_limit_lr, achange_limit_rr))  # robot sensors, poll always
+                   achange_limit_lr, achange_limit_rr,
+                   winch_limit))  # robot sensors, poll always
 hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface devices
