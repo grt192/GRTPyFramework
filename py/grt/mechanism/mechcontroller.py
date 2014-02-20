@@ -1,4 +1,4 @@
-class AttackMechController:
+class MechController:
     """
     Joystick Map:
 
@@ -7,23 +7,23 @@ class AttackMechController:
         Button 2: EP In
         Button 3: EP Out
 
-    Non-Drive Joystick (intended to be the right one):
-        Trigger: Winding Winch
-        Button 2: Releasing Winch
-        Button 11: Defense
-        Y-axis: Pickup Angle Change
+    Xbox Controller (intended to be the right one):
+        Left Bumper: Winding Winch
+        Right Bumper: Releasing Winch
+        Y-Button: Manual Winch Wind
+        Left-Stick Y-Axis: Pickup Angle Change
     """
 
-    def __init__(self, l_joystick, r_joystick, intake, defense, shooter):
-        self.l_joystick = l_joystick
-        self.r_joystick = r_joystick
+    def __init__(self, driver_joystick, xbox_controller, intake, defense, shooter):
+        self.driver_joystick = driver_joystick
+        self.xbox_controller = xbox_controller
         self.intake = intake
         self.defense = defense
         self.shooter = shooter
-        l_joystick.add_listener(self._l_joystick_listener)
-        r_joystick.add_listener(self._r_joystick_listener)
+        driver_joystick.add_listener(self._driver_joystick_listener)
+        xbox_controller.add_listener(self._xbox_controller_listener)
 
-    def _l_joystick_listener(self, sensor, state_id, datum):
+    def _driver_joystick_listener(self, sensor, state_id, datum):
         #Pickup -- EP Intake
             if state_id is 'button2':
                 if datum:
@@ -36,37 +36,27 @@ class AttackMechController:
                 else:
                     self.intake.stop_ep()
 
-    def _r_joystick_listener(self, sensor, state_id, datum):
+    def _xbox_controller_listener(self, sensor, state_id, datum):
+
         #Shooter -- Winding winch
-            if state_id is 'button6':
+            if state_id is 'y_button':
                 if datum:
                     self.shooter.winch_wind(1)
                 else:
                     self.shooter.winch_stop()
+            if state_id is 'l_shoulder':
+                if datum:
+                    self.shooter.set_angle(0)
         #Shooter -- Releasing Winch
-            if state_id is 'button7':
+            if state_id is 'r_shoulder':
                 if datum:
                     self.shooter.unlatch()
                 else:
                     self.shooter.latch()
 
-        #Defense
-        #    if state_id is 'button11':
-        #        if datum:
-        #            self.defense.extend()
-        #        else:
-        #            self.defense.retract()
-
         #Pickup -- Angle Change
-            if state_id is 'y_axis':
+            if state_id is 'l_y_axis':
                 self.intake.angle_change(-datum)
-            if state_id is 'button3':
-                if datum:
-                    self.intake.reverse_ep()
-                else:
-                    self.intake.stop_ep()
-            if state_id is 'trigger':
-                if datum:
-                    self.intake.start_ep()
-                else:
-                    self.intake.stop_ep()
+
+            if state_id is 'trigger_pos':
+                self.intake.set_ep(int(-datum / .2))

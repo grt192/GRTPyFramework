@@ -20,5 +20,12 @@ TMtol,1
 
 #shooter "pid" constants, TODO
 SP,1
-SC,0.3
-SLimit,20
+SC,0.2
+SLimit,0.96
+
+#shooter pot constants, robot-specific
+#omega 1
+spot_scale,0.6333
+spot_offset,-1.144
+#omega 2
+##TODO

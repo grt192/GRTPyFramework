@@ -31,6 +31,7 @@ class WindMacro(GRTMacro):
         """
         Checks if shooter is still winding, kills macro if finished
         """
+        print("winding")
         if not self.shooter.autowinding:
             self.kill()
 

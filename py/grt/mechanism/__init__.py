@@ -25,6 +25,9 @@ class Intake:
         self.limit_rf.add_listener(self._limit_listener)
         self.limit_rr.add_listener(self._limit_listener)
 
+    def set_ep(self, power):
+        self.roller.Set(power * self.motor_power)
+
     def start_ep(self):
         self.roller.Set(self.motor_power)
 
@@ -56,13 +59,13 @@ class Intake:
 
     def _limit_listener(self, source, state_id, datum):
         if state_id == 'pressed' and datum:
-            if source == self.limit_lf and self.achange_l.Get() > 0:
+            if source == self.limit_lf and self.achange_l.Get() < 0:
                 self.achange_l.Set(0)
-            if source == self.limit_lr and self.achange_l.Get() < 0:
+            if source == self.limit_lr and self.achange_l.Get() > 0:
                 self.achange_l.Set(0)
-            if source == self.limit_rf and self.achange_r.Get() > 0:
+            if source == self.limit_rf and self.achange_r.Get() < 0:
                 self.achange_r.Set(0)
-            if source == self.limit_rr and self.achange_r.Get() < 0:
+            if source == self.limit_rr and self.achange_r.Get() > 0:
                 self.achange_r.Set(0)
 
 
@@ -77,13 +80,15 @@ class Shooter:
     target = 0
     autowinding = False
 
-    def __init__(self, winch_motor, actuator, potentiometer):
+    def __init__(self, winch_motor, actuator, winch_limit, potentiometer):
         self.winch_motor = winch_motor
         self.actuator = actuator
+        self.winch_limit = winch_limit
         self.potentiometer = potentiometer
 
         constants.add_listener(self._constants_listener)
-        #potentiometer.add_listener(self._potentiometer_listener)
+        potentiometer.add_listener(self._potentiometer_listener)
+        winch_limit.add_listener(self._limit_listener)
 
     def _potentiometer_listener(self, source, state_id, datum):
         '''
@@ -91,13 +96,20 @@ class Shooter:
         Controls automatic winding if autowinding is enabled.
         '''
         if state_id == 'angle':
-            if datum > self.LIMIT:
+            if datum > self.LIMIT or self.winch_limit.pressed:
                 self.winch_stop()
             elif self.autowinding:
                 if datum > self.target:  # passed target
                     self.winch_stop()
                 else:
                     self.winch_motor.Set(self.SC + self.SP * (self.target - datum))
+
+    def _limit_listener(self, source, state_id, datum):
+        '''
+        Stops winding if going too far
+        '''
+        if state_id == 'pressed' and datum:
+            self.winch_stop()
 
     def _constants_listener(self, sensor, state_id, datum):
         if state_id in ('SP', 'SC'):
@@ -110,7 +122,7 @@ class Shooter:
         Winds the winch. Cancels autowinding when called.
         '''
         self.autowinding = False
-        if power >= 0 and self.potentiometer.angle < self.LIMIT:
+        if power >= 0 and self.potentiometer.angle < self.LIMIT and not self.winch_limit.pressed:
             self.winch_motor.Set(-power)
 
     def winch_stop(self):

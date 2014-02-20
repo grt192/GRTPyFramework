@@ -9,15 +9,16 @@ __author__ = "Sidd Karamcheti"
 from wpilib import Talon, Solenoid, Compressor, DriverStation
 
 from grt.sensors.attack_joystick import Attack3Joystick
+from grt.sensors.xbox_joystick import XboxJoystick
 from grt.sensors.gyro import Gyro
 from grt.core import SensorPoller, Constants
-from grt.mechanism.mechcontroller import AttackMechController
+from grt.mechanism.mechcontroller import MechController
 from grt.mechanism.drivetrain import DriveTrain
 from grt.mechanism.drivecontroller import ArcadeDriveController
 from grt.mechanism.motorset import Motorset
 from grt.mechanism import Intake, Shooter, Defense
 from grt.sensors.ticker import Ticker
-from grt.autonomous.basicer_auto import BasicerAuto
+from grt.autonomous.basic_auto import BasicAuto
 from grt.sensors.encoder import Encoder
 from grt.sensors.switch import Switch
 import grt.networktables as networktables
@@ -27,8 +28,8 @@ constants = Constants()
 
 #Pin/Port map
 #Talons
-dt_left = Talon(1)
-dt_right = Motorset((Talon(2), ), scalefactors=(-1, ))
+dt_right = Talon(2)
+dt_left = Motorset((Talon(1), ), scalefactors=(-1, ))  # This is really gross.
 ep_left = Talon(10)
 ep_right = Talon(8)
 achange_left = Talon(9)
@@ -42,21 +43,23 @@ shooter_shifter = Solenoid(2)
 defense_actuator = Solenoid(3)
 
 #Digital Sensors
-left_encoder = Encoder(2, 3, constants['dt_dpp'])
-right_encoder = Encoder(4, 5, constants['dt_dpp'])
+left_encoder = Encoder(3, 4, constants['dt_dpp'], reverse=True)
+right_encoder = Encoder(1, 2, constants['dt_dpp'])
 pressure_sensor_pin = 14
 achange_limit_lf = Switch(13)
 achange_limit_lr = Switch(12)
 achange_limit_rf = Switch(11)
 achange_limit_rr = Switch(10)
+winch_limit = Switch(9)
 
 #Analog Sensors
-potentiometer = Potentiometer(3)  # TODO: scale + offset
+shooter_potentiometer = Potentiometer(3, scale=constants['spot_scale'],
+                                      offset=constants['spot_offset'])
 gyro = Gyro(2)
 
-# Joysticks
-lstick = Attack3Joystick(1)
-rstick = Attack3Joystick(2)
+# Controllers
+driver_stick = Attack3Joystick(1)
+xbox_controller = XboxJoystick(2)
 
 #DT
 dt = DriveTrain(dt_left, dt_right, dt_shifter,
@@ -74,14 +77,14 @@ intake = Intake(ep_motors, achange_left, achange_right,
                 achange_limit_rf, achange_limit_rr)
 
 #Shooter (winch + release)
-shooter = Shooter(shooter_winch, shooter_shifter, potentiometer)
+shooter = Shooter(shooter_winch, shooter_shifter, winch_limit, shooter_potentiometer)
 
 #Defense
 defense = Defense(defense_actuator)
 
 #Teleop Controllers
-ac = ArcadeDriveController(dt, lstick)
-mc = AttackMechController(lstick, rstick, intake, defense, shooter)
+ac = ArcadeDriveController(dt, driver_stick)
+mc = MechController(driver_stick, xbox_controller, intake, defense, shooter)
 
 #Network Tables
 vision_table = networktables.get_table('vision')
@@ -92,9 +95,9 @@ status_table = networktables.get_table('status')
 def status_tick():
     status_table['l_speed'] = dt.left_motor.Get()
     status_table['r_speed'] = dt.right_motor.Get()
-    status_table['shooter_wound'] = potentiometer.p.Get()
+    status_table['shooter_wound'] = shooter_potentiometer.p.Get()
     status_table['shooter_shooting'] = shooter_shifter.Get()
-    status_table['battery_voltage'] = DriverStation.GetInstance().GetBatteryVoltage()
+    status_table['voltage'] = DriverStation.GetInstance().GetBatteryVoltage()
 
 status_ticker = Ticker(.05)
 status_ticker.tick = status_tick
@@ -102,9 +105,14 @@ status_ticker.tick = status_tick
 #Autonomous
 #dt and shooter are declared above for mechs
 #vision_table is declared above for network tables
-auto = BasicerAuto(shooter, 3)
+#auto = BasicerAuto(shooter, 3)
+
+auto = BasicAuto(dt, shooter, vision_table, shooter_potentiometer, gyro)
 
 #Sensor Pollers
-sp = SensorPoller((gyro, potentiometer, dt.right_encoder,
-                   dt.left_encoder, status_ticker))  # robot sensors, poll always
-hid_sp = SensorPoller((lstick, rstick))  # human interface devices
+sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,
+                   dt.left_encoder, status_ticker,
+                   achange_limit_lf, achange_limit_rf,
+                   achange_limit_lr, achange_limit_rr,
+                   winch_limit))  # robot sensors, poll always
+hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface devices
