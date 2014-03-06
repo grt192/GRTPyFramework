@@ -46,7 +46,7 @@ class MechController:
                     self.shooter.winch_stop()
             if state_id is 'l_shoulder':
                 if datum:
-                    self.shooter.set_angle(0)
+                    self.shooter.winch_wind(1)
         #Shooter -- Releasing Winch
             if state_id is 'r_shoulder':
                 if datum:

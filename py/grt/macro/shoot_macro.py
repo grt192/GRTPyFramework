@@ -10,9 +10,7 @@ Will only activate after the Vision Macro either returns True, or undergoes a ti
 __author__ = "Sidd Karamcheti"
 
 from grt.core import GRTMacro
-from grt.mechanism import Shooter
 import time
-import wpilib
 
 
 class ShootMacro(GRTMacro):
@@ -26,6 +24,6 @@ class ShootMacro(GRTMacro):
     def perform(self):
         print("shooter perform")
         self.shooter.unlatch()
-        time.sleep(1)
+        time.sleep(0.5)
         self.shooter.latch()
         self.kill()

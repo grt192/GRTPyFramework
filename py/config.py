@@ -107,7 +107,7 @@ status_ticker.tick = status_tick
 #vision_table is declared above for network tables
 #auto = BasicerAuto(shooter, 3)
 
-auto = BasicAuto(dt, shooter, vision_table, shooter_potentiometer, gyro)
+auto = BasicAuto(dt, shooter, intake, vision_table, shooter_potentiometer, gyro)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,

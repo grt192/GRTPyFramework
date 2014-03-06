@@ -8,7 +8,7 @@ class Intake:
     Intake mechanism, with roller motor, two independent angle
     change motors and 4 (left front/rear, right front/rear) limits
     """
-    motor_power = .8
+    motor_power = 1
 
     def __init__(self, roller, achange_left, achange_right,
                  achange_limit_lf, achange_limit_lr,
