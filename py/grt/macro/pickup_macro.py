@@ -1,21 +1,22 @@
 """
-Wind_macro.py
-
-Winds the shooter
+Picks up balls.
 """
 
-__author__ = "Sidd Karamcheti"
+__author__ = "Calvin Huang"
 
 from grt.core import GRTMacro
 
 
-class ExtendMacro(GRTMacro):
+class PickupMacro(GRTMacro):
     """
-    Extends the intake.
+    Picks up balls.
     """
 
-    def __init__(self, intake, timeout=1):
-        super().__init__(timeout)
+    def __init__(self, intake, duration=1):
+        """
+        Specify the duration to pick up balls.
+        """
+        super().__init__(duration)
         self.intake = intake
 
     def initialize(self):

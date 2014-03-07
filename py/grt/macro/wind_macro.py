@@ -28,7 +28,6 @@ class WindMacro(GRTMacro):
         """
         Checks if shooter is still winding, kills macro if finished
         """
-        print("winding")
         if self.shooter.winch_limit.pressed:
             self.kill()
 

@@ -1,10 +1,8 @@
 """
-Wind_macro.py
-
-Winds the shooter
+Extends the intake
 """
 
-__author__ = "Sidd Karamcheti"
+__author__ = "Calvin Huang"
 
 from grt.core import GRTMacro
 import time
@@ -15,6 +13,7 @@ class ExtendMacro(GRTMacro):
     Extends the intake.
     """
     pressedtime = 0
+    extension_delay = 0.5
 
     def __init__(self, intake, timeout=3):
         super().__init__(timeout)
@@ -25,7 +24,7 @@ class ExtendMacro(GRTMacro):
 
     def perform(self):
         if self.pressedtime != 0:  # has been pressed
-            if time.time() - self.pressedtime > 0.5:  # wait till .5 seconds after switch press
+            if time.time() - self.pressedtime > self.extension_delay:  # wait till .5 seconds after switch press
                 self.kill()
         elif self.intake.limit_lf.pressed and self.intake.limit_rf.pressed:
             self.pressedtime = time.time()

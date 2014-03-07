@@ -1,5 +1,4 @@
-__author__ = 'dhruv'
-__author__ = "Sidd Karamcheti"
+__author__ = "dhruv, Sidd Karamcheti"
 
 from grt.core import GRTMacro, Constants
 import wpilib
