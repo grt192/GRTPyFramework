@@ -90,6 +90,8 @@ mc = MechController(driver_stick, xbox_controller, intake, defense, shooter)
 vision_table = networktables.get_table('vision')
 status_table = networktables.get_table('status')
 
+ds = DriverStation.GetInstance()
+
 
 #Diagnostic ticker
 def status_tick():
@@ -97,7 +99,8 @@ def status_tick():
     status_table['r_speed'] = dt.right_motor.Get()
     status_table['shooter_wound'] = shooter_potentiometer.p.Get()
     status_table['shooter_shooting'] = shooter_shifter.Get()
-    status_table['voltage'] = DriverStation.GetInstance().GetBatteryVoltage()
+    status_table['voltage'] = ds.GetBatteryVoltage()
+    status_table['status'] = 'disabled' if ds.IsDisabled() else 'teleop' if ds.IsOperatorControl() else 'auto'
 
 status_ticker = Ticker(.05)
 status_ticker.tick = status_tick

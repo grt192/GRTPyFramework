@@ -16,7 +16,7 @@ class ExtendMacro(GRTMacro):
     """
     pressedtime = 0
 
-    def __init__(self, intake, timeout=1):
+    def __init__(self, intake, timeout=3):
         super().__init__(timeout)
         self.intake = intake
 
@@ -24,10 +24,6 @@ class ExtendMacro(GRTMacro):
         self.intake.angle_change(1)
 
     def perform(self):
-        """
-        Checks if shooter is still winding, kills macro if finished
-        """
-        print("winding")
         if self.pressedtime != 0:  # has been pressed
             if time.time() - self.pressedtime > 0.5:  # wait till .5 seconds after switch press
                 self.kill()
@@ -35,4 +31,5 @@ class ExtendMacro(GRTMacro):
             self.pressedtime = time.time()
 
     def die(self):
-        self.shooter.angle_change(0)
+        self.pressedtime = 0
+        self.intake.angle_change(0)

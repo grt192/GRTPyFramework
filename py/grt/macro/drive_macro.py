@@ -52,10 +52,10 @@ class DriveMacro(GRTMacro):
     def _constant_listener(self, sensor, state_id, datum):
         if state_id in ('DTP', 'DTI', 'DTD'):
             self.__dict__[state_id] = datum
-            self.DTController.setPID(self.DTP, self.DTI, self.DPD)
+            self.DTController.SetPID(self.DTP, self.DTI, self.DPD)
         elif state_id in ('CP', 'CI', 'CD'):
             self.__dict__[state_id] = datum
-            self.straight_controller.setPID(self.CP, self.CI, self.CD)
+            self.straight_controller.SetPID(self.CP, self.CI, self.CD)
         elif state_id == 'DMtol':
             self.TOLERANCE = datum
             self.DTController.SetAbsoluteTolerance(datum)
