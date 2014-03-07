@@ -102,6 +102,14 @@ def status_tick():
 status_ticker = Ticker(.05)
 status_ticker.tick = status_tick
 
+
+def reset_tick():
+    if driver_stick.button10 and driver_stick.button11:
+        constants.poll()
+
+reset_ticker = Ticker(1)
+reset_ticker.tick = reset_tick
+
 #Autonomous
 #dt and shooter are declared above for mechs
 #vision_table is declared above for network tables
@@ -111,7 +119,7 @@ auto = BasicAuto(dt, shooter, intake, vision_table, shooter_potentiometer, gyro)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,
-                   dt.left_encoder, status_ticker,
+                   dt.left_encoder, status_ticker, reset_ticker,
                    achange_limit_lf, achange_limit_rf,
                    achange_limit_lr, achange_limit_rr,
                    winch_limit))  # robot sensors, poll always
