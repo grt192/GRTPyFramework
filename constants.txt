@@ -29,3 +29,12 @@ spot_scale,0.6333
 spot_offset,-1.144
 #omega 2
 ##TODO
+
+#1 ball auto
+1balldrivedist,12
+1balldmtimeout,5
+
+#2 ball auto
+2balldrivedist,14
+2balldmtimeout,3
+2ballpickuptime,1

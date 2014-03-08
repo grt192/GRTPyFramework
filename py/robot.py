@@ -1,7 +1,7 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
-from config import auto, sp, hid_sp
+from config import auto, sp, hid_sp, dt
 import time
 
 
@@ -14,6 +14,7 @@ class MyRobot(wpilib.SimpleRobot):
             wpilib.Wait(0.04 - (time.time() - tinit))
 
     def Autonomous(self):
+        dt.upshift()
         self.GetWatchdog().SetEnabled(False)
         auto.run_autonomous()
         while self.IsAutonomous() and self.IsEnabled():
@@ -23,6 +24,7 @@ class MyRobot(wpilib.SimpleRobot):
         auto.stop_autonomous
 
     def OperatorControl(self):
+        dt.downshift()  # start in low gear for tele
         dog = self.GetWatchdog()
         dog.SetExpiration(0.25)
         dog.SetEnabled(True)

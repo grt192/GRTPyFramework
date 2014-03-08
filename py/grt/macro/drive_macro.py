@@ -52,14 +52,13 @@ class DriveMacro(GRTMacro):
     def _constant_listener(self, sensor, state_id, datum):
         if state_id in ('DTP', 'DTI', 'DTD'):
             self.__dict__[state_id] = datum
-            self.DTController.SetPID(self.DTP, self.DTI, self.DPD)
+            self.DTController.SetPID(self.DTP, self.DTI, self.DTD)
         elif state_id in ('CP', 'CI', 'CD'):
             self.__dict__[state_id] = datum
             self.straight_controller.SetPID(self.CP, self.CI, self.CD)
         elif state_id == 'DMtol':
             self.TOLERANCE = datum
             self.DTController.SetAbsoluteTolerance(datum)
-
 
     def initialize(self):
         self.left_initial_distance = self.left_encoder.e.GetDistance()
