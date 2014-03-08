@@ -31,7 +31,7 @@ spot_offset,-1.144
 ##TODO
 
 #1 ball auto
-1balldrivedist,12
+1balldrivedist,9
 1balldmtimeout,5
 
 #2 ball auto
