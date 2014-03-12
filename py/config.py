@@ -29,7 +29,7 @@ constants = Constants()
 #Pin/Port map
 #Talons
 dt_right = Talon(2)
-dt_left = Motorset((Talon(1), ), scalefactors=(-1, ))  # This is really gross.
+dt_left = Motorset((Talon(1), ), scalefactors=(-1, ))
 ep_left = Talon(10)
 ep_right = Talon(8)
 achange_left = Talon(9)
@@ -118,7 +118,7 @@ reset_ticker.tick = reset_tick
 #vision_table is declared above for network tables
 #auto = BasicerAuto(shooter, 3)
 
-auto = BasicAuto(dt, shooter, intake, vision_table, shooter_potentiometer, gyro)
+auto = BasicAuto(dt, shooter, intake)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,

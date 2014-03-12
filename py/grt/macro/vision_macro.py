@@ -10,9 +10,6 @@ Macro times out after five seconds, so robot is guaranteed to shoot.
 __author__ = "Sidd Karamcheti"
 
 from grt.core import GRTMacro
-from grt.sensors.ticker import Ticker
-import grt.networktables as networktables
-import wpilib
 
 
 class VisionMacro(GRTMacro):
@@ -20,15 +17,13 @@ class VisionMacro(GRTMacro):
     VisionMacro: polls Network Table searching for boolean value
     """
 
-    def __init__(self, table, side, locked_key, side_key, timeout=5):
+    def __init__(self, table, locked_key, timeout=5):
         """
         Create a vision macro with a five second timeout
         """
         super().__init__(timeout)
         self.table = table
         self.locked_key = locked_key
-        self.side_key = side_key
-        self.side = side
 
     def perform(self):
         """
