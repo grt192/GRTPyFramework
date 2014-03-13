@@ -54,9 +54,6 @@ class Intake:
            power < 0 and not self.limit_rr.pressed:
             self.achange_r.Set(-power)
 
-    def stop_angle_change(self):
-        self.angle_changer.Set(0)
-
     def _limit_listener(self, source, state_id, datum):
         if state_id == 'pressed' and datum:
             if source == self.limit_lf and self.achange_l.Get() < 0:
