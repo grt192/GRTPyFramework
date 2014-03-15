@@ -17,7 +17,7 @@ class BasicAuto(GRTMacroController):
     Basic autonomous mode. Drives and shoots. Pretty straightforward.
     """
 
-    def __init__(self, dt, shooter, intake, table):
+    def __init__(self, dt, shooter, intake):
         c = Constants()
         self.drive_macro = DriveMacro(dt, c['1balldrivedist'], c['1balldmtimeout'])
         self.extend_macro = ExtendMacro(intake, 1.5)
