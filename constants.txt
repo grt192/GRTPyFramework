@@ -5,7 +5,7 @@ dt_dpp,5.466e-3
 DTP,1
 DTI,0
 DTD,1.2
-DMtol,0.04
+DMtol,0.1
 
 #drivemacro straight controller constants
 CP,0.1
@@ -31,10 +31,10 @@ spot_offset,-1.144
 ##TODO
 
 #1 ball auto
-1balldrivedist,9
-1balldmtimeout,5
+1balldrivedist,5
+1balldmtimeout,2
 
 #2 ball auto
-2balldrivedist,14
+2balldrivedist,7
 2balldmtimeout,3
 2ballpickuptime,1
