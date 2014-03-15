@@ -249,7 +249,7 @@ class GRTMacroController(object):
         """
         self.macros = macros
 
-    def addMacro(self, macro):
+    def add_macro(self, macro):
         """
         Adds a macro to self.macros.
         """

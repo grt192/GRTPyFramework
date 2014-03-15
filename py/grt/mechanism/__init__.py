@@ -39,7 +39,7 @@ class Intake:
 
     def angle_change(self, power):
         '''
-        Set power of angle change. Power > 1 --> forwards.
+        Set power of angle change. Power > 0 --> forwards.
         '''
         if power > -.5 or power < .5:
             self.achange_l.Set(0)
