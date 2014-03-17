@@ -19,6 +19,7 @@ from grt.mechanism.motorset import Motorset
 from grt.mechanism import Intake, Shooter, Defense
 from grt.sensors.ticker import Ticker
 from grt.autonomous.basic_auto import BasicAuto
+from grt.autonomous.twoball_auto import TwoBallAuto
 from grt.sensors.encoder import Encoder
 from grt.sensors.switch import Switch
 import grt.networktables as networktables
@@ -116,9 +117,10 @@ reset_ticker.tick = reset_tick
 #Autonomous
 #dt and shooter are declared above for mechs
 #vision_table is declared above for network tables
-#auto = BasicerAuto(shooter, 3)
-
-auto = BasicAuto(dt, shooter, intake)
+if '2ballautoenabled' in constants and constants['2ballautoenabled'] != 0:
+    auto = TwoBallAuto(dt, shooter, intake)
+else:
+    auto = BasicAuto(dt, shooter, intake)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,

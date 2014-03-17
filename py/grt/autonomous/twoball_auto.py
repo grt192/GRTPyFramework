@@ -17,7 +17,7 @@ class TwoBallAuto(GRTMacroController):
     Two ball auto.
     """
 
-    def __init__(self, dt, shooter, intake, table, potentiometer, gyro):
+    def __init__(self, dt, shooter, intake):
         c = Constants()
         self.extend_macro = ExtendMacro(intake, 1.5)
         self.drive_macro = DriveMacro(dt, c['2balldrivedist'], c['2balldmtimeout'])

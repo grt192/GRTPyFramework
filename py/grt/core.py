@@ -122,6 +122,9 @@ class Constants(Sensor):
     def __getitem__(self, key):
         return self.get(key)
 
+    def __contains__(self, key):
+        return self.__dict__.__contains__(key)
+
     def poll(self):
         """
         Reloads file data.
