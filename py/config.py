@@ -121,6 +121,8 @@ if '2ballautoenabled' in constants and constants['2ballautoenabled'] != 0:
     auto = TwoBallAuto(dt, shooter, intake)
 else:
     auto = BasicAuto(dt, shooter, intake)
+basicauto = BasicAuto(dt, shooter, intake)
+twoballauto = TwoBallAuto(dt, shooter, intake)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,
