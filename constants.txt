@@ -37,5 +37,4 @@ spot_offset,-1.144
 #2 ball auto
 2balldrivedist,7
 2balldmtimeout,3
-2ballpickuptime,1
 2ballautoenabled,1

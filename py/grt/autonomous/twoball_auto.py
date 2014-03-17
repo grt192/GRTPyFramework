@@ -23,7 +23,7 @@ class TwoBallAuto(GRTMacroController):
         self.drive_macro = DriveMacro(dt, c['2balldrivedist'], c['2balldmtimeout'])
         self.shoot_macro = ShootMacro(shooter, 0.5)
         self.wind_macro = WindMacro(shooter)
-        self.pickup_macro = PickupMacro(intake, c['2ballpickuptime'])
+        self.pickup_macro = PickupMacro(intake)
         self.macros = [self.extend_macro, self.drive_macro, self.shoot_macro, self.wind_macro,
                        self.pickup_macro, self.shoot_macro, self.wind_macro]
         super().__init__(macros=self.macros)
