@@ -24,10 +24,15 @@ class PickupMacro(GRTMacro):
 
     def initialize(self):
         self.intake.start_ep()
-        time.sleep(0.5)
+        self.intake.angle_change(-1)
+        time.sleep(0.2)
+        self.intake.angle_change(1)
+        time.sleep(0.4)
+        self.intake.angle_change(0)
+        time.sleep(1.0)
         self.intake.stop_ep()
         self.intake.angle_change(-1)
-        time.sleep(0.5)
+        time.sleep(0.7)
         self.intake.angle_change(1)
 
     def perform(self):

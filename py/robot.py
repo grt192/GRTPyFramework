@@ -29,7 +29,7 @@ class MyRobot(wpilib.SimpleRobot):
             tinit = time.time()
             sp.poll()
             wpilib.Wait(0.04 - (time.time() - tinit))
-        auto.stop_autonomous
+        auto.stop_autonomous()
 
     def OperatorControl(self):
         dt.downshift()  # start in low gear for tele

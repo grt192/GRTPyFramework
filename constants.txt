@@ -2,10 +2,11 @@
 dt_dpp,5.466e-3
 
 #drivemacro PID constants
-DTP,1
+DTP,0.6
 DTI,0
-DTD,1.2
-DMtol,0.1
+DTD,1.5
+DMtol,0.2
+DMMAX,0.7
 
 #drivemacro straight controller constants
 CP,0.1

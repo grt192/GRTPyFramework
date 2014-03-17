@@ -20,7 +20,7 @@ class DriveMacro(GRTMacro):
     CI = constants['CI']
     CD = constants['CD']
     TOLERANCE = constants['DMtol']
-    MAX_MOTOR_OUTPUT = 1
+    MAX_MOTOR_OUTPUT = constants['DMMAX']
 
     distance = None
     previously_on_target = False
@@ -59,6 +59,9 @@ class DriveMacro(GRTMacro):
         elif state_id == 'DMtol':
             self.TOLERANCE = datum
             self.DTController.SetAbsoluteTolerance(datum)
+        elif state_id == 'DMMAX':
+            self.MAX_MOTOR_OUTPUT = datum
+            self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
 
     def initialize(self):
         self.left_initial_distance = self.left_encoder.e.GetDistance()
