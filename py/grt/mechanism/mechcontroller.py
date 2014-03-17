@@ -18,6 +18,7 @@ class MechController:
         Y-Button: Manual winch wind
         Left-Stick Y-Axis: Pickup angle change
     """
+    auto_shooting = False
 
     def __init__(self, driver_joystick, xbox_controller, intake, defense, shooter):
         self.driver_joystick = driver_joystick
