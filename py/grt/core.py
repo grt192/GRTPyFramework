@@ -163,21 +163,22 @@ class GRTMacro(object):
     Abstract macro class.
 
     daemon flag specifies whether or not it will run on its own
-    in a concurrent/treemacro.
+    in a concurrent.
     """
     running = False
     timed_out = False
     started = False
     start_time = None
+    timeout_timer = None
 
-    def __init__(self, timeout=float('inf'), poll_time=0.05, daemon=False):
+    def __init__(self, timeout=0, poll_time=0.05, daemon=False):
         """
         Creates a macro with timeout (infinite by default)
         and poll interval, in seconds (0.05s by default)
         """
         self.timeout = timeout
         self.poll_time = poll_time
-        self.daemon = False
+        self.daemon = daemon
 
     def run(self):
         """
@@ -192,15 +193,9 @@ class GRTMacro(object):
         Sleeps for some time.
         To be used within macros instead of time.sleep()
         so that a StopIteration exception will be raised
-        when it is interrupted during a sleep cycle
-        or if the macro times out.
+        when it is interrupted during a sleep cycle.
         """
-        if not self.running:
-            return
         time.sleep(duration)
-        if time.time() - self.start_time > self.timeout:
-            self.timed_out = True
-            self.running = False
         if not self.running:
             raise StopIteration()
 
@@ -211,21 +206,28 @@ class GRTMacro(object):
         periodically until timeout or completion.
         After completion, calls die().
         """
-        import time
         if not self.started:
             self.started = True
-            self.start_time = time.time()
+
+            def _timeout():
+                self.timed_out = True
+                self.kill()
+
+            if self.timeout:
+                timeout_timer = threading.Timer(self.timeout, _timeout)
 
             try:
                 self.initialize()
                 self.running = True
                 while self.running:
                     self.perform()
-                    self._wait(self.poll_time)
+                    time.sleep(self.poll_time)
             except StopIteration:
                 pass
 
             self.running = False
+            if timeout_timer:
+                timeout_timer.cancel()
             self.die()
 
     def reset(self):
@@ -257,7 +259,6 @@ class GRTMacro(object):
         Stop macro execution.
         """
         if self.running:
-            print("Killing macro: ")
             self.running = False
 
 
