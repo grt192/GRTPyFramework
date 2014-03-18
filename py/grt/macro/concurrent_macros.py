@@ -19,6 +19,8 @@ class ConcurrentMacros(GRTMacro):
 
     def initialize(self):
         for m in self.macros:
+            m.reset()
+            print('starting concurrent macro')
             m.run()
 
     def perform(self):

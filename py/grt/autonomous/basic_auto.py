@@ -22,7 +22,7 @@ class BasicAuto(GRTMacroController):
         self.drive_macro = DriveMacro(dt, c['1balldrivedist'], c['1balldmtimeout'])
         self.extend_macro = ExtendMacro(intake, 1.5)
         self.wait_macro = GRTMacro(0.5)  # blank macro just waits
-        self.shoot_macro = ShootMacro(shooter, 0.5)
+        self.shoot_macro = ShootMacro(shooter, intake, 0.5)
         self.wind_macro = WindMacro(shooter)
         self.macros = [self.drive_macro, self.extend_macro, self.wait_macro,
                        self.shoot_macro, self.wind_macro]

@@ -11,10 +11,10 @@ class PickupMacro(GRTMacro):
     """
     Picks up balls.
 
-    Starts EP for a little bit, then brings EP up and down.
+    Starts EP for a little bit, then brings EP up.
     """
 
-    def __init__(self, intake, timeout=5):
+    def __init__(self, intake, timeout=10):
         """
         Specify the duration to pick up balls.
         """
@@ -22,21 +22,22 @@ class PickupMacro(GRTMacro):
         self.intake = intake
 
     def initialize(self):
+        print('Picking up')
         self.intake.start_ep()
+        print('bounce up')
         self.intake.angle_change(-1)
         self._wait(0.2)
+        print('bounce down')
         self.intake.angle_change(1)
         self._wait(0.4)
         self.intake.angle_change(0)
+        print('wait')
         self._wait(1.0)
         self.intake.stop_ep()
+        print('raise')
         self.intake.angle_change(-1)
-        self._wait(0.7)
-        self.intake.angle_change(1)
-
-    def perform(self):
-        if self.intake.limit_lf.pressed and self.intake.limit_rf.pressed:
-            self.kill()
+        self._wait(1.0)
+        self.kill()
 
     def die(self):
         self.intake.stop_ep()

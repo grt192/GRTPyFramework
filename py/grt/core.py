@@ -215,10 +215,11 @@ class GRTMacro(object):
 
             if self.timeout:
                 timeout_timer = threading.Timer(self.timeout, _timeout)
+                timeout_timer.start()
 
             try:
-                self.initialize()
                 self.running = True
+                self.initialize()
                 while self.running:
                     self.perform()
                     time.sleep(self.poll_time)

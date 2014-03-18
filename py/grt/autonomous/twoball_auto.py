@@ -8,7 +8,6 @@ from grt.core import GRTMacroController, GRTMacro, Constants
 from grt.macro.drive_macro import DriveMacro
 from grt.macro.shoot_macro import ShootMacro
 from grt.macro.wind_macro import WindMacro
-from grt.macro.extend_macro import ExtendMacro
 from grt.macro.pickup_macro import PickupMacro
 from grt.macro.concurrent_macros import ConcurrentMacros
 from grt.macro.sequential_macros import SequentialMacros
@@ -21,16 +20,16 @@ class TwoBallAuto(GRTMacroController):
 
     def __init__(self, dt, shooter, intake):
         c = Constants()
-        self.extend_macro = ExtendMacro(intake, 1.5)
+        self.polite_macro = GRTMacro(1.5)  # move, get out the way
         self.drive_macro = DriveMacro(dt, c['2balldrivedist'], c['2balldmtimeout'])
-        self.wait_macro = GRTMacro(1)
-        self.shoot_macro = ShootMacro(shooter, 0.5)
+        self.wait_macro = GRTMacro(c['2ballwait'])
+        self.shoot_macro = ShootMacro(shooter, intake, 3)
         self.wind_macro = WindMacro(shooter)
         self.pickup_macro = PickupMacro(intake)
-        self.macros = [self.extend_macro,
+        self.macros = [self.polite_macro,
                        ConcurrentMacros((self.drive_macro,
-                                         SequentialMacros(self.wait_macro, self.shoot_macro,
-                                                          ConcurrentMacros((self.wind_macro, self.pickup_macro))))),
+                                         SequentialMacros((self.wait_macro, self.shoot_macro,
+                                                          ConcurrentMacros((self.wind_macro, self.pickup_macro)))))),
                        self.shoot_macro, self.wind_macro]
         super().__init__(macros=self.macros)
         c.add_listener(self._constants_listener)
@@ -42,3 +41,5 @@ class TwoBallAuto(GRTMacroController):
             self.drive_macro.timeout = datum
         elif state_id == '2ballpickuptime':
             self.pickup_macro.timeout = datum
+        elif state_id == '2ballwait':
+            self.wait_macro.timeout = datum

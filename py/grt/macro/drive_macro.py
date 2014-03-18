@@ -73,7 +73,7 @@ class DriveMacro(GRTMacro):
         self.straight_controller.Enable()
 
         self.leftSF = self.rightSF = 1
-        print("MACRODRIVE is initialized")
+        print("Starting DriveMacro")
 
     def update_motor_speeds(self):
         self.dt.set_dt_output(self.speed * self.leftSF, self.speed * self.rightSF)
@@ -91,11 +91,11 @@ class DriveMacro(GRTMacro):
         return (self.left_traveled_distance() + self.right_traveled_distance()) / 2
 
     def perform(self):
-        print("DTerror: " + str(self.DTController.GetError()))
-        print("Left Traveled Distance:" + str(self.left_traveled_distance()))
-        print("Right Traveled Distance:" + str(self.right_traveled_distance()))
+        #print("DTerror: " + str(self.DTController.GetError()))
+        #print("Left Traveled Distance:" + str(self.left_traveled_distance()))
+        #print("Right Traveled Distance:" + str(self.right_traveled_distance()))
 
-        print("Distance Traveled: " + str(self.get_distance_traveled()))
+        #print("Distance Traveled: " + str(self.get_distance_traveled()))
         if (self.DTController.OnTarget()):
             print("On target!")
             if (self.previously_on_target):

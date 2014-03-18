@@ -13,20 +13,24 @@ class SequentialMacros(GRTMacro):
     but has timeout functionality.
     """
     curr_macro = None
+    curr_macro_index = 0
 
     def __init__(self, macros, timeout=20, daemon=False):
         super().__init__(timeout, daemon=daemon)
-        self.macros = list(macros)
+        self.macros = macros
 
     def initialize(self):
         self.curr_macro = None
+        self.macro_queue = list(self.macros)
 
     def perform(self):
         if self.curr_macro is None or not self.curr_macro.running:
-            if not self.macros:  # no more child macros
+            if not self.macro_queue:  # no more child macros
                 self.kill()
                 return
-            self.curr_macro = self.macros.pop(0)
+            self.curr_macro = self.macro_queue.pop(0)
+            print('starting sequential macro')
+            self.curr_macro.reset()
             self.curr_macro.run()
         # if curr_macro is still running, do nothing
 
