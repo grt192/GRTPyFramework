@@ -8,7 +8,6 @@ unlatch the shooter
 __author__ = "Sidd Karamcheti"
 
 from grt.core import GRTMacro
-import time
 
 
 class ShootMacro(GRTMacro):
@@ -23,6 +22,6 @@ class ShootMacro(GRTMacro):
 
     def perform(self):
         self.shooter.unlatch()
-        time.sleep(self.shoot_delay)
+        self._wait(self.shoot_delay)
         self.shooter.latch()
         self.kill()

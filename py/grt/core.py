@@ -1,5 +1,6 @@
 __author__ = "Calvin Huang"
 import threading
+import time
 
 
 class Sensor(object):
@@ -160,19 +161,23 @@ class Constants(Sensor):
 class GRTMacro(object):
     """
     Abstract macro class.
+
+    daemon flag specifies whether or not it will run on its own
+    in a concurrent/treemacro.
     """
     running = False
     timed_out = False
     started = False
     start_time = None
 
-    def __init__(self, timeout=float('inf'), poll_time=0.05):
+    def __init__(self, timeout=float('inf'), poll_time=0.05, daemon=False):
         """
         Creates a macro with timeout (infinite by default)
         and poll interval, in seconds (0.05s by default)
         """
         self.timeout = timeout
         self.poll_time = poll_time
+        self.daemon = False
 
     def run(self):
         """
@@ -181,6 +186,23 @@ class GRTMacro(object):
         """
         self.thread = threading.Thread(target=self.execute)
         self.thread.start()
+
+    def _wait(self, duration):
+        """
+        Sleeps for some time.
+        To be used within macros instead of time.sleep()
+        so that a StopIteration exception will be raised
+        when it is interrupted during a sleep cycle
+        or if the macro times out.
+        """
+        if not self.running:
+            return
+        time.sleep(duration)
+        if time.time() - self.start_time > self.timeout:
+            self.timed_out = True
+            self.running = False
+        if not self.running:
+            raise StopIteration()
 
     def execute(self):
         """
@@ -194,14 +216,15 @@ class GRTMacro(object):
             self.started = True
             self.start_time = time.time()
 
-            self.initialize()
-            self.running = True
-            while self.running:
-                self.perform()
-                time.sleep(self.poll_time)
-                if (time.time() - self.start_time) > self.timeout:
-                    self.timed_out = True
-                    break
+            try:
+                self.initialize()
+                self.running = True
+                while self.running:
+                    self.perform()
+                    self._wait(self.poll_time)
+            except StopIteration:
+                pass
+
             self.running = False
             self.die()
 
