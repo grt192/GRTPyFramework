@@ -16,6 +16,7 @@ class MyRobot(wpilib.SimpleRobot):
             wpilib.Wait(0.04 - (time.time() - tinit))
 
     def Autonomous(self):
+        global auto
         dt.upshift()
         self.GetWatchdog().SetEnabled(False)
 
