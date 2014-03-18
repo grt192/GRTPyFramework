@@ -13,7 +13,7 @@ class ConcurrentMacros(GRTMacro):
     Executes all macros concurrently.
     """
 
-    def __init__(self, macros, timeout=20, daemon=False):
+    def __init__(self, macros, timeout=0, daemon=False):
         super().__init__(timeout, daemon=daemon)
         self.macros = macros
 
@@ -28,5 +28,6 @@ class ConcurrentMacros(GRTMacro):
             self.kill()
 
     def die(self):
+        print('concurrent macro finished')
         for m in self.macros:
             m.kill()

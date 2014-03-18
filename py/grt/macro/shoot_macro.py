@@ -34,3 +34,4 @@ class ShootMacro(GRTMacro):
 
     def die(self):
         self.shooter.latch()
+        self.intake.angle_change(0)

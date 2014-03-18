@@ -196,8 +196,8 @@ class GRTMacro(object):
         when it is interrupted during a sleep cycle.
         """
         time.sleep(duration)
-        if not self.running:
-            raise StopIteration()
+        #if not self.running:
+            #raise StopIteration()
 
     def execute(self):
         """
@@ -208,6 +208,7 @@ class GRTMacro(object):
         """
         if not self.started:
             self.started = True
+            self.running = True
 
             def _timeout():
                 self.timed_out = True
@@ -216,9 +217,10 @@ class GRTMacro(object):
             if self.timeout:
                 timeout_timer = threading.Timer(self.timeout, _timeout)
                 timeout_timer.start()
+            else:
+                timeout_timer = None
 
             try:
-                self.running = True
                 self.initialize()
                 while self.running:
                     self.perform()
