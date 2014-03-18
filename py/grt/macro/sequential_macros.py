@@ -16,7 +16,7 @@ class SequentialMacros(GRTMacro):
 
     def __init__(self, macros, timeout=20, daemon=False):
         super().__init__(timeout, daemon=daemon)
-        self.macros = macros
+        self.macros = list(macros)
 
     def initialize(self):
         self.curr_macro = None

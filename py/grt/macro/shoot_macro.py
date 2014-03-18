@@ -23,5 +23,7 @@ class ShootMacro(GRTMacro):
     def perform(self):
         self.shooter.unlatch()
         self._wait(self.shoot_delay)
-        self.shooter.latch()
         self.kill()
+
+    def die(self):
+        self.shooter.latch()
