@@ -10,6 +10,8 @@ from grt.macro.shoot_macro import ShootMacro
 from grt.macro.wind_macro import WindMacro
 from grt.macro.extend_macro import ExtendMacro
 from grt.macro.pickup_macro import PickupMacro
+from grt.macro.concurrent_macros import ConcurrentMacros
+from grt.macro.sequential_macros import SequentialMacros
 
 
 class TwoBallAuto(GRTMacroController):
@@ -21,12 +23,15 @@ class TwoBallAuto(GRTMacroController):
         c = Constants()
         self.extend_macro = ExtendMacro(intake, 1.5)
         self.drive_macro = DriveMacro(dt, c['2balldrivedist'], c['2balldmtimeout'])
-        self.wait_macro = GRTMacro(0.5)
+        self.wait_macro = GRTMacro(1)
         self.shoot_macro = ShootMacro(shooter, 0.5)
         self.wind_macro = WindMacro(shooter)
         self.pickup_macro = PickupMacro(intake)
-        self.macros = [self.extend_macro, self.drive_macro, self.wait_macro, self.shoot_macro, self.wind_macro,
-                       self.pickup_macro, self.shoot_macro, self.wind_macro]
+        self.macros = [self.extend_macro,
+                       ConcurrentMacros((self.drive_macro,
+                                         SequentialMacros(self.wait_macro, self.shoot_macro,
+                                                          ConcurrentMacros((self.wind_macro, self.pickup_macro))))),
+                       self.shoot_macro, self.wind_macro]
         super().__init__(macros=self.macros)
         c.add_listener(self._constants_listener)
 
