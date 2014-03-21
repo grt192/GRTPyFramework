@@ -36,7 +36,7 @@ class PickupMacro(GRTMacro):
         self.intake.stop_ep()
         print('raise')
         self.intake.angle_change(-1)
-        self._wait(1.0)
+        self._wait(0.6)
         self.kill()
 
     def die(self):
