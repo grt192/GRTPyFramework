@@ -84,7 +84,7 @@ class Shooter:
         self.potentiometer = potentiometer
 
         constants.add_listener(self._constants_listener)
-        potentiometer.add_listener(self._potentiometer_listener)
+        #potentiometer.add_listener(self._potentiometer_listener)
         winch_limit.add_listener(self._limit_listener)
 
     def _potentiometer_listener(self, source, state_id, datum):
@@ -119,7 +119,8 @@ class Shooter:
         Winds the winch. Cancels autowinding when called.
         '''
         self.autowinding = False
-        if power >= 0 and self.potentiometer.angle < self.LIMIT and not self.winch_limit.pressed:
+        #if power >= 0 and self.potentiometer.angle < self.LIMIT and not self.winch_limit.pressed:
+        if power >= 0 and not self.winch_limit.pressed:
             self.winch_motor.Set(-power)
 
     def winch_stop(self):

@@ -27,7 +27,7 @@ SLimit,0.96
 #shooter pot constants, robot-specific
 #omega 1
 spot_scale,0.6333
-spot_offset,-1.144
+spot_offset,-1.142
 #omega 2
 ##TODO
 
@@ -36,6 +36,7 @@ spot_offset,-1.144
 1balldmtimeout,2
 
 #2 ball auto
+2ballpoliteness,1
 2balldrivehalfdist,3.25
 2balldriveremainingdist,3.75
 2balldmtimeout,3
