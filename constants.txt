@@ -32,13 +32,13 @@ spot_offset,-1.142
 ##TODO
 
 #1 ball auto
-1balldrivedist,4.5
+1balldrivedist,4
 1balldmtimeout,2
 
 #2 ball auto
 2ballpoliteness,1
-2balldrivehalfdist,3.25
-2balldriveremainingdist,3.75
+2balldrivehalfdist,3.7
+2balldriveremainingdist,3.2
 2balldmtimeout,3
 2ballautoenabled,1
 2ballwait,1.3

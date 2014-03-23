@@ -98,7 +98,7 @@ ds = DriverStation.GetInstance()
 def status_tick():
     status_table['l_speed'] = dt.left_motor.Get()
     status_table['r_speed'] = dt.right_motor.Get()
-    status_table['shooter_wound'] = shooter_potentiometer.p.Get()
+    status_table['shooter_wound'] = 1 if winch_limit.pressed else 0
     status_table['shooter_shooting'] = shooter_shifter.Get()
     status_table['voltage'] = ds.GetBatteryVoltage()
     status_table['status'] = 'disabled' if ds.IsDisabled() else 'teleop' if ds.IsOperatorControl() else 'auto'
