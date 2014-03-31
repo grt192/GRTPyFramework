@@ -43,26 +43,27 @@ class MechController:
             else:
                 self.intake.stop_ep()
         elif state_id is 'button3':
-            if datum:
-                self.intake.start_ep()
-            else:
-                self.intake.stop_ep()
-        elif state_id is 'button6':
-            if datum:
-                self.intake.angle_change(1)
-        if state_id is 'button7':
-            self.auto_shooting = False
-            if datum:
-                self.shooter.unlatch()
-            else:
-                self.shooter.latch()
-        elif state_id is 'button9':
-            self.intake.angle_change(-1)
-        elif state_id is 'button8':
-            if datum:
-                self.intake.start_ep()
-            else:
-                self.intake.stop_ep()
+            #autoshooting capability for driver on joystick
+            if datum:  # start auto shooting on press
+
+                def autoshoot():
+                    self.auto_shooting = True
+                    while self.auto_shooting and not (self.intake.limit_lf.pressed
+                                                      and self.intake.limit_rf.pressed):
+                        time.sleep(.05)
+                    if self.auto_shooting:
+                        self.shooter.unlatch()
+                        time.sleep(.5)
+                        self.shooter.latch()
+                        self.auto_shooting = False
+
+                if not self.auto_shooting:
+                    self.intake.angle_change(1)
+                    threading.Thread(target=autoshoot).start()
+
+            else:  # cancel auto shooting on release
+                self.auto_shooting = False
+                self.intake.angle_change(0)
             
 
     def _xbox_controller_listener(self, sensor, state_id, datum):
