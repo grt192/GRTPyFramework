@@ -37,11 +37,13 @@ class MechController:
             else:
                 self.intake.stop_ep()
         elif state_id is 'button4':
+            #reverse intake
             if datum:
                 self.intake.reverse_ep()
             else:
                 self.intake.stop_ep()
         elif state_id is 'button3':
+            #autoshooting capability for driver on joystick
             if datum:  # start auto shooting on press
 
                 def autoshoot():
@@ -62,6 +64,10 @@ class MechController:
             else:  # cancel auto shooting on release
                 self.auto_shooting = False
                 self.intake.angle_change(0)
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 
     def _xbox_controller_listener(self, sensor, state_id, datum):
 
