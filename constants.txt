@@ -44,7 +44,7 @@ spot_offset,-1.142
 2ballwait,1.3
 
 #2 ball hot auto
-2ballhotturnangle,60
-2ballhotdrivedistance,5
+2ballhotturnangle,15
+2ballhotdrivedistance,8
 2ballhotdmtimeout,3
 2ballhotwait,1.5
