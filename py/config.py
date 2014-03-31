@@ -20,6 +20,7 @@ from grt.mechanism import Intake, Shooter, Defense
 from grt.sensors.ticker import Ticker
 from grt.autonomous.basic_auto import BasicAuto
 from grt.autonomous.twoball_auto import TwoBallAuto
+from grt.autonomous.oneball_hot import OneBallHotAuto
 from grt.sensors.encoder import Encoder
 from grt.sensors.switch import Switch
 import grt.networktables as networktables
@@ -119,6 +120,7 @@ reset_ticker.tick = reset_tick
 #vision_table is declared above for network tables
 basicauto = BasicAuto(dt, shooter, intake)
 twoballauto = TwoBallAuto(dt, shooter, intake)
+oneballhotauto = OneBallHotAuto(dt, shooter, intake, vision_table)
 
 #Sensor Pollers
 sp = SensorPoller((gyro, shooter_potentiometer, dt.right_encoder,
