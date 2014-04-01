@@ -6,16 +6,16 @@ and pick up and shoot the next one into the hot goal.
 Uses split_vision logic
 """
 
-from py.grt.core import GRTMacroController, GRTMacro, Constants
-from py.grt.macro.drive_macro import DriveMacro
-from py.grt.macro.shoot_macro import ShootMacro
-from py.grt.macro.wind_macro import WindMacro
-from py.grt.macro.extend_macro import ExtendMacro
-from py.grt.macro.pickup_macro import PickupMacro
-from py.grt.macro.turn_macro import TurnMacro
-from py.grt.macro.vision_macro import VisionMacro
-from py.grt.macro.conditional_macro import ConditionalMacro
-from py.grt.macro.concurrent_macros import ConcurrentMacros
+from grt.core import GRTMacroController, GRTMacro, Constants
+from grt.macro.drive_macro import DriveMacro
+from grt.macro.shoot_macro import ShootMacro
+from grt.macro.wind_macro import WindMacro
+from grt.macro.extend_macro import ExtendMacro
+from grt.macro.pickup_macro import PickupMacro
+from grt.macro.turn_macro import TurnMacro
+from grt.macro.vision_macro import VisionMacro
+from grt.macro.conditional_macro import ConditionalMacro
+from grt.macro.concurrent_macros import ConcurrentMacros
 
 
 class TwoBallHotAuto(GRTMacroController):

@@ -7,7 +7,7 @@ Using split_vision logic, we wait, and drive forward.
 
 from grt.core import GRTMacroController, GRTMacro, Constants
 from grt.macro.concurrent_macros import ConcurrentMacros
-from grt.macro.drivemacro import DriveMacro
+from grt.macro.drive_macro import DriveMacro
 from grt.macro.shoot_macro import ShootMacro
 from grt.macro.wind_macro import WindMacro
 from grt.macro.extend_macro import ExtendMacro

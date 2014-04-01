@@ -64,10 +64,6 @@ class MechController:
             else:  # cancel auto shooting on release
                 self.auto_shooting = False
                 self.intake.angle_change(0)
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 
     def _xbox_controller_listener(self, sensor, state_id, datum):
 
