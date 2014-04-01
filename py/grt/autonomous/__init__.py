@@ -8,6 +8,9 @@ class AutonomousMode(object):
 
     thread = None
     running = False
+	
+    def __init__(self):
+        self.running_macros = set()
 
     def run_autonomous(self):
         """
@@ -15,7 +18,6 @@ class AutonomousMode(object):
         """
         self.thread = threading.Thread(target=self.exec_autonomous)
         self.thread.start()
-        self.running_macros = set()
 
     def exec_autonomous(self):
         """
@@ -58,7 +60,8 @@ class AutonomousMode(object):
         self.running_macros.add(macro)
         macro.reset()
         macro.execute()
-        self.running_macros.remove(macro)
+        if macro in self.running_macros:
+            self.running_macros.remove(macro)
         if not self.running:
             raise StopIteration()
 
@@ -82,6 +85,7 @@ class MacroSequence(AutonomousMode):
         Initializes Controller with an empty list of macros.
         """
         self.macros = macros
+        super().__init__()
 
     def add_macro(self, macro):
         """
