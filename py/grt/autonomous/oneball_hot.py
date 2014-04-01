@@ -5,17 +5,16 @@ Assuming we start facing a goal, near the middle of the field. We should be able
 Using split_vision logic, we wait, and drive forward.
 """
 
-from grt.core import GRTMacroController, GRTMacro, Constants
-from grt.macro.concurrent_macros import ConcurrentMacros
+from . import MacroSequence
+from grt.core import GRTMacro, Constants
 from grt.macro.drivemacro import DriveMacro
 from grt.macro.shoot_macro import ShootMacro
 from grt.macro.wind_macro import WindMacro
 from grt.macro.extend_macro import ExtendMacro
-from grt.macro.pickup_macro import PickupMacro
 from grt.macro.vision_macro import VisionMacro
 
 
-class OneBallHotAuto(GRTMacroController):
+class OneBallHotAuto(MacroSequence):
     """
     OneBallHotAuto
     """

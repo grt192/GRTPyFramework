@@ -4,7 +4,8 @@ Two ball auto. Carries 2nd ball in front, shoots first, picks up and shoots seco
 
 __author__ = "Calvin Huang"
 
-from grt.core import GRTMacroController, GRTMacro, Constants
+from . import MacroSequence
+from grt.core import GRTMacro, Constants
 from grt.macro.concurrent_macros import ConcurrentMacros
 from grt.macro.drive_macro import DriveMacro
 from grt.macro.shoot_macro import ShootMacro
@@ -13,7 +14,7 @@ from grt.macro.extend_macro import ExtendMacro
 from grt.macro.pickup_macro import PickupMacro
 
 
-class TwoBallAuto(GRTMacroController):
+class TwoBallAuto(MacroSequence):
     """
     Two ball auto.
     """
