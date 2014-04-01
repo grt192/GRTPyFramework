@@ -165,11 +165,22 @@ class GRTMacro(object):
     daemon flag specifies whether or not it will run on its own
     in a concurrent.
     """
-    running = False
     timed_out = False
     started = False
     start_time = None
     timeout_timer = None
+    _disabled_flag = None  # Flag that is true if not running
+
+    @property
+    def running(self):
+        return not self._disabled_flag.is_set()
+
+    @running.setter
+    def running(self, value):
+        if value:
+            self._disabled_flag.clear()
+        else:
+            self._disabled_flag.set()
 
     def __init__(self, timeout=0, poll_time=0.05, daemon=False):
         """
@@ -179,6 +190,7 @@ class GRTMacro(object):
         self.timeout = timeout
         self.poll_time = poll_time
         self.daemon = daemon
+        self._disabled_flag = threading.Event()
 
     def run(self):
         """
@@ -195,9 +207,9 @@ class GRTMacro(object):
         so that a StopIteration exception will be raised
         when it is interrupted during a sleep cycle.
         """
-        time.sleep(duration)
-        #if not self.running:
-            #raise StopIteration()
+        self._disabled_flag.wait(duration)
+        if not self.running:
+            raise StopIteration()
 
     def execute(self):
         """
