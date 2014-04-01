@@ -6,7 +6,7 @@ and pick up and shoot the next one into the hot goal.
 Uses split_vision logic
 """
 
-from . import MacroSequence
+from . import AutonomousMode
 from py.grt.core import GRTMacro, Constants
 from py.grt.macro.drive_macro import DriveMacro
 from py.grt.macro.shoot_macro import ShootMacro
@@ -15,11 +15,10 @@ from py.grt.macro.extend_macro import ExtendMacro
 from py.grt.macro.pickup_macro import PickupMacro
 from py.grt.macro.turn_macro import TurnMacro
 from py.grt.macro.vision_macro import VisionMacro
-from py.grt.macro.conditional_macro import ConditionalMacro
 from py.grt.macro.concurrent_macros import ConcurrentMacros
 
 
-class TwoBallHotAuto(MacroSequence):
+class TwoBallHotAuto(AutonomousMode):
     """
     Two ball hot auto
     """
@@ -30,10 +29,7 @@ class TwoBallHotAuto(MacroSequence):
         c = Constants()
 
         self.vision_macro = VisionMacro(table, self.locked_key)
-        self.turn_macro_right = TurnMacro(dt, gyro, c['2ballhotturnangle'])
-        self.turn_macro_left = TurnMacro(dt, gyro, -c['2ballhotturnangle'])
-        self.turn_macro_right2 = TurnMacro(dt, gyro, 2 * c['2ballhotturnangle'])
-        self.turn_macro_left2 = TurnMacro(dt, gyro, -2 * c['2ballhotturnangle'])
+        self.turn_macro = TurnMacro(dt, gyro, c['2ballhotturnangle'])
         self.drive_macro = DriveMacro(dt, c['2ballhotdrivedistance'], c['2ballhotdmtimeout'])
         self.wait_macro = GRTMacro(c['2ballhotwait'])
         self.shoot_macro = ShootMacro(shooter, intake, 2.5)
@@ -41,14 +37,26 @@ class TwoBallHotAuto(MacroSequence):
         self.extend_macro = ExtendMacro(intake, 1.5)
         self.pickup_macro = PickupMacro(intake)
 
-        self.macros = [ConcurrentMacros(self.extend_macro, self.drive_macro),
-                       ConditionalMacro(self.vision_macro.left_hot,
-                                        self.turn_macro_left,
-                                        self.turn_macro_right),
-                       self.wait_macro, self.shoot_macro,
-                       ConcurrentMacros(self.pickup_macro, self.wind_macro), self.shoot_macro]
-        super().__init__(macros=self.macros)
+        super().__init__()
         c.add_listener(self._constants_listener)
+
+    def _exec_autonomous(self):
+# Turn angles
+        first_turn = Constants()['2ballhotturnangle']
+        if self.vision_macro.left_hot():
+            first_turn = -first_turn
+        second_turn = -2 * first_turn
+
+        self.exec_macro(ConcurrentMacros(self.extend_macro, self.drive_macro))
+
+        self.turn_macro.turn_angle = first_turn
+        self.exec_macro(self.turn_macro)
+        self.exec_macro(self.wait_macro)
+        self.exec_macro(self.shoot_macro)
+
+        self.turn_macro.turn_angle = second_turn
+        self.exec_macro(ConcurrentMacros(self.pickup_macro, self.turn_macro))
+        self.exec_macro(self.shoot_macro)
 
     def _constants_listener(self, sensor, state_id, datum):
         if state_id == '2ballhotturnangle':
