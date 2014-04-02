@@ -1,5 +1,4 @@
-import threading
-import time
+from grt.macro.shoot_macro import ShootMacro
 
 
 class MechController:
@@ -29,6 +28,7 @@ class MechController:
         self.intake = intake
         self.defense = defense
         self.shooter = shooter
+        self.shoot_macro = ShootMacro(shooter, intake)
         driver_joystick.add_listener(self._driver_joystick_listener)
         xbox_controller.add_listener(self._xbox_controller_listener)
 
@@ -53,26 +53,11 @@ class MechController:
             self.shooter.unlatch()
         elif state_id == 'button7':
             #autoshooting capability for driver on joystick
-            if datum:  # start auto shooting on press
-
-                def autoshoot():
-                    self.auto_shooting = True
-                    while self.auto_shooting and not (self.intake.limit_lf.pressed
-                                                      and self.intake.limit_rf.pressed):
-                        time.sleep(.05)
-                    if self.auto_shooting:
-                        self.shooter.unlatch()
-                        time.sleep(.5)
-                        self.shooter.latch()
-                        self.auto_shooting = False
-
-                if not self.auto_shooting:
-                    self.intake.angle_change(1)
-                    threading.Thread(target=autoshoot).start()
-
+            if datum and not self.shoot_macro.running:  # start auto shooting on press
+                self.shoot_macro.reset()
+                self.shoot_macro.run()
             else:  # cancel auto shooting on release
-                self.auto_shooting = False
-                self.intake.angle_change(0)
+                self.shoot_macro.kill()
 
     def _xbox_controller_listener(self, sensor, state_id, datum):
 
@@ -87,26 +72,11 @@ class MechController:
                 self.shooter.winch_wind(1)
         #Shooter -- Releasing Winch
         if state_id == 'r_shoulder':
-            if datum:  # start auto shooting on press
-
-                def autoshoot():
-                    self.auto_shooting = True
-                    while self.auto_shooting and not (self.intake.limit_lf.pressed
-                                                      and self.intake.limit_rf.pressed):
-                        time.sleep(.05)
-                    if self.auto_shooting:
-                        self.shooter.unlatch()
-                        time.sleep(.5)
-                        self.shooter.latch()
-                        self.auto_shooting = False
-
-                if not self.auto_shooting:
-                    self.intake.angle_change(1)
-                    threading.Thread(target=autoshoot).start()
-
+            if datum and not self.shoot_macro.running:  # start auto shooting on press
+                self.shoot_macro.run()
             else:  # cancel auto shooting on release
-                self.auto_shooting = False
-                self.intake.angle_change(0)
+                self.shoot_macro.kill()
+                self.shoot_macro.reset()
 
         #Shooter -- Winch release backup
         if state_id == 'x_button':

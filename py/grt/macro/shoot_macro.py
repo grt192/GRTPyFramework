@@ -25,7 +25,6 @@ class ShootMacro(GRTMacro):
         self.intake.angle_change(1)
 
     def perform(self):
-        print(str(self.intake.limit_lf.pressed) + str(self.intake.limit_rf.pressed))
         if self.intake.limit_lf.pressed and self.intake.limit_rf.pressed:
             print('shooting')
             self.shooter.unlatch()
