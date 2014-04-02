@@ -5,14 +5,15 @@ basic_auto.py
 
 __author__ = "Sidd Karamcheti"
 
-from grt.core import GRTMacroController, Constants, GRTMacro
+from . import MacroSequence
+from grt.core import Constants, GRTMacro
 from grt.macro.drive_macro import DriveMacro
 from grt.macro.shoot_macro import ShootMacro
 from grt.macro.wind_macro import WindMacro
 from grt.macro.extend_macro import ExtendMacro
 
 
-class BasicAuto(GRTMacroController):
+class BasicAuto(MacroSequence):
     """
     Basic autonomous mode. Drives and shoots. Pretty straightforward.
     """
