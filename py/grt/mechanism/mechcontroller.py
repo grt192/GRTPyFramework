@@ -6,12 +6,15 @@ class MechController:
     """
     Joystick Map:
 
-    Drive Joystick (intended to be the left one):
-        Axis: Drive (duh)
-        Button 2: EP in
-        Button 3: EP out
+    Drive Joystick:
+        Button 2: EP out
+        Button 3: EP in
+        Button 6: AC out
+        Button 7: Autoshoot
+        Button 8: Winch Release
+        Button 9: AC in
 
-    Xbox Controller (intended to be the right one):
+    Xbox Controller:
         Left Bumper: Winding winch
         Right Bumper: Lower pickup and releasing winch
         X-Button: Manual winch release
@@ -31,18 +34,24 @@ class MechController:
 
     def _driver_joystick_listener(self, sensor, state_id, datum):
         #Pickup -- EP Intake
-        if state_id is 'button2':
+        if state_id == 'button3':
             if datum:
                 self.intake.start_ep()
             else:
                 self.intake.stop_ep()
-        elif state_id is 'button4':
+        elif state_id == 'button2':
             #reverse intake
             if datum:
                 self.intake.reverse_ep()
             else:
                 self.intake.stop_ep()
-        elif state_id is 'button3':
+        elif state_id == 'button6':
+            self.intake.angle_change(1.0 if datum else 0)
+        elif state_id == 'button9':
+            self.intake.angle_change(-1.0 if datum else 0)
+        elif state_id == 'button8':
+            self.shooter.unlatch()
+        elif state_id == 'button7':
             #autoshooting capability for driver on joystick
             if datum:  # start auto shooting on press
 
@@ -68,16 +77,16 @@ class MechController:
     def _xbox_controller_listener(self, sensor, state_id, datum):
 
         #Shooter -- Winding winch
-        if state_id is 'y_button':
+        if state_id == 'y_button':
             if datum:
                 self.shooter.winch_wind(1)
             else:
                 self.shooter.winch_stop()
-        if state_id is 'l_shoulder':
+        if state_id == 'l_shoulder':
             if datum:
                 self.shooter.winch_wind(1)
         #Shooter -- Releasing Winch
-        if state_id is 'r_shoulder':
+        if state_id == 'r_shoulder':
             if datum:  # start auto shooting on press
 
                 def autoshoot():
@@ -100,7 +109,7 @@ class MechController:
                 self.intake.angle_change(0)
 
         #Shooter -- Winch release backup
-        if state_id is 'x_button':
+        if state_id == 'x_button':
             self.auto_shooting = False
             if datum:
                 self.shooter.unlatch()
@@ -108,9 +117,9 @@ class MechController:
                 self.shooter.latch()
 
         #Pickup -- Angle Change
-        if state_id is 'l_y_axis':
+        if state_id == 'l_y_axis':
             if not self.xbox_controller.r_shoulder:
                 self.intake.angle_change(-datum)
 
-        if state_id is 'trigger_pos':
+        if state_id == 'trigger_pos':
             self.intake.set_ep(int(-datum / .2))
