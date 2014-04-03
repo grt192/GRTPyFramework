@@ -1,7 +1,7 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
-from config import basicauto, twoballauto, sp, hid_sp, dt, ds
+from config import basicauto, twoballauto, twoballhotauto,oneballhotauto, sp, hid_sp, dt, ds
 import time
 
 auto = basicauto
@@ -21,9 +21,14 @@ class MyRobot(wpilib.SimpleRobot):
         self.GetWatchdog().SetEnabled(False)
 
         if ds.GetDigitalIn(1):
-            auto = twoballauto
+            if ds.GetDigitalIn(2):
+                auto = twoballhotauto
+            else:
+                auto = twoballauto
         else:
-            auto = basicauto
+            if ds.GetDigitalIn(2):
+                auto = oneballhotauto
+            else: auto = basicauto
 
         auto.run_autonomous()
         while self.IsAutonomous() and self.IsEnabled():
