@@ -50,7 +50,10 @@ class MechController:
         elif state_id == 'button9':
             self.intake.angle_change(-1.0 if datum else 0)
         elif state_id == 'button8':
-            self.shooter.unlatch()
+            if datum:
+                self.shooter.unlatch()
+            else:
+                self.shooter.latch()
         elif state_id == 'button7':
             #autoshooting capability for driver on joystick
             if datum and not self.shoot_macro.running:  # start auto shooting on press

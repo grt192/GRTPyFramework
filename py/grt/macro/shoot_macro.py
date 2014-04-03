@@ -7,7 +7,7 @@ unlatch the shooter
 
 __author__ = "Sidd Karamcheti"
 
-from grt.core import GRTMacro
+from grt.core import GRTMacro, Constants
 
 
 class ShootMacro(GRTMacro):
@@ -18,8 +18,11 @@ class ShootMacro(GRTMacro):
 
     def __init__(self, shooter, intake, timeout=5):
         super().__init__(timeout)
+        c = Constants()
         self.shooter = shooter
         self.intake = intake
+        self.autoshoot_wait = c['autoshoot_wait']
+        c.add_listener(self._constants_listener)
 
     def initialize(self):
         self.intake.angle_change(1)
@@ -27,6 +30,7 @@ class ShootMacro(GRTMacro):
     def perform(self):
         if self.intake.limit_lf.pressed and self.intake.limit_rf.pressed:
             print('shooting')
+            self._wait(self.autoshoot_wait)
             self.shooter.unlatch()
             self._wait(self.shoot_delay)
             self.kill()
@@ -34,3 +38,7 @@ class ShootMacro(GRTMacro):
     def die(self):
         self.shooter.latch()
         self.intake.angle_change(0)
+
+    def _constants_listener(self, sensor, state_id, datum):
+        if state_id == 'autoshoot_wait':
+            self.autoshoot_wait = datum

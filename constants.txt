@@ -24,6 +24,9 @@ SP,1
 SC,0.2
 SLimit,0.96
 
+#autoshoot constants
+autoshoot_wait,0.75
+
 #shooter pot constants, robot-specific
 #omega 1
 spot_scale,0.6333
