@@ -1,7 +1,7 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
-from config import basicauto, twoballauto, sp, hid_sp, dt, ds
+from config import sp, hid_sp, dt, ds
 import time
 
 auto = basicauto
