@@ -21,11 +21,8 @@ class ShootMacro(GRTMacro):
         self.shooter = shooter
         self.intake = intake
 
-    def initialize(self):
-        self.intake.angle_change(1)
-
     def perform(self):
-        print(str(self.intake.limit_lf.pressed) + str(self.intake.limit_rf.pressed))
+        self.intake.angle_change(1)  # override other commands
         if self.intake.limit_lf.pressed and self.intake.limit_rf.pressed:
             print('shooting')
             self.shooter.unlatch()

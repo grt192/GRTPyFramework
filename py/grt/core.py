@@ -165,11 +165,22 @@ class GRTMacro(object):
     daemon flag specifies whether or not it will run on its own
     in a concurrent.
     """
-    running = False
     timed_out = False
     started = False
     start_time = None
     timeout_timer = None
+    _disabled_flag = None  # Flag that is true if not running
+
+    @property
+    def running(self):
+        return not self._disabled_flag.is_set()
+
+    @running.setter
+    def running(self, value):
+        if value:
+            self._disabled_flag.clear()
+        else:
+            self._disabled_flag.set()
 
     def __init__(self, timeout=0, poll_time=0.05, daemon=False):
         """
@@ -179,6 +190,7 @@ class GRTMacro(object):
         self.timeout = timeout
         self.poll_time = poll_time
         self.daemon = daemon
+        self._disabled_flag = threading.Event()
 
     def run(self):
         """
@@ -195,9 +207,9 @@ class GRTMacro(object):
         so that a StopIteration exception will be raised
         when it is interrupted during a sleep cycle.
         """
-        time.sleep(duration)
-        #if not self.running:
-            #raise StopIteration()
+        self._disabled_flag.wait(duration)
+        if not self.running:
+            raise StopIteration()
 
     def execute(self):
         """
@@ -263,50 +275,3 @@ class GRTMacro(object):
         """
         if self.running:
             self.running = False
-
-
-class GRTMacroController(object):
-    """
-    Class for executing a series of macros sequentially. For use with Autonomous, and autonomous programming
-    """
-
-    running = False
-    thread = None
-
-    def __init__(self, macros=[]):
-        """
-        Initializes Controller with an empty list of macros.
-        """
-        self.macros = macros
-
-    def add_macro(self, macro):
-        """
-        Adds a macro to self.macros.
-        """
-        self.macros.append(macro)
-
-    def run_autonomous(self):
-        """
-        Runs exec_autonomous in a new thread.
-        """
-        self.thread = threading.Thread(target=self.exec_autonomous)
-        self.thread.start()
-
-    def exec_autonomous(self):
-        """
-        Iterates through the list of macros, resets them, then runs them sequentially.
-        """
-        self.running = True
-        for macro in self.macros:
-            if not self.running:
-                return
-            macro.reset()
-            macro.execute()
-
-    def stop_autonomous(self):
-        """
-        At the end of autonomous, iterates through the list of macros, kills them all.
-        """
-        self.running = False
-        for macro in self.macros:
-            macro.kill()

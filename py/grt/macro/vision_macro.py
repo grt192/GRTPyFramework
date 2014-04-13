@@ -32,3 +32,11 @@ class VisionMacro(GRTMacro):
         if self.table[self.locked_key] and self.table[self.side_key] is self.side:
             print("GOAL IS HOT, big G little O, GOGOGO!!!!")
             self.kill()
+
+    def left_hot(self):
+        """
+        Returns True if the left goal is hot, otherwise returns False.
+        """
+        if self.table[self.locked_key] and self.table[self.side_key] is 'left':
+            return True
+        return False

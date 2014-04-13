@@ -4,7 +4,8 @@ Two ball auto. Carries 2nd ball in front, shoots first, picks up and shoots seco
 
 __author__ = "Calvin Huang"
 
-from grt.core import GRTMacroController, GRTMacro, Constants
+from . import MacroSequence
+from grt.core import GRTMacro, Constants
 from grt.macro.concurrent_macros import ConcurrentMacros
 from grt.macro.drive_macro import DriveMacro
 from grt.macro.shoot_macro import ShootMacro
@@ -13,7 +14,7 @@ from grt.macro.extend_macro import ExtendMacro
 from grt.macro.pickup_macro import PickupMacro
 
 
-class TwoBallAuto(GRTMacroController):
+class TwoBallAuto(MacroSequence):
     """
     Two ball auto.
     """
@@ -24,12 +25,13 @@ class TwoBallAuto(GRTMacroController):
         self.polite_macro = GRTMacro(c['2ballpoliteness'])
         self.extend_macro = ExtendMacro(intake, 1.5)
         self.drive_macro_a = DriveMacro(dt, c['2balldrivehalfdist'], c['2balldmtimeout'])
+        self.drive_macro_back = DriveMacro(dt, c['2ballbackupdist'], c['2balldmtimeout'])
         self.drive_macro_b = DriveMacro(dt, c['2balldriveremainingdist'], c['2balldmtimeout'])
         self.wait_macro = GRTMacro(c['2ballwait'])
         self.shoot_macro = ShootMacro(shooter, intake, 2.5)
         self.wind_macro = WindMacro(shooter)
         self.pickup_macro = PickupMacro(intake)
-        self.macros = [self.polite_macro, self.extend_macro, self.drive_macro_a,
+        self.macros = [self.polite_macro, self.extend_macro, self.drive_macro_a, self.drive_macro_back,
                        self.wait_macro, self.shoot_macro, self.wind_macro,
                        ConcurrentMacros((self.drive_macro_b, self.pickup_macro)),
                        self.shoot_macro, self.wind_macro]
@@ -47,3 +49,5 @@ class TwoBallAuto(GRTMacroController):
             self.wait_macro.timeout = datum
         elif state_id == '2ballpoliteness':
             self.polite_macro.timeout = datum
+        elif state_id == '2ballbackupdist':
+            self.drive_macro_back.distance = datum
