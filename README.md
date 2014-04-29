@@ -29,11 +29,12 @@ Controllers are governing objects that provide instructions for the various mech
 the logic necessary to tell a mechanism what to do. A controller may operate over one or more mechanisms,
 defining the logic by which each assembly is used. Controllers may be fully autonomous or draw on sensor or user
 feedback to command Mechanisms in the appropriate way. As a matter of abstraction, Controllers should never have direct
-access to Sensors or Actuators.
+access to Sensors or Actuators. Mechanism controllers, drive controllers, and macros are the different types of
+controllers.
 
 Flow Diagram:
 
-    Controller
+    Controller (Mechanism controller, drive controller, macro)
        |
        '--- Mechanism
                    |
@@ -49,4 +50,21 @@ Sensors help the robot to sense its state and environment. For example, a potent
 rotation undergone by an axle (robot state), while a distance sensor may be used to sense the robot's location in
 relation to a field (environment).
 
-Sensors have listeners;
+Sensors have listeners; listeners are methods that are called whenever a sensor's state changes. When a listener is
+called, some statements are executed. For example, a joystick listener (see mechcontroller.py) would be called whenever
+a joystick state changes; when a button is pressed. The joystick listener would execute different commands depending on
+the id of the button that is pressed.
+
+
+Macros
+------
+A macro is a fundamental action that can be executed autonomously by the robot, more accurately and more reliably than
+a human driver. For example, driving forward an exact distance, or turning by a certain angle. These two macros come
+built in, along with macros for executing other macros sequentially, concurrently, and conditionally. Macros can take in
+mechanisms and sensors as parameters, as they will make mechanisms do certain things based on sensor inputs.
+
+Autonomous
+----------
+Different autonomous modes can be created in the autonomous module as instances of AutonomousMode. If an autonomous mode
+is a sequence of macros, it will be implemented as an instance of MacroSequence (A subclass of AutonomouseMode
+specifically for executing macros.)
