@@ -4,7 +4,7 @@ import wpilib
 from config import sp, hid_sp, dt, ds
 import time
 
-auto = basicauto
+auto = basicauto # replace with auto of choice
 
 
 class MyRobot(wpilib.SimpleRobot):
@@ -21,9 +21,9 @@ class MyRobot(wpilib.SimpleRobot):
         self.GetWatchdog().SetEnabled(False)
 
         if ds.GetDigitalIn(1):
-            auto = twoballauto
+            auto = twoballauto # replace with auto of choice
         else:
-            auto = basicauto
+            auto = basicauto # replace with auto of choice
 
         auto.run_autonomous()
         while self.IsAutonomous() and self.IsEnabled():

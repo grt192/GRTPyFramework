@@ -1,5 +1,6 @@
 import sys
 
+
 class RollbackImporter:
     def __init__(self):
         "Creates an instance and installs as the global importer"
@@ -17,6 +18,7 @@ class RollbackImporter:
                         continue
                     del sys.modules[modname].__dict__[v]
                 del sys.modules[modname]
+
 
 def main():
     #print(sys.path)
