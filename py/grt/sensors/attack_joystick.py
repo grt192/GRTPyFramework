@@ -38,3 +38,5 @@ class Attack3Joystick(Sensor):
 
         self.x_axis = self.j.GetX()
         self.y_axis = self.j.GetY()
+        self.magnitude = self.j.GetMagnitude()
+        self.direction = self.j.GetDirectionDegrees()
