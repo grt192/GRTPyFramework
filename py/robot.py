@@ -17,7 +17,7 @@ class MyRobot(wpilib.SimpleRobot):
 
     def Autonomous(self):
         global auto
-        dt.upshift()
+        dt.up_shift()
         self.GetWatchdog().SetEnabled(False)
 
         if ds.GetDigitalIn(1):
@@ -33,7 +33,7 @@ class MyRobot(wpilib.SimpleRobot):
         auto.stop_autonomous()
 
     def OperatorControl(self):
-        dt.downshift()  # start in low gear for tele
+        dt.down_shift()  # start in low gear for tele
         dog = self.GetWatchdog()
         dog.SetExpiration(0.25)
         dog.SetEnabled(True)
