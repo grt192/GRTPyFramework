@@ -10,7 +10,7 @@ class DriveTrain:
     def __init__(self,
                  left_motor, right_motor,
                  left_shifter=None, right_shifter=None,
-                 left_encoder=None, right_encoder=None):
+                 left_encoder=None, right_encoder=None, gyro=None):
         """
         Initializes the drivetrain with some motors (or MotorSets),
         optional shifters and encoders
@@ -21,6 +21,7 @@ class DriveTrain:
         self.right_shifter = right_shifter
         self.left_encoder = left_encoder
         self.right_encoder = right_encoder
+        self.gyro = gyro
 
     def set_dt_output(self, left_output, right_output):
         """
