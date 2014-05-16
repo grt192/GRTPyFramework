@@ -66,5 +66,21 @@ mechanisms and sensors as parameters, as they will make mechanisms do certain th
 Autonomous
 ----------
 Different autonomous modes can be created in the autonomous module as instances of AutonomousMode. If an autonomous mode
-is a sequence of macros, it will be implemented as an instance of MacroSequence (A subclass of AutonomouseMode
+is a sequence of macros, it will be implemented as an instance of MacroSequence (A subclass of AutonomousMode
 specifically for executing macros.)
+
+Booting the cRIO
+----------------
+When the cRIO is rebooted, it goes through a loop in which code is loaded (See boot.py).
+
+========================================================================================================================
+
+Getting Started:
+----------------
+
+You have access to the wpilib documentation for motors, pneumatics, and other actuators. GRTPyFramework provides wrapper
+classes for sensors. You will need to first ensure that the drivetrain code is correct (number of motors, and the
+direction in which they turn). Then define your mechanism classes (ex: pickup, shooter) with the appropriate actuators
+and sensors involved. Then for autonomy, define some macros similar to drive and turn (ex: shoot, pickup, etc.). These
+can then be used in different autonomous modes that you can also define.
+

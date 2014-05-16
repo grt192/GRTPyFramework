@@ -1,15 +1,11 @@
 __author__ = "Sidd Karamcheti, Calvin Huang"
 
 import wpilib
-from config import sp, hid_sp, dt, ds
+from config importw
 import time
-
-auto = basicauto # replace with auto of choice
-
 
 class MyRobot(wpilib.SimpleRobot):
     def Disabled(self):
-        auto.stop_autonomous()
         while self.IsDisabled():
             tinit = time.time()
             sp.poll()
@@ -20,24 +16,16 @@ class MyRobot(wpilib.SimpleRobot):
         dt.upshift()
         self.GetWatchdog().SetEnabled(False)
 
-        if ds.GetDigitalIn(1):
-            auto = twoballauto # replace with auto of choice
-        else:
-            auto = basicauto # replace with auto of choice
-
-        auto.run_autonomous()
         while self.IsAutonomous() and self.IsEnabled():
             tinit = time.time()
             sp.poll()
             wpilib.Wait(0.04 - (time.time() - tinit))
-        auto.stop_autonomous()
 
     def OperatorControl(self):
         dt.downshift()  # start in low gear for tele
         dog = self.GetWatchdog()
         dog.SetExpiration(0.25)
         dog.SetEnabled(True)
-        auto.stop_autonomous()
 
         while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()

@@ -2,7 +2,8 @@
 Module for various drivetrain control mechanisms.
 Listens to Attack3Joysticks, not wpilib.Joysticks.
 """
-
+from grt.macro.turn_macro import TurnMacro
+from config import gyro
 
 class ArcadeDriveController:
     """
@@ -19,7 +20,6 @@ class ArcadeDriveController:
         l_joystick.add_listener(self._joylistener)
         if r_joystick:
             r_joystick.add_listener(self._joylistener)
-
     def _joylistener(self, sensor, state_id, datum):
         if sensor in (self.l_joystick, self.r_joystick) and state_id in ('x_axis', 'y_axis'):
             power = -self.l_joystick.y_axis
@@ -32,7 +32,10 @@ class ArcadeDriveController:
                 self.dt.upshift()
             else:
                 self.dt.downshift()
-
+        elif sensor in (self.l_joystick, self.r_joystick) and state_id == 'button2':
+            print("Returning to original position")
+            turn_macro = TurnMacro(self.dt, gyro, -gyro.angle, 5)
+            turn_macro.perform()
 
 class TankDriveController:
     """

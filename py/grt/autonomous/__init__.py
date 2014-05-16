@@ -8,7 +8,7 @@ class AutonomousMode(object):
 
     thread = None
     running = False
-	
+
     def __init__(self):
         self.running_macros = set()
 

@@ -13,6 +13,7 @@ class Ticker(Sensor):
         super().__init__()
         self.time = time.time()
         self.duration = duration
+        self.function = function
 
     def poll(self):
         if time.time() - self.time > self.duration:
@@ -21,6 +22,6 @@ class Ticker(Sensor):
 
     def tick(self):
         """
-        That something.
+        That something. Will be overriden after initialization.
         """
         pass
