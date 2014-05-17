@@ -61,16 +61,11 @@ class MecanumDT:
     @staticmethod
     def normalize(self, motor_power):
         #Find the maximum magnitude in the array.
-        max_magnitude = motor_power[0]
-        for i in motor_power:
-            temp = abs(motor_power[i])
-            if max_magnitude < temp:
-                max_magnitude = temp
+        max_magnitude = max(motor_power, key=lambda x: abs(x))
         #If the max magnitude is greater than 1, divide all wheel speeds by the max magnitude
         # to normalize the values.
         if max_magnitude > 1:
-            for i in motor_power:
-                motor_power[i] = motor_power[i] / max_magnitude
+            map(lambda x: x * 1.0 / max_magnitude, motor_power)
 
     def set_power(self, power):
         """
