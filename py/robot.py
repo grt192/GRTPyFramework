@@ -36,7 +36,9 @@ class MyRobot(wpilib.SimpleRobot):
         import config
         self.sp = config.sp
         self.hid_sp = config.hid_sp
-        
+        self.ds = config.ds
+        self.dt = config.dt
+        self.driver_stick = config.driver_stick
 
     def Disabled(self):
         if auto_exists:
@@ -45,12 +47,13 @@ class MyRobot(wpilib.SimpleRobot):
         while self.IsDisabled():
             tinit = time.time()
             self.sp.poll()
+            
             wpilib.Wait(0.04 - (time.time() - tinit))
 
     if auto_exists:
         def Autonomous(self):
             global auto
-            dt.upshift()
+            dt.up_shift()
             self.watchdog.SetEnabled(False)
 
             if ds.GetDigitalIn(1):
@@ -81,6 +84,8 @@ class MyRobot(wpilib.SimpleRobot):
             tinit = time.time()
             self.sp.poll()
             self.hid_sp.poll()
+            if self.driver_stick.j.GetRawButton(10):
+                raise NameError('Rebooting')
             wpilib.Wait(0.04 - (time.time() - tinit))
 
 

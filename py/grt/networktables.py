@@ -1,11 +1,12 @@
-try:
-    from wpilib import NetworkTable as NT
-    from wpilib import BooleanArray, NumberArray, StringArray
-    from wpilib import ITableListener
-except ImportError:
-    from pyfrc.wpilib import NetworkTable as NT
-    from pyfrc.wpilib import BooleanArray, NumberArray, StringArray, ITableListener
 
+from wpilib import NetworkTable as NT
+from wpilib import BooleanArray, NumberArray, StringArray
+from wpilib import ITableListener
+from pyfrc.wpilib import NetworkTable as NT
+from pyfrc.wpilib import BooleanArray, NumberArray, StringArray, ITableListener
+
+#Warning! This file will not work if used in the py_frc simulator.
+#It functions on the actual hardware only.
 class ITable:
     """
     Wrapper for robotpy SIP ITable interface

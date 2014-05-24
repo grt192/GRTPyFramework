@@ -1,10 +1,13 @@
 __author__ = "Calvin Huang"
 
-
+crio_native = True
 try: 
     from wpilib import Encoder as WEncoder
+    from wpilib import CounterBase
 except ImportError:
     from pyfrc.wpilib import Encoder as WEncoder
+    crio_native = False
+
 from grt.core import Sensor
 
 
@@ -28,13 +31,22 @@ class Encoder(Sensor):
         on module number 1, 128 CPR, and with 4x counting.
         """
         super().__init__()
-        self.e = WEncoder(channel_a, channel_b, reverse, enctype)
+        if crio_native:
+            enctype = CounterBase.k4X
+            self.e = WEncoder(modnum, channel_a, modnum, channel_b, reverse, enctype)
+        else:
+            self.e = WEncoder(channel_a, channel_b, reverse, enctype)
         self.cpr = cpr
         self.e.SetDistancePerPulse(pulse_dist)
         self.e.Start()
 
     def poll(self):
-        self.distance = self.e.Get()
         self.rate = self.e.GetRate()
-        #self.stopped = self.e.GetStopped()
-        #self.direction = self.e.GetDirection()
+        if crio_native:
+            self.stopped = self.e.GetStopped()
+            self.direction = self.e.GetDirection()
+            self.distance = self.e.GetDistance()
+        else:
+            self.distance = self.e.Get()
+
+            
