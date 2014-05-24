@@ -40,13 +40,14 @@ class MecanumDT:
         The front right and rear left motors map to "x_power"
         Rotation is factored in like it always is during a normal arcade drive.
         """
+        rotation *= .1 #scaling down rotation
         fl_power = y_power + rotation
         fr_power = x_power - rotation
         rl_power = x_power + rotation
         rr_power = y_power - rotation
-        print(fl_power)
-
+        #print(fl_power)
         motor_power = [fl_power, fr_power, rl_power, rr_power]
+        print(motor_power)
         self.normalize(motor_power)
         self.fl_motor.Set(motor_power[0])
         self.fr_motor.Set(motor_power[1])
@@ -67,8 +68,11 @@ class MecanumDT:
         max_magnitude = max(motor_power, key=lambda x: abs(x))
         #If the max magnitude is greater than 1, divide all wheel speeds by the max magnitude
         # to normalize the values.
-        if max_magnitude > 1:
-            map(lambda x: x * 1.0 / max_magnitude, motor_power)
+        if max_magnitude > 1.0:   #Note that adding more decimal points will make the function more sensitive.
+            for i in range(len(motor_power)):
+                motor_power[i] = motor_power[i] * 1.0 / max_magnitude
+                print("Index " + str(i) + ": Power " + str(motor_power[i]))
+                #print(motor_power[i])
 
     def set_power(self, power):
         """
