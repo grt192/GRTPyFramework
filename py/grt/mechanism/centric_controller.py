@@ -13,6 +13,7 @@ class CentricDriveController:
         self.move_joystick = move_joystick
         move_joystick.add_listener(self._joylistener)
 
+
     def _joylistener(self, sensor, state_id, datum):
         if sensor == self.move_joystick and state_id in ('x_axis', 'y_axis'):
             #power = -self.l_joystick.y_axis

@@ -29,6 +29,7 @@ except NameError:
     auto_exists = False
 
 
+
 class MyRobot(wpilib.SimpleRobot):
     def __init__(self):
         self.watchdog = wpilib.GetWatchdog()

@@ -32,6 +32,7 @@ class MecanumDT:
         magnitude = self.limited(magnitude) * math.sqrt(2) #Multiply magnitude by sqrt(2) to allow for full power in Cartesian form.
         math_direction = -direction + 90 #Convert from airplane to trig coordinates.
         rad_direction = direction * 3.14159 / 180 #Convert to radians
+
         x_power = math.cos(rad_direction) * magnitude
         y_power = math.sin(rad_direction) * magnitude
         """
@@ -60,6 +61,7 @@ class MecanumDT:
             return -1
         return num
 
+
     def normalize(self, motor_power):
         #Find the maximum magnitude in the array.
         max_magnitude = max(motor_power, key=lambda x: abs(x))
@@ -75,7 +77,7 @@ class MecanumDT:
         """
         self.power = sorted([0, power, 1])[1]  # clamp :)
 
-    def upshift(self):
+    def up_shift(self):
         """
         Upshifts, if shifters are present.
         """
@@ -84,7 +86,7 @@ class MecanumDT:
         if self.right_shifter:
             self.right_shifter.Set(False)
 
-    def downshift(self):
+    def down_shift(self):
         """
         Downshifts, if shifters are present.
         """

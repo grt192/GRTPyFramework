@@ -29,9 +29,9 @@ class ArcadeDriveController:
                                   power + turnval)
         elif sensor == self.l_joystick and state_id == 'trigger':
             if datum:
-                self.dt.upshift()
+                self.dt.up_shift()
             else:
-                self.dt.downshift()
+                self.dt.down_shift()
 
 
 class TankDriveController:
