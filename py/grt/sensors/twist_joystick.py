@@ -12,7 +12,7 @@ BUTTON_TABLE = ['trigger', 'button2', 'button3',
                 'button10', 'button11']
 
 
-class Attack3Joystick(Sensor):
+class TwistJoystick(Sensor):
     """
     Sensor wrapper for the Attack 3 Joystick.
 
@@ -20,7 +20,7 @@ class Attack3Joystick(Sensor):
     and double x_axis, y_axis for joystick position
     """
 
-    x_axis = y_axis = 0
+    x_axis = y_axis = twist_axis = 0
     trigger = button2 = button3 = \
         button4 = button5 = button6 = \
         button7 = button8 = button9 = \
@@ -43,3 +43,4 @@ class Attack3Joystick(Sensor):
         self.y_axis = self.j.GetY()
         self.magnitude = self.j.GetMagnitude()
         self.direction = self.j.GetDirectionDegrees()
+        self.twist_axis = self.j.GetZ()

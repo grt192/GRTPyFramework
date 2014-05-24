@@ -1,6 +1,10 @@
-from wpilib import NetworkTable as NT
-from wpilib import BooleanArray, NumberArray, StringArray
-from wpilib import ITableListener
+try:
+    from wpilib import NetworkTable as NT
+    from wpilib import BooleanArray, NumberArray, StringArray
+    from wpilib import ITableListener
+except ImportError:
+    from pyfrc.wpilib import NetworkTable as NT
+    from pyfrc.wpilib import BooleanArray, NumberArray, StringArray, ITableListener
 
 class ITable:
     """

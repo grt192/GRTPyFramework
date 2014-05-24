@@ -106,6 +106,7 @@ class Constants(Sensor):
     """
 
     file_loc = '/c/constants.txt'
+    alt_file_loc = './constants.txt'
     _instance = None
 
     def __new__(cls, *args, **kwargs):
@@ -115,10 +116,12 @@ class Constants(Sensor):
             cls._instance.poll()
         return cls._instance
 
-    def __init__(self, file_loc=None):
+    def __init__(self, file_loc=None, alt_file_loc=None):
 # No super call on purpose
         if file_loc:
             self.file_loc = file_loc
+        if alt_file_loc:
+            self.alt_file_loc = alt_file_loc
 
     def __getitem__(self, key):
         return self.get(key)
@@ -130,7 +133,10 @@ class Constants(Sensor):
         """
         Reloads file data.
         """
-        self.load_file(self.file_loc)
+        try:
+            self.load_file(self.file_loc)
+        except IOError:
+            self.load_file(self.alt_file_loc)
 
     def load_file(self, file_loc):
         """

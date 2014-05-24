@@ -4,15 +4,13 @@ For now, takes the joystick values (x, y), converts them into polar form (r, the
 and then factors in the gyro angle.
 """
 
-class CentricDriveController
-	def __init__(self, dt, move_joystick, angle_joystick):
+class CentricDriveController:
+    def __init__(self, dt, move_joystick):
         """
         Initialize arcade drive controller with a DT and up to two joysticks.
         """
         self.dt = dt
         self.move_joystick = move_joystick
-        self.angle_joystick = angle_joystick
-        angle_joystick.add_listener(self._joylistener)
         move_joystick.add_listener(self._joylistener)
 
     def _joylistener(self, sensor, state_id, datum):
@@ -29,13 +27,9 @@ class CentricDriveController
             current_direction = self.dt.gyro.angle
             direction = desired_direction - current_direction
             rotation = self.move_joystick.twist_axis
-            dt.set_dt_output(magnitude, direction, rotation)
+            print(str(rotation))
+            self.dt.set_dt_output(magnitude, direction, rotation)
 
-        elif sensor == self.angle_joystick and state_id == 'angle':
-            if datum:
-                
-            else:
-                
 
 
 class TankDriveController:

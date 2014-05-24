@@ -1,0 +1,51 @@
+#dt distance per pulse
+dt_dpp,5.466e-3
+
+#drivemacro PID constants
+DTP,0.6
+DTI,0
+DTD,1.5
+DMtol,0.2
+DMMAX,0.7
+
+#drivemacro straight controller constants
+CP,0.1
+CI,0
+CD,0
+
+#turnmacro PID constants
+TP,1
+TI,0
+TD,0
+TMtol,1
+
+#shooter "pid" constants, TODO
+SP,1
+SC,0.2
+SLimit,0.96
+
+#shooter pot constants, robot-specific
+#omega 1
+spot_scale,0.6333
+spot_offset,-1.142
+#omega 2
+##TODO
+
+#1 ball auto
+1balldrivedist,4
+1balldmtimeout,2
+
+#2 ball auto
+2ballpoliteness,0.7
+2balldrivehalfdist,6
+2ballbackupdist,-0.3
+2balldriveremainingdist,1.5
+2balldmtimeout,3
+2ballautoenabled,1
+2ballwait,1.0
+
+#2 ball hot auto
+2ballhotturnangle,15
+2ballhotdrivedistance,8
+2ballhotdmtimeout,3
+2ballhotwait,1.5
