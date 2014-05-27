@@ -69,10 +69,9 @@ class MecanumDT:
         #If the max magnitude is greater than 1, divide all wheel speeds by the max magnitude
         # to normalize the values.
         if max_magnitude > 1.0:   #Note that adding more decimal points will make the function more sensitive.
-            for i in range(len(motor_power)):
-                motor_power[i] = motor_power[i] * 1.0 / max_magnitude
-                print("Index " + str(i) + ": Power " + str(motor_power[i]))
-                #print(motor_power[i])
+            motor_power = map(lambda x: x * 1.0 / max_magnitude, motor_power)
+            for index, value in enumerate(motor_power):
+                print 'Index: %s, Power: %s'%(str(index), str(value))
 
     def set_power(self, power):
         """
