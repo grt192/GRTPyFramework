@@ -71,7 +71,7 @@ class MecanumDT:
         if max_magnitude > 1.0:   #Note that adding more decimal points will make the function more sensitive.
             motor_power = map(lambda x: x * 1.0 / max_magnitude, motor_power)
             for index, value in enumerate(motor_power):
-                print 'Index: %s, Power: %s'%(str(index), str(value))
+                print('Index: %s, Power: %s'%(str(index), str(value)))
 
     def set_power(self, power):
         """
