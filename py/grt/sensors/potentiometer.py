@@ -1,6 +1,9 @@
 __author__ = 'dhruv'
 
-from wpilib import AnalogPotentiometer as WPotentiometer
+try: 
+    from wpilib import AnalogPotentiometer as WPotentiometer
+except ImportError:
+    from pyfrc.wpilib import AnalogPotentiometer as WPotentiometer
 from grt.core import Sensor
 
 
