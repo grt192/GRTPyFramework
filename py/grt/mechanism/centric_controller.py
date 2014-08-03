@@ -25,7 +25,7 @@ class CentricDriveController:
             """
             magnitude = self.move_joystick.magnitude
             desired_direction = self.move_joystick.direction
-            current_direction = self.dt.gyro.angle
+            current_direction = 0 #self.dt.gyro.angle
             direction = desired_direction - current_direction
             rotation = self.move_joystick.twist_axis
             print(str(rotation))
