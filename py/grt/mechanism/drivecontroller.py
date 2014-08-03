@@ -53,3 +53,52 @@ class TankDriveController:
         if sensor in (self.l_joystick, self.r_joystick) and state_id in ('x_axis', 'y_axis'):
             self.dt.set_dt_output(self.l_joystick.y_axis,
                                   self.r_joystick.y_axis)
+
+
+class MecanumController:
+    def __init__(self, dt, joystick):
+        """
+        Initialize arcade drive controller with a DT and up to two joysticks.
+        """
+        self.dt = dt
+        self.joystick = joystick
+        self.joystick.add_listener(self._joylistener)
+
+    def _joylistener(self, sensor, state_id, datum):
+        if sensor == self.joystick and state_id in ('x_axis', 'y_axis'):
+            magnitude = self.joystick.magnitude
+            direction = self.joystick.direction
+            rotation = self.joystick.twist_axis
+            # print(str(rotation))
+            self.dt.set_dt_output(magnitude, direction, rotation)
+
+
+
+class CentricDriveController:
+    def __init__(self, dt, joystick):
+        """
+        Initialize arcade drive controller with a DT and up to two joysticks.
+        """
+        self.dt = dt
+        self.joystick = joystick
+        self.joystick.add_listener(self._joylistener)
+
+
+    def _joylistener(self, sensor, state_id, datum):
+        if sensor == self.joystick and state_id in ('x_axis', 'y_axis'):
+            #power = -self.l_joystick.y_axis
+            #turnval = self.r_joystick.x_axis if self.r_joystick else self.l_joystick.x_axis
+            # get turn value from r_joystick if it exists, else get it from l_joystick
+            #self.dt.set_dt_output(power - turnval, power + turnval)
+            """
+            This assumes north to be 0 degrees and degrees to be positive going clockwise.
+            """
+            magnitude = self.joystick.magnitude
+            rotation = self.joystick.twist_axis
+            if magnitude < 0.15 and rotation < 0.15:
+                magnitude = 0
+            desired_direction = self.joystick.direction
+            current_direction = self.dt.gyro.angle
+            direction = desired_direction - current_direction
+            print(str(rotation))
+            self.dt.set_dt_output(magnitude, direction, rotation)

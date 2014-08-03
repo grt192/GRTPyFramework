@@ -22,7 +22,7 @@ from grt.mechanism.motorset import Motorset
 from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.twist_joystick import TwistJoystick
-from grt.mechanism.centric_controller import CentricDriveController
+from grt.mechanism.drivecontroller import CentricDriveController
 from grt.mechanism.mecanum_dt import MecanumDT
 #--------------------------------------------------
 

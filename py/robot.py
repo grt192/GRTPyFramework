@@ -78,16 +78,18 @@ class MyRobot(wpilib.SimpleRobot):
 
         if auto_exists:
             auto.stop_autonomous()
+        with open("/c/gyro_value", "w") as f:
+            while self.IsOperatorControl() and self.IsEnabled():
 
-        while self.IsOperatorControl() and self.IsEnabled():
-            self.watchdog.Feed()
-            tinit = time.time()
-            self.sp.poll()
-            self.hid_sp.poll()
-            if self.driver_stick.j.GetRawButton(10):
-                raise NameError('Rebooting')
-            wpilib.Wait(0.04 - (time.time() - tinit))
-            print("Gyro: " + str(self.dt.gyro.g.GetAngle()))
+                f.write(str(self.dt.gyro.g.GetAngle()) + "," + str(self.dt.gyro.g.GetRate()) + "\r\n")
+                self.watchdog.Feed()
+                tinit = time.time()
+                self.sp.poll()
+                self.hid_sp.poll()
+                if self.driver_stick.j.GetRawButton(10):
+                    raise NameError('Rebooting')
+                wpilib.Wait(0.04 - (time.time() - tinit))
+                print("Gyro: " + str(self.dt.gyro.g.GetAngle()))
 
 
 def run():
