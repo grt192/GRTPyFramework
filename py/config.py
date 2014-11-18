@@ -51,7 +51,7 @@ compressor.Start()
 #Mechs
 
 #Teleop Controllers
-ac = ArcadeDriveController(dt, driver_stick)
+ac = ArcadeDriveController(dt, xbox_controller)
 
 #Network Tables
 vision_table = networktables.get_table('vision')
