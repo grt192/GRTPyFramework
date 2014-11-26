@@ -9,16 +9,21 @@ class ArcadeDriveController:
     Class for controlling DT in arcade drive mode, with one or two joysticks.
     """
 
-    def __init__(self, dt, l_joystick, r_joystick=None):
+    def __init__(self, dt, l_joystick, r_joystick=None, f_rec=None, f_play=None):
         """
         Initialize arcade drive controller with a DT and up to two joysticks.
+        f_rec is an optional file (string) that will contain recorded joystick output
+        f_play is an optional file (string) that will "play" recorded output
         """
         self.dt = dt
         self.l_joystick = l_joystick
         self.r_joystick = r_joystick
+        self.f_rec = f_rec
+        self.recording = False
         l_joystick.add_listener(self._joylistener)
         if r_joystick:
             r_joystick.add_listener(self._joylistener)
+            
 
     def _joylistener(self, sensor, state_id, datum):
         if sensor in (self.l_joystick, self.r_joystick) and state_id in ('x_axis', 'y_axis'):
@@ -27,11 +32,33 @@ class ArcadeDriveController:
             # get turn value from r_joystick if it exists, else get it from l_joystick
             self.dt.set_dt_output(power - turnval,
                                   power + turnval)
+            #store DT ouputs in file if recording
+            if self.recording:
+                out.write("%f %f\n"%(power - turnval, power + turnval))
         elif sensor == self.l_joystick and state_id == 'trigger':
             if datum:
                 self.dt.upshift()
             else:
                 self.dt.downshift()
+        elif sensor == 'button1' and f_rec:
+            #assume button1 starts recording
+            if datum:
+                out = open(f_rec, 'w') #open in the file in "write" mode
+                self.recording = True
+        elif sensor == 'button2':
+            #assume button2 stops recording
+            #add a failsafe to close file if 
+            #even if button2 is not pressed
+            if datum:
+                self.recording = False
+                out.close() #close the output file
+        elif sensor = 'button3':
+            #assume button3 is the "play" button
+            if datum:
+                with open(f_play, 'r') as f:
+                    for line in f:
+                        a, b = map(float, line.split())
+                        self.dt.set_dt_output(a, b)
 
 
 class TankDriveController:
