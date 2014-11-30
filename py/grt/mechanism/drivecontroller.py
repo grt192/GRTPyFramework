@@ -9,7 +9,7 @@ class ArcadeDriveController:
     Class for controlling DT in arcade drive mode, with one or two joysticks.
     """
 
-    def __init__(self, dt, l_joystick, r_joystick=None, f_rec=None, f_play=None):
+    def __init__(self, dt, l_joystick, r_joystick=None, f_rec=None, f_play=None, rec_test=False):
         """
         Initialize arcade drive controller with a DT and up to two joysticks.
         f_rec is an optional file (string) that will contain recorded joystick output
@@ -23,6 +23,10 @@ class ArcadeDriveController:
         l_joystick.add_listener(self._joylistener)
         if r_joystick:
             r_joystick.add_listener(self._joylistener)
+        if rec_test:
+            f_rec = 'test_recording.txt'
+            f_play = f_rec
+            open(f_rec, 'w').close() #empty contents of file
             
 
     def _joylistener(self, sensor, state_id, datum):
@@ -52,7 +56,7 @@ class ArcadeDriveController:
             if datum:
                 self.recording = False
                 out.close() #close the output file
-        elif sensor = 'button3' and f_play:
+        elif sensor == 'button3' and f_play:
             #assume button3 is the "play" button
             if datum:
                 with open(f_play, 'r') as f:
