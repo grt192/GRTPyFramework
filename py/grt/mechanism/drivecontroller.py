@@ -25,7 +25,7 @@ class ArcadeDriveController:
             r_joystick.add_listener(self._joylistener)
         if rec_test:
             self.f_rec = 'test_recording.txt'
-            self.f_play = f_rec
+            self.f_play = self.f_rec
             open(self.f_rec, 'w').close() #empty contents of file
             
 
