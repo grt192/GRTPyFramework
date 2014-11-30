@@ -52,7 +52,7 @@ class ArcadeDriveController:
             if datum:
                 self.recording = False
                 out.close() #close the output file
-        elif sensor = 'button3' and f_play:
+        elif sensor == 'button3' and f_play:
             #assume button3 is the "play" button
             if datum:
                 with open(f_play, 'r') as f:
