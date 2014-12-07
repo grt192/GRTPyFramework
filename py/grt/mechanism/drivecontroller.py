@@ -22,6 +22,7 @@ class ArcadeDriveController:
         self.r_joystick = r_joystick
         self.f_rec = f_rec
         self.recording = False
+        self.freq = freq
         l_joystick.add_listener(self._joylistener)
         if r_joystick:
             r_joystick.add_listener(self._joylistener)
@@ -40,7 +41,7 @@ class ArcadeDriveController:
                                   power + turnval)
             #store DT ouputs in file if recording
             if self.recording:
-                if time() - self.last_time > 1.0/freq:
+                if time() - self.last_time > 1.0/self.freq:
                     out.write("%f %f\n"%(power - turnval, power + turnval))
                     self.last_time = time() #this timing scheme works
                     #very similarly to how the Ticker works
