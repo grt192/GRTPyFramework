@@ -3,17 +3,19 @@ Module for various drivetrain control mechanisms.
 Listens to Attack3Joysticks, not wpilib.Joysticks.
 """
 
+from time import time
 
 class ArcadeDriveController:
     """
     Class for controlling DT in arcade drive mode, with one or two joysticks.
     """
 
-    def __init__(self, dt, l_joystick, r_joystick=None, f_rec=None, f_play=None, rec_test=False):
+    def __init__(self, dt, l_joystick, r_joystick=None, f_rec=None, f_play=None, rec_test=False, freq=10):
         """
         Initialize arcade drive controller with a DT and up to two joysticks.
         f_rec is an optional file (string) that will contain recorded joystick output
         f_play is an optional file (string) that will "play" recorded output
+        freq is the #times/second to record joystick input to the file
         """
         self.dt = dt
         self.l_joystick = l_joystick
@@ -38,7 +40,10 @@ class ArcadeDriveController:
                                   power + turnval)
             #store DT ouputs in file if recording
             if self.recording:
-                out.write("%f %f\n"%(power - turnval, power + turnval))
+                if time() - self.last_time > 1.0/freq:
+                    out.write("%f %f\n"%(power - turnval, power + turnval))
+                    self.last_time = time() #this timing scheme works
+                    #very similarly to how the Ticker works
         elif sensor == self.l_joystick and state_id == 'trigger':
             if datum:
                 self.dt.upshift()
@@ -49,6 +54,7 @@ class ArcadeDriveController:
             if datum:
                 out = open(f_rec, 'w') #open in the file in "write" mode
                 self.recording = True
+                self.last_time = time()
         elif sensor == 'button2':
             #assume button2 stops recording
             #add a failsafe to close file if 
