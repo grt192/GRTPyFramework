@@ -1,19 +1,55 @@
-class Pickup:
-    def __init__(self, achange_motor, release_pn):
-        self.achange_motor = achange_motor
-        self.release_pn = release_pn
+from grt.core import Constants
 
-    def achange_up(self):
-        self.achange_motor.Set(-1)
+constants = Constants()
 
-    def achange_down(self):
-        self.achange_motor.Set(1)
 
-    def achange_stop(self):
-        self.achange_motor.Set(0)
+class Elevator:
+
+    motor_power = .75
+
+    def __init__(self, motor):
+        self.motor = motor
+        self.set_ep(self.motor_power)
+
+    def set_ep(self, power):
+        self.motor.Set(power * self.motor_power)
+
+    def start_ep(self):
+        self.motor.Set(self.motor_power)
+
+    def stop_ep(self):
+        self.motor.Set(0)
+
+    def reverse_ep(self):
+        self.motor.Set(-self.motor_power)
+
+class Intake:
+
+    motor_power = 1
+
+    def __init__(self, roller):
+        self.roller = roller
+        self.set_ep(self.motor_power)
+
+    def set_ep(self, power):
+        self.roller.Set(power * self.motor_power)
+
+    def start_ep(self):
+        self.roller.Set(self.motor_power)
+
+    def stop_ep(self):
+        self.roller.Set(0)
+
+    def reverse_ep(self):
+        self.roller.Set(-self.motor_power)
+
+class PneumaticRelease:
+
+    def __init__(self, pneumatic):
+        self.pneumatic = pneumatic
 
     def release_open(self):
-        self.release_pn.Set(1)
+        self.pneumatic.Set(1)
 
-    def release_close(self):
-        self.release_pn.Set(0)
+    def release_closed(self):
+        self.pneumatic.Set(0)
