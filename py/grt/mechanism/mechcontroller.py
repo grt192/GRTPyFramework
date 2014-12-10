@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-class MechController:
+'''class MechController:
     def __init__(self, elevator, intake, driver_joystick):
         self.elevator = elevator
         self.intake = intake
@@ -42,9 +41,10 @@ class MechController:
 
         if state_id == 'button7':
             if datum:
-                self.elevator.release_close()
-=======
-class mechcontroller:
+                self.elevator.release_close()'''
+
+
+class MechController:
 	def __init__(self, intake, joystick):
 		self.intake = intake
 		self.joystick = joystick
@@ -76,4 +76,3 @@ class mechcontroller:
 				self.intake.roll_out()
 			else:
 				self.intake.roll_stop()
->>>>>>> cc5efce64613d916322c687868b2b8ec27cb494e

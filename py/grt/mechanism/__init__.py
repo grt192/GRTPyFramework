@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 from grt.core import Constants
 
 constants = Constants()
 
-
+'''
 class Elevator:
 
     motor_power = .75
@@ -54,7 +53,8 @@ class PneumaticRelease:
 
     def release_closed(self):
         self.pneumatic.Set(0)
-=======
+'''
+
 class Pickup:
 	def __init__(self, roller, elev, actuator):
 		'''
@@ -81,4 +81,3 @@ class Pickup:
 		self.elev.Set(-1)
 	def elev_stop(self):
 		self.elev.Set(0)
->>>>>>> cc5efce64613d916322c687868b2b8ec27cb494e

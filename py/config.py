@@ -25,10 +25,13 @@ constants = Constants()
 #Talons
 dt_right = Talon(2)
 dt_left = Motorset((Talon(1), ), scalefactors=(-1, ))
+roller = Talon(4)
+elev = Talon(5)
 
 #Solenoids + Relays
 compressor_pin = 1
 dt_shifter = Solenoid(1)
+actuator = Solenoid(2)
 
 #Digital Sensors
 left_encoder = Encoder(3, 4, constants['dt_dpp'], reverse=True)
@@ -41,13 +44,10 @@ gyro = Gyro(2)
 # Controllers
 driver_stick = Attack3Joystick(1)
 xbox_controller = XboxJoystick(2)
+driver_stick = MechController(pickup, Attack3Joystick(1))
 
 #mechanisms
-
-achange_motor = Talon(4)
-release_pn = Solenoid(2)
-pickup = Pickup(achange_motor, release_pn)
-
+pickup = Pickup(roller, elev, actuator)
 
 #DT
 dt = DriveTrain(dt_left, dt_right, dt_shifter,
