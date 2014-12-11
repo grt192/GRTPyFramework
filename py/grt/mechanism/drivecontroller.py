@@ -23,6 +23,7 @@ class ArcadeDriveController:
         self.f_rec = f_rec
         self.recording = False
         self.freq = freq
+        self.out = None
         l_joystick.add_listener(self._joylistener)
         if r_joystick:
             r_joystick.add_listener(self._joylistener)
@@ -40,36 +41,40 @@ class ArcadeDriveController:
             self.dt.set_dt_output(power - turnval,
                                   power + turnval)
             #store DT ouputs in file if recording
-            if self.recording:
+            if self.recording and self.out:
                 if time() - self.last_time > 1.0/self.freq:
-                    out.write("%f %f\n"%(power - turnval, power + turnval))
+                    self.out.write("%f %f\n"%(power - turnval, power + turnval))
                     self.last_time = time() #this timing scheme works
                     #very similarly to how the Ticker works
-        elif sensor == self.l_joystick and state_id == 'trigger':
+        elif state_id == self.l_joystick and state_id == 'trigger':
             if datum:
                 self.dt.upshift()
             else:
                 self.dt.downshift()
-        elif sensor == 'button1' and f_rec:
+        elif state_id == 'button2' and f_rec:
             #assume button1 starts recording
             if datum:
-                out = open(f_rec, 'w') #open in the file in "write" mode
+                self.out = open(self.f_rec, 'w') #open in the file in "write" mode
                 self.recording = True
                 self.last_time = time()
-        elif sensor == 'button2':
+        elif state_id == 'button3':
             #assume button2 stops recording
             #add a failsafe to close file if 
             #even if button2 is not pressed
             if datum:
                 self.recording = False
-                out.close() #close the output file
-        elif sensor == 'button3' and f_play:
+                self.out.close() #close the output file
+        elif state_id == 'button4' and self.f_play:
             #assume button3 is the "play" button
             if datum:
-                with open(f_play, 'r') as f:
+                with open(self.f_play, 'r') as f:
                     for line in f:
                         a, b = map(float, line.split())
-                        self.dt.set_dt_output(a, b)
+                        start_time = time()
+                        while time() - start_time < 1.0/self.freq:
+                            #later, we could try some sort of
+                            #linearization thing
+                            self.dt.set_dt_output(a, b)
 
 
 class TankDriveController:
