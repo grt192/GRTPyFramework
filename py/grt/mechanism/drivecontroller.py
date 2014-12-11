@@ -75,6 +75,7 @@ class ArcadeDriveController:
                             #later, we could try some sort of
                             #linearization thing
                             self.dt.set_dt_output(a, b)
+                self.dt.set_dt.output(0, 0) #make robot stop after it's finished reading the file
 
 
 class TankDriveController:
