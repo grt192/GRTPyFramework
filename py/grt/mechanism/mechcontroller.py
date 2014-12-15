@@ -1,7 +1,8 @@
 class MechController:
-    def __init__(self, elevator, intake, driver_joystick):
+    def __init__(self, elevator, intake, pn, driver_joystick):
         self.elevator = elevator
         self.intake = intake
+        self.pn = pn
         self.driver_joystick = driver_joystick
         driver_joystick.add_listener(self._driver_joystick_listener)
 
@@ -37,8 +38,8 @@ class MechController:
         #RELEASE THE PNEUMATICS
         if state_id == 'button6':
             if datum:
-                self.elevator.release_open()
+                self.pn.release_open()
 
         if state_id == 'button7':
             if datum:
-                self.elevator.release_close()
+                self.pn.release_close()

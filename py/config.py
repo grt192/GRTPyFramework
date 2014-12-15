@@ -16,7 +16,7 @@ from grt.mechanism.motorset import Motorset
 from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 import grt.networktables as networktables
-from grt.mechanism import Pickup
+from grt.mechanism import Elevator, Intake, PneumaticRelease
 from grt.mechanism.mechcontroller import MechController
 
 constants = Constants()
@@ -25,11 +25,13 @@ constants = Constants()
 #Talons
 dt_right = Talon(2)
 dt_left = Motorset((Talon(1), ), scalefactors=(-1, ))
+el = Talon(4)
+pick = Talon(5)
 
 #Solenoids + Relays
 compressor_pin = 1
 dt_shifter = Solenoid(1)
-
+pn = Solenoid(2)
 #Digital Sensors
 left_encoder = Encoder(3, 4, constants['dt_dpp'], reverse=True)
 right_encoder = Encoder(1, 2, constants['dt_dpp'])
@@ -45,21 +47,21 @@ xbox_controller = XboxJoystick(2)
 #mechanisms
 
 achange_motor = Talon(4)
-release_pn = Solenoid(2)
-pickup = Pickup(achange_motor, release_pn)
+# pickup = Pickup(achange_motor, release_pn)
 
 
 #DT
 dt = DriveTrain(dt_left, dt_right, dt_shifter,
                 left_encoder=left_encoder, right_encoder=right_encoder)
-
+pnewp  = PneumaticRelease(pn)
 #Compressor
 compressor = Compressor(pressure_sensor_pin, compressor_pin)
 compressor.Start()
-
+elevator = Elevator(el)
+pickup = Intake(pick)
 #Teleop Controllers
 ac = ArcadeDriveController(dt, driver_stick)
-mc = MechController(pickup, driver_stick)
+mc = MechController(elevator, pickup,pnewp, driver_stick)
 
 #Network Tables
 vision_table = networktables.get_table('vision')
