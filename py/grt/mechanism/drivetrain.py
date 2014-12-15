@@ -39,7 +39,7 @@ class DriveTrain:
         """
         self.power = sorted([0, power, 1])[1]  # clamp :)
 
-    def upshift(self):
+    def up_shift(self):
         """
         Upshifts, if shifters are present.
         """
@@ -48,7 +48,7 @@ class DriveTrain:
         if self.right_shifter:
             self.right_shifter.Set(False)
 
-    def downshift(self):
+    def down_shift(self):
         """
         Downshifts, if shifters are present.
         """

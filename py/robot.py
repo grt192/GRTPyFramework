@@ -22,12 +22,12 @@ from grt.sensors.twist_joystick import TwistJoystick
 from grt.mechanism.centric_controller import CentricDriveController
 from grt.mechanism.mecanum_dt import MecanumDT
 import time
+from teleop_controller import TeleopController
 
 try:
     auto = basicauto
 except NameError:
     auto_exists = False
-
 
 
 class MyRobot(wpilib.SimpleRobot):
@@ -39,6 +39,9 @@ class MyRobot(wpilib.SimpleRobot):
         self.ds = config.ds
         self.dt = config.dt
         self.driver_stick = config.driver_stick
+        self.drive_controller = config.drive_controller
+        self.talon_arr = config.talon_arr
+        self.teleop_controller = TeleopController(self.driver_stick, self.drive_controller, self.talon_arr)
 
     def Disabled(self):
         if auto_exists:
@@ -46,7 +49,7 @@ class MyRobot(wpilib.SimpleRobot):
         self.watchdog.SetEnabled(False)
         while self.IsDisabled():
             tinit = time.time()
-            self.sp.poll()
+            #self.sp.poll()
             
             wpilib.Wait(0.04 - (time.time() - tinit))
 
@@ -78,14 +81,11 @@ class MyRobot(wpilib.SimpleRobot):
 
         if auto_exists:
             auto.stop_autonomous()
-
         while self.IsOperatorControl() and self.IsEnabled():
             self.watchdog.Feed()
             tinit = time.time()
-            self.sp.poll()
-            self.hid_sp.poll()
-            if self.driver_stick.j.GetRawButton(10):
-                raise NameError('Rebooting')
+            self.teleop_controller.poll()
+            
             wpilib.Wait(0.04 - (time.time() - tinit))
 
 

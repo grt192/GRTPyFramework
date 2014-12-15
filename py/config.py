@@ -24,16 +24,27 @@ from grt.sensors.encoder import Encoder
 from grt.sensors.twist_joystick import TwistJoystick
 from grt.mechanism.centric_controller import CentricDriveController
 from grt.mechanism.mecanum_dt import MecanumDT
+from grt.sensors.talon import Talon
 #--------------------------------------------------
 
 constants = Constants()
 #Pin/Port map
+ds = wpilib.DriverStation.GetInstance()
+
+if ds.GetDigitalIn(8):
+	self.mecanum_base = True
+if ds.GetDigitalIn(7):
+	self.base_2011 = True
+if ds.GetDigitalIn(6):
+	self.omega2_base = True
 
 #Use the motors in the order fl, fr, rl, rr.
-fl_motor = wpilib.Talon(1)
-fr_motor = wpilib.Talon(2)
-rl_motor = wpilib.Talon(3)
-rr_motor = wpilib.Talon(4)
+
+fl_motor = Talon(1)
+fr_motor = Talon(2)
+rl_motor = Talon(3)
+rr_motor = Talon(4)
+talon_arr = [fl_motor, fr_motor, rl_motor, rr_motor]
 
 #Solenoids + Relays
 compressor_pin = 1
@@ -48,10 +59,13 @@ pressure_sensor_pin = 14
 gyro = Gyro(2)
 
 # Controllers
-driver_stick = TwistJoystick(1)
+#driver_stick = TwistJoystick(1)
+driver_stick = Attack3Joystick(1)
 xbox_controller = XboxJoystick(2)
 
-dt = MecanumDT(fl_motor, fr_motor, rl_motor, rr_motor, left_encoder=left_encoder, right_encoder=right_encoder, gyro=gyro)
+#dt = MecanumDT(fl_motor, fr_motor, rl_motor, rr_motor, left_encoder=left_encoder, right_encoder=right_encoder, gyro=gyro)
+dt = DriveTrain(fl_motor, fr_motor)
+drive_controller = ArcadeDriveController(dt, driver_stick)
 
 #Compressor
 compressor = wpilib.Compressor(pressure_sensor_pin, compressor_pin)
@@ -64,7 +78,6 @@ ac = CentricDriveController(dt, driver_stick)
 
 
 
-ds = wpilib.DriverStation.GetInstance()
 
 
 
