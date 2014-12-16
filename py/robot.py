@@ -34,14 +34,9 @@ class MyRobot(wpilib.SimpleRobot):
     def __init__(self):
         self.watchdog = wpilib.GetWatchdog()
         import config
-        self.sp = config.sp
-        self.hid_sp = config.hid_sp
         self.ds = config.ds
         self.dt = config.dt
-        self.driver_stick = config.driver_stick
-        self.drive_controller = config.drive_controller
-        self.talon_arr = config.talon_arr
-        self.teleop_controller = TeleopController(self.driver_stick, self.drive_controller, self.talon_arr)
+        self.teleop_controller = config.teleop_controller
 
     def Disabled(self):
         if auto_exists:

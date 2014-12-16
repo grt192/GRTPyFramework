@@ -10,6 +10,7 @@ class Talon:
 
 	def Get(self):
 		return self.t.Get()
+		print(self.t.Get())
 
 	def GetChannel(self):
 		return self.channel

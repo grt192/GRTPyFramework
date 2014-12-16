@@ -25,6 +25,7 @@ from grt.sensors.twist_joystick import TwistJoystick
 from grt.mechanism.centric_controller import CentricDriveController
 from grt.mechanism.mecanum_dt import MecanumDT
 from grt.sensors.talon import Talon
+from teleop_controller import TeleopController
 #--------------------------------------------------
 
 constants = Constants()
@@ -67,6 +68,10 @@ xbox_controller = XboxJoystick(2)
 dt = DriveTrain(fl_motor, fr_motor)
 drive_controller = ArcadeDriveController(dt, driver_stick)
 
+sp = SensorPoller((gyro,))
+hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface devices
+
+teleop_controller = TeleopController(driver_stick, drive_controller, talon_arr, sp, hid_sp)
 #Compressor
 compressor = wpilib.Compressor(pressure_sensor_pin, compressor_pin)
 compressor.Start()
@@ -74,7 +79,7 @@ compressor.Start()
 #Mechs
 
 #Teleop Controllers
-ac = CentricDriveController(dt, driver_stick)
+#ac = CentricDriveController(dt, driver_stick)
 
 
 
@@ -85,9 +90,7 @@ ac = CentricDriveController(dt, driver_stick)
 #Autonomous
 
 #Sensor Pollers
-sp = SensorPoller((gyro, dt.right_encoder,
-                   dt.left_encoder))
-hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface devices
+
 
 if crio_native:
 	import grt.networktables as networktables
