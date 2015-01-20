@@ -1,7 +1,7 @@
 __author__ = "Calvin Huang"
 import threading
 import time
-
+#import numpy as np
 
 class Sensor(object):
     """
@@ -11,8 +11,16 @@ class Sensor(object):
     Take care to not accidentally override vital class attributes
     with update_state.
     """
-    def __init__(self):
+
+    MAX_RECORD_TIME = 15
+
+    def __init__(self, recording=False):
         self.listeners = set()  # set of listeners
+        self.recorded_state = []
+        self.is_recording = recording
+        self.last_time = 0
+        self.playback_index = 0
+        self.time = time.time()
 
     def get(self, name):
         """
@@ -34,6 +42,12 @@ class Sensor(object):
         """
         self.listeners.remove(l)
 
+    def record_state(self, key, value):
+        self.recorded_state.append((key, value))
+
+    def erase_state(self):
+        self.recorded_state = []
+
     def __setattr__(self, key, value):
         self.update_state(key, value)
 
@@ -50,6 +64,24 @@ class Sensor(object):
             self.__dict__[state_id] = datum
             for l in self.listeners:
                 l(self, state_id, datum)
+
+        if self.is_recording:
+            if time.time() - self.last_time > 15:
+                self.stop_recording()
+            self.record_state(state_id, datum)
+            print(self.recorded_state)
+
+    def begin_recording(self):
+        self.is_recording = True
+        self.last_time = time.time()
+
+    def stop_recording(self):
+        self.is_recording = False
+        self.last_time = 0
+
+    def dummify(self, record_filename=None):
+        self.playback_index = 1
+        self.time = time.time()
 
     def poll(self):
         """
@@ -91,7 +123,7 @@ class SensorPoller(object):
             sensor.poll()
 
 
-class Constants(Sensor):
+class Constants(Sensor2):
     """
     Class for reading, and keeping track of, constants in a file, implemented as a singleton.
     Retrieve singleton object by calling Constants().

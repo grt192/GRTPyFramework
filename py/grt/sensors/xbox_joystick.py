@@ -3,9 +3,7 @@ __author__ = "Calvin Huang"
 from wpilib import Joystick
 from grt.core import Sensor
 
-BUTTON_TABLE = ['a_button', 'b_button', 'x_button', 'y_button',
-                'l_shoulder', 'r_shoulder', 'back_button',
-                'start_button']
+# Must stay in this order:
 
 
 class XboxJoystick(Sensor):
@@ -29,6 +27,9 @@ class XboxJoystick(Sensor):
         """
         super().__init__()
         self.j = Joystick(port)
+        self.BUTTON_TABLE = ['a_button', 'b_button', 'x_button', 'y_button',
+                        'l_shoulder', 'r_shoulder', 'back_button',
+                        'start_button']
 
     def poll(self):
         for i, state_id in enumerate(BUTTON_TABLE, 1):

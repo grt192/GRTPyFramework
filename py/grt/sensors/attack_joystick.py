@@ -3,10 +3,6 @@ __author__ = "Calvin Huang"
 from wpilib import Joystick
 from grt.core import Sensor
 
-BUTTON_TABLE = ['trigger', 'button2', 'button3',
-                'button4', 'button5', 'button6',
-                'button7', 'button8', 'button9',
-                'button10', 'button11']
 
 
 class Attack3Joystick(Sensor):
@@ -29,6 +25,10 @@ class Attack3Joystick(Sensor):
         """
         super().__init__()
         self.j = Joystick(port)
+        self.BUTTON_TABLE = ['trigger', 'button2', 'button3',
+                        'button4', 'button5', 'button6',
+                        'button7', 'button8', 'button9',
+                        'button10', 'button11']
 
     def poll(self):
         for i, state_id in enumerate(BUTTON_TABLE, 1):
