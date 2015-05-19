@@ -1,9 +1,10 @@
 __author__ = 'dhruv and alex m'
 
-from grt.core import GRTMacro, Constants
+from grt.core import GRTMacro
 import wpilib
+import threading
 
-constants = Constants()
+#constants = Constants()
 
 
 class DriveMacro(GRTMacro):
@@ -13,14 +14,14 @@ class DriveMacro(GRTMacro):
     """
     leftSF = 1
     rightSF = -1
-    DTP = constants['DTP']
-    DTI = constants['DTI']
-    DTD = constants['DTD']
-    CP = constants['CP']
-    CI = constants['CI']
-    CD = constants['CD']
-    TOLERANCE = constants['DMtol']
-    MAX_MOTOR_OUTPUT = constants['DMMAX']
+ #   DTP = constants['DTP']
+  #  DTI = constants['DTI']
+   # DTD = constants['DTD']
+    #CP = constants['CP']
+    #CI = constants['CI']
+    #CD = constants['CD']
+    #TOLERANCE = constants['DMtol']
+    #MAX_MOTOR_OUTPUT = constants['DMMAX']
 
     distance = None
     previously_on_target = False
@@ -34,50 +35,50 @@ class DriveMacro(GRTMacro):
         self.distance = distance
         self.left_encoder = dt.left_encoder
         self.right_encoder = dt.right_encoder
-        self.dt_output = self.DTOutput(self)
-        self.dt_source = self.DTSource(self)
-        self.straight_source = self.StraightSource(self)
-        self.straight_output = self.StraightOutput(self)
-        self.DTController = wpilib.PIDController(self.DTP, self.DTI, self.DTD, self.dt_source, self.dt_output)
-        self.straight_controller = wpilib.PIDController(self.CP, self.CI, self.CD,
-                                                        self.straight_source, self.straight_output)
-        self.straight_controller.SetOutputRange(0, 1)
+        self.setpoint = distance
+        #self.dt_output = self.DTOutput(self)
+        #self.dt_source = self.DTSource(self)
+        #self.straight_source = self.StraightSource(self)
+        #self.straight_output = self.StraightOutput(self)
+        #self.DTController = wpilib.PIDController(self.DTP, self.DTI, self.DTD, self.dt_source, self.dt_output)
+        #self.straight_controller = wpilib.PIDController(self.CP, self.CI, self.CD,
+         #                                               self.straight_source, self.straight_output)
+        #self.straight_controller.SetOutputRange(0, 1)
 
-        self.DTController.SetPID(self.DTP, self.DTI, self.DTD)
-        self.straight_controller.SetPID(self.CP, self.CI, self.CD)
-        self.DTController.SetAbsoluteTolerance(self.TOLERANCE)
-        self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
-        constants.add_listener(self._constant_listener)
+        #self.DTController.SetPID(self.DTP, self.DTI, self.DTD)
+        #self.straight_controller.SetPID(self.CP, self.CI, self.CD)
+        #self.DTController.SetAbsoluteTolerance(self.TOLERANCE)
+        #self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
 
-    def _constant_listener(self, sensor, state_id, datum):
-        if state_id in ('DTP', 'DTI', 'DTD'):
-            self.__dict__[state_id] = datum
-            self.DTController.SetPID(self.DTP, self.DTI, self.DTD)
-        elif state_id in ('CP', 'CI', 'CD'):
-            self.__dict__[state_id] = datum
-            self.straight_controller.SetPID(self.CP, self.CI, self.CD)
-        elif state_id == 'DMtol':
-            self.TOLERANCE = datum
-            self.DTController.SetAbsoluteTolerance(datum)
-        elif state_id == 'DMMAX':
-            self.MAX_MOTOR_OUTPUT = datum
-            self.DTController.SetOutputRange(-self.MAX_MOTOR_OUTPUT, self.MAX_MOTOR_OUTPUT)
+    def engage(self):
+        self.left_initial_distance = self.left_encoder.e.GetDistance()
+        self.right_initial_distance = self.right_encoder.e.GetDistance()
+        self.right_thread = threading.thread(target=self.run_right_drive_macro)
+        self.left_thread = threading.thread(target=self.run_left_drive_macro)
+        self.right_thread.start()
+        self.left_thread.start()
 
+    """
     def initialize(self):
         self.left_initial_distance = self.left_encoder.e.GetDistance()
         self.right_initial_distance = self.right_encoder.e.GetDistance()
+        self.right_thread = threading.thread(target=self.run_right_drive_macro)
+        self.left_thread = threading.thread(target=self.run_left_drive_macro)
+        self.right_thread.start()
+        self.left_thread.start()
+        
 
-        self.DTController.SetSetpoint(self.distance)
-        self.straight_controller.SetSetpoint(0)
-        self.DTController.Enable()
-        self.straight_controller.Enable()
+        #self.DTController.SetSetpoint(self.distance)
+        #self.straight_controller.SetSetpoint(0)
+        #self.DTController.Enable()
+        #self.straight_controller.Enable()
 
-        self.leftSF = self.rightSF = 1
+        #self.leftSF = self.rightSF = 1
         print("Starting DriveMacro")
 
     def update_motor_speeds(self):
         self.dt.set_dt_output(self.speed * self.leftSF, self.speed * self.rightSF)
-
+    """
     def right_traveled_distance(self):
         return self.right_encoder.distance - self.right_initial_distance
 
@@ -90,6 +91,20 @@ class DriveMacro(GRTMacro):
         """
         return (self.left_traveled_distance() + self.right_traveled_distance()) / 2
 
+    def run_right_drive_macro(self):
+        while(self.right_traveled_distance() < self.setpoint * .8):
+            self.dt.set_right_motor(1)
+        while(self.right_traveled_distance() < self.setpoint):
+            self.dt.set_right_motor(.5)
+        self.dt.set_right_motor(0)
+
+    def run_left_drive_macro(self):
+        while(self.left_traveled_distance() < self.setpoint * .8):
+            self.dt.set_left_motor(1)
+        while(self.left_traveled_distance() < self.setpoint):
+            self.dt.set_left_motor(.5)
+        self.dt.set_left_motor(0)
+    """
     def perform(self):
         #print("DTerror: " + str(self.DTController.GetError()))
         #print("Left Traveled Distance:" + str(self.left_traveled_distance()))
@@ -107,10 +122,11 @@ class DriveMacro(GRTMacro):
 
     def die(self):
         self.dt.set_dt_output(0, 0)
-        self.DTController.Disable()
-        self.straight_controller.Disable()
-
-    class DTSource(wpilib.PIDSource):
+        #self.DTController.Disable()
+        #self.straight_controller.Disable()
+    """
+    
+    class DTSource(wpilib.interfaces.PIDSource):
         """
         PIDSource implementation for DT PID controller.
 
@@ -123,7 +139,7 @@ class DriveMacro(GRTMacro):
         def PIDGet(self):
             return (self.drive_macro.right_traveled_distance() + self.drive_macro.left_traveled_distance()) / 2
 
-    class DTOutput(wpilib.PIDOutput):
+    class DTOutput(wpilib.interfaces.PIDOutput):
         """
         PIDOutput implementation for DT PID controller.
         """
@@ -135,7 +151,7 @@ class DriveMacro(GRTMacro):
             self.drive_macro.speed = output
             self.drive_macro.update_motor_speeds()
 
-    class StraightSource(wpilib.PIDSource):
+    class StraightSource(wpilib.interfaces.PIDSource):
         """
         PIDSource implementation for straight PID controller.
 
@@ -149,7 +165,7 @@ class DriveMacro(GRTMacro):
         def PIDGet(self):
             return self.drive_macro.right_traveled_distance() - self.drive_macro.left_traveled_distance()
 
-    class StraightOutput(wpilib.PIDOutput):
+    class StraightOutput(wpilib.interfaces.PIDOutput):
         """
         PIDOutput implementation for straight PID controller.
         """

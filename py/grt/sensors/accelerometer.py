@@ -23,6 +23,6 @@ class Accelerometer(Sensor):
         self.a = ADXL345_I2C(module, fmt)
 
     def poll(self):
-        self.x_accel = self.a.GetAcceleration(ADXL345_I2C.Axes.kX)
-        self.y_accel = self.a.GetAcceleration(ADXL345_I2C.Axes.kY)
-        self.z_accel = self.a.GetAcceleration(ADXL345_I2C.Axes.kZ)
+        self.x_accel = self.a.getAcceleration(ADXL345_I2C.Axes.kX)
+        self.y_accel = self.a.getAcceleration(ADXL345_I2C.Axes.kY)
+        self.z_accel = self.a.getAcceleration(ADXL345_I2C.Axes.kZ)

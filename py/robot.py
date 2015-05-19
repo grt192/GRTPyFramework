@@ -1,53 +1,42 @@
-__author__ = "Sidd Karamcheti, Calvin Huang"
+
 
 import wpilib
-from config import sp, hid_sp, dt, ds
 import time
 
-#auto = basicauto # replace with auto of choice
+
+class MyRobot(wpilib.SampleRobot):
+    def __init__(self):
+        super().__init__()
+        import config
+        self.sp = config.sp
+        self.hid_sp = config.hid_sp
+        self.ds = config.ds
 
 
-class MyRobot(wpilib.SimpleRobot):
-    def Disabled(self):
-        #auto.stop_autonomous()
-        while self.IsDisabled():
+    def disabled(self):
+        while self.isDisabled():
             tinit = time.time()
-            sp.poll()
-            wpilib.Wait(0.04 - (time.time() - tinit))
-    '''
-    def Autonomous(self):
-        global auto
-        dt.upshift()
-        self.GetWatchdog().SetEnabled(False)
-
-        if ds.GetDigitalIn(1):
-            auto = twoballauto # replace with auto of choice
-        else:
-            auto = basicauto # replace with auto of choice
-
-        auto.run_autonomous()
-        while self.IsAutonomous() and self.IsEnabled():
-            tinit = time.time()
-            sp.poll()
-            wpilib.Wait(0.04 - (time.time() - tinit))
-        auto.stop_autonomous()
-    '''
+            self.sp.poll()
+            self.safeSleep(tinit, .04)
     
-    def OperatorControl(self):
-        dt.downshift()  # start in low gear for tele
-        dog = self.GetWatchdog()
-        dog.SetExpiration(0.25)
-        dog.SetEnabled(True)
-        #auto.stop_autonomous()
-
-        while self.IsOperatorControl() and self.IsEnabled():
-            dog.Feed()
+    def autonomous(self):
+        # define auto here
+        pass
+    
+    def operatorControl(self):
+        while self.isOperatorControl() and self.isEnabled():
             tinit = time.time()
-            sp.poll()
-            hid_sp.poll()
-            wpilib.Wait(0.04 - (time.time() - tinit))
+            self.sp.poll()
+            self.hid_sp.poll()
+            self.safeSleep(tinit, .04)
+            
+    def safeSleep(self, tinit, duration):
+        tdif = .04 - (time.time() - tinit)
+        if tdif > 0:
+            time.sleep(tdif)
+        if tdif <= 0:
+            print("Code running slowly!")
 
 
-def run():
-    robot = MyRobot()
-    robot.StartCompetition()
+if __name__ == "__main__":
+    wpilib.run(MyRobot)

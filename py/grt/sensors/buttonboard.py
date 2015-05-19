@@ -15,7 +15,7 @@ REGISTER_D1 = 6
 REGISTER_D2 = 8
 REGISTER_LOAD = 4
 
-IOBOARD = DriverStation.GetInstance().GetEnhancedIO()
+IOBOARD = DriverStation.getInstance().getEnhancedIO()
 
 
 class ButtonBoard(Sensor):
@@ -34,13 +34,13 @@ class ButtonBoard(Sensor):
         """
         super().__init__()
         for name, pin in BUTTON_TABLE:
-            IOBOARD.SetDigitalConfig(pin, IOBOARD.tDigitalConfig.kInputPullUp)
+            IOBOARD.getDigitalConfig(pin, IOBOARD.tDigitalConfig.kInputPullUp)
 
         for i in (REGISTER_CLK, REGISTER_D1, REGISTER_D2, REGISTER_LOAD):
-            IOBOARD.SetDigitalConfig(i, IOBOARD.tDigitalConfig.kOutput)
+            IOBOARD.getDigitalConfig(i, IOBOARD.tDigitalConfig.kOutput)
 
     def poll(self):
-        diostate = IOBOARD.GetDigitals()  # bit-packed button states
+        diostate = IOBOARD.getDigitals()  # bit-packed button states
         for name, pin in BUTTON_TABLE:
             self.update_state(name, ((diostate >> (pin - 1)) & 1) == 0)
 

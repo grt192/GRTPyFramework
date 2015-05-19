@@ -20,4 +20,4 @@ class Potentiometer(Sensor):
         self.p = WPotentiometer(channel, scale, offset)
 
     def poll(self):
-        self.angle = self.p.Get()
+        self.angle = self.p.get()

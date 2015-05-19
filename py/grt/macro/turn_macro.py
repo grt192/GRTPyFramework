@@ -1,18 +1,18 @@
 __author__ = "dhruv, Sidd Karamcheti"
 
-from grt.core import GRTMacro, Constants
+from grt.core import GRTMacro
 import wpilib
 
-constants = Constants()
+#constants = Constants()
 
 class TurnMacro(GRTMacro):
     """
     Macro that turns a set distance.
     """
-    TP = constants['TP']
-    TI = constants['TI']
-    TD = constants['TD']
-    TOLERANCE = constants['TMtol']
+   # TP = constants['TP']
+    #TI = constants['TI']
+    #TD = constants['TD']
+    #TOLERANCE = constants['TMtol']
 
     class PIDTurnSource(wpilib.PIDSource):
         """

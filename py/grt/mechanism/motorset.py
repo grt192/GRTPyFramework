@@ -23,7 +23,7 @@ class Motorset:
         """
         self.val = value
         for motor, scalefactor in zip(self.motors, self.scalefactors):
-            motor.Set(scalefactor * value)
+            motor.set(scalefactor * value)
 
     def get(self):
         """
@@ -46,6 +46,6 @@ class Motorset:
             scalefactors = (1, ) * self.num_motors
         self.scalefactors = scalefactors
 
-    def Disable(self):
+    def disable(self):
         for motor in self.motors:
-            motor.Disable()
+            motor.disable()

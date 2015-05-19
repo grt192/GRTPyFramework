@@ -1,4 +1,3 @@
-__author__ = "Calvin Huang"
 import threading
 import time
 
@@ -105,7 +104,7 @@ class Constants(Sensor):
     Access datum like a dictionary.
     """
 
-    file_loc = '/c/constants.txt'
+    file_loc = '/constants.txt'
     _instance = None
 
     def __new__(cls, *args, **kwargs):

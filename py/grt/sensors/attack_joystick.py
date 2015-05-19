@@ -33,8 +33,7 @@ class Attack3Joystick(Sensor):
     def poll(self):
         for i, state_id in enumerate(BUTTON_TABLE, 1):
             self.update_state(state_id,
-                              self.j.GetRawButton(i))
-            # button index is offset by 1 due to wpilib 1-indexing
+                              self.j.getRawButton(i))
 
-        self.x_axis = self.j.GetX()
-        self.y_axis = self.j.GetY()
+        self.x_axis = self.j.getX()
+        self.y_axis = self.j.getY()
