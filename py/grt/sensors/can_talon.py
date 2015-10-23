@@ -1,9 +1,9 @@
 import wpilib
 
-class Talon:
+class GRTCANTalon:
 
 	def __init__(self, channel):
-		self.t = wpilib.Talon(channel)
+		self.t = wpilib.CANTalon(channel)
 		self.channel = channel
 	def set(self, power):
 		self.t.set(power)

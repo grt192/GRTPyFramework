@@ -1,3 +1,4 @@
+__author__ = "Calvin Huang"
 
 from wpilib import Joystick
 from grt.core import Sensor

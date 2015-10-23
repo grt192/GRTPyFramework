@@ -17,7 +17,7 @@ class Attack3Joystick(Sensor):
     and double x_axis, y_axis for joystick position
     """
 
-    x_axis = y_axis = 0
+    x_axis = y_axis = z_axis = 0
     trigger = button2 = button3 = \
         button4 = button5 = button6 = \
         button7 = button8 = button9 = \
@@ -37,3 +37,4 @@ class Attack3Joystick(Sensor):
 
         self.x_axis = self.j.getX()
         self.y_axis = self.j.getY()
+        self.z_axis = self.j.getZ()
