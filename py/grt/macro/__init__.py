@@ -1,8 +1,9 @@
 __author__ = 'dhruv'
 
 from grt.core import GRTMacro
-from grt.mechanism import Elmo, HeadlessMonkey
+from grt.mechanism import Elmo, HeadlessMonkey, Staircase
 import time
+
 
 class ElmoMacro(GRTMacro):
     def __init__(self, elmo: Elmo, timeout=None):
@@ -23,6 +24,24 @@ class ElmoMacro(GRTMacro):
     def macro_stop(self):
         self.enabled = False
         self.elmo.stop()
+
+
+class StaircaseMacro(GRTMacro):
+    def __init__(self, staircase: Staircase, timeout=None):
+        super().__init__(timeout=timeout)
+        self.staircase = staircase
+        self.enabled = False
+
+    def macro_periodic(self):
+        if self.enabled:
+            for x in range(5):
+                self.staircase.staircase_up()
+                time.sleep(0.5)
+                self.staircase.staircase_down()
+
+    def macro_stop(self):
+        self.enabled = False
+        self.staircase.staircase_down()
 
 
 class HeadlessMonkeyMacro(GRTMacro):

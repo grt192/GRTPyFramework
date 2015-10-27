@@ -1,5 +1,5 @@
 from record_controller import PlaybackMacro
-from grt.macro import ElmoMacro, HeadlessMonkeyMacro
+from grt.macro import ElmoMacro, HeadlessMonkeyMacro, StaircaseMacro
 
 class MechController:
     def __init__(self, elmo, headpunch, staircase, headlessmonkey, record_macro, driver_joystick, xbox_controller):
@@ -23,7 +23,11 @@ class MechController:
 
         # self.elmo_macro = PlaybackMacro(self.elmo_instructions, [self.elmo.motor])
         self.headpunch_macro = PlaybackMacro(self.headpunch_instructions, [self.head_punch.motor, self.head_punch.pneumatic])
-        self.staircase_macro = PlaybackMacro(self.staircase_instructions, [self.staircase.pneumatic])
+
+        # self.staircase_macro = PlaybackMacro(self.staircase_instructions, [self.staircase.pneumatic])
+
+        self.staircase_macro = StaircaseMacro(self.staircase)
+        self.staircase_macro.run_threaded()
 
         # self.headless_macro = PlaybackMacro(self.headless_instructions, [self.headlessmonkey.pneumatic_1, self.headlessmonkey.pneumatic_2])
         self.headless_monkey_macro = HeadlessMonkeyMacro(self.headless_monkey)
@@ -97,6 +101,14 @@ class MechController:
         if state_id == "button3":
             if datum:
                 self.headless_monkey.enabled = False
+
+        if state_id == "button4":
+            if datum:
+                self.staircase_macro.enabled = True
+
+        if state_id == "button5":
+            if datum:
+                self.staircase_macro.enabled = False
 
         if state_id == "button6":
             if datum:
