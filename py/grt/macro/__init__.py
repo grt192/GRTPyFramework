@@ -91,30 +91,30 @@ class HeadPunchMacro(GRTMacro):
     def macro_stop(self):
         self.enabled = False
 
-class SkeletonMacro(GRTMacro):
-    def __init__(self, skeleton: Skeleton, timeout=None):
-        super().__init__(timeout=timeout)
-        self.skeleton = skeleton
-        self.enabled=False
-
-    def macro_periodic(self):
-        if self.enabled:
-            self.skeleton.actuate()
-            time.sleep(0.3)
-            self.skeleton.motor_start(0.2)
-            time.sleep(2)
-            self.skeleton.motor_stop()
-            self.skeleton.retract()
-            time.sleep(10)
-            self.skeleton.actuate()
-            time.sleep(0.3)
-            self.skeleton.motor_start(-0.2)
-            time.sleep(2)
-            self.skeleton.retract()
-            time.sleep(10)
-
-    def macro_stop(self):
-        self.enabled = False
+# class SkeletonMacro(GRTMacro):
+#     def __init__(self, skeleton: Skeleton, timeout=None):
+#         super().__init__(timeout=timeout)
+#         self.skeleton = skeleton
+#         self.enabled=False
+#
+#     def macro_periodic(self):
+#         if self.enabled:
+#             self.skeleton.actuate()
+#             time.sleep(0.3)
+#             self.skeleton.motor_start(0.2)
+#             time.sleep(2)
+#             self.skeleton.motor_stop()
+#             self.skeleton.retract()
+#             time.sleep(10)
+#             self.skeleton.actuate()
+#             time.sleep(0.3)
+#             self.skeleton.motor_start(-0.2)
+#             time.sleep(2)
+#             self.skeleton.retract()
+#             time.sleep(10)
+#
+#     def macro_stop(self):
+#         self.enabled = False
 
 class ElmoMacro(GRTMacro):
     def __init__(self, elmo: Elmo, timeout=None):
@@ -156,17 +156,43 @@ class StaircaseMacro(GRTMacro):
 
 
 class HeadlessMonkeyMacro(GRTMacro):
-    def __init__(self, headless_monkey: HeadlessMonkey, timeout=None):
+    def __init__(self, headless_monkey: HeadlessMonkey, skeleton, timeout=None):
         super().__init__(timeout=timeout)
         self.headless_monkey = headless_monkey
+        self.skeleton = skeleton
+        self.counter = 0
         self.enabled = False
 
     def macro_periodic(self):
         if self.enabled:
+            # Monkey
             self.headless_monkey.actuate_1()
-            self.headless_monkey.retract_1()
+            time.sleep(0.3)
             self.headless_monkey.actuate_2()
+            time.sleep(0.3)
+            self.headless_monkey.retract_1()
+            time.sleep(0.3)
             self.headless_monkey.retract_2()
+            time.sleep(10)
+
+            # Skeleton
+            self.skeleton.actuate()
+            time.sleep(0.3)
+            self.skeleton.motor_start(0.2)
+            time.sleep(2)
+            self.skeleton.motor_stop()
+            self.skeleton.retract()
+            time.sleep(10)
+            self.skeleton.actuate()
+            time.sleep(0.3)
+            self.skeleton.motor_start(-0.2)
+            time.sleep(2)
+            self.skeleton.retract()
+            time.sleep(10)
+
+
+
+        self.counter += 1
 
     def macro_stop(self):
         self.enabled = False

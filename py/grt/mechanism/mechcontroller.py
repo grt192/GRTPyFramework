@@ -8,6 +8,7 @@ class MechController:
         self.headless_monkey = headless_monkey
         self.skeleton = skeleton
         self.body_bag = body_bag
+
         self.roof = roof
         self.javier = javier
         self.driver_joystick = driver_joystick
@@ -26,12 +27,12 @@ class MechController:
         self.staircase_macro.run_threaded()
 
         # Headless Monkey
-        self.headless_monkey_macro = HeadlessMonkeyMacro(self.headless_monkey)
+        self.headless_monkey_macro = HeadlessMonkeyMacro(self.headless_monkey, self.skeleton)
         self.headless_monkey_macro.run_threaded()
 
         # Skeleton
-        self.skeleton_macro = SkeletonMacro(self.skeleton)
-        self.skeleton_macro.run_threaded()
+        # self.skeleton_macro = SkeletonMacro(self.skeleton)
+        # self.skeleton_macro.run_threaded()
 
         # HeadPunch
         self.head_punch_macro = HeadPunchMacro(self.head_punch)
@@ -100,13 +101,13 @@ class MechController:
             if datum:
                 self.staircase_macro.enabled = False
 
-        if state_id == "button6":
-            if datum:
-                self.skeleton_macro.enabled = True
-
-        if state_id == "button7":
-            if datum:
-                self.skeleton_macro.enabled = False
+        # if state_id == "button6":
+        #     if datum:
+        #         self.skeleton_macro.enabled = True
+        #
+        # if state_id == "button7":
+        #     if datum:
+        #         self.skeleton_macro.enabled = False
 
         if state_id == "button10":
             if datum:

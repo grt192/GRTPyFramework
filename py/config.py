@@ -22,27 +22,28 @@ from record_controller import RecordMacro, PlaybackMacro
 from collections import OrderedDict
 
 
-
+# Motors / CANTalons
 skeleton_motor = CANTalon(1)
 head_punch_motor = CANTalon(2)
 elmo_motor = CANTalon(3)
 body_bag_motor = CANTalon(4)
 
-# Sta
+# Pneumatic Actuators
 javier_actuator = Solenoid(0)
-staircase_actuator = Solenoid(3)
-headless_linear_act = Solenoid(2)
-headless_rotary_act = Solenoid(1)
-head_punch_actuator = Solenoid(5)
+roof_actuator = Solenoid(1)
+staircase_actuator = Solenoid(2)
+skeleton_actuator = Solenoid(3)
+head_punch_actuator = Solenoid(4)
+body_bag_actuator = Solenoid(5)
+headless_linear_act = Solenoid(6)
+headless_rotary_act = Solenoid(7)
 
-skeleton_actuator = Solenoid(4)
-body_bag_actuator = Solenoid(6)
 compressor = Compressor()
 compressor.start()
 
 elmo = Elmo(elmo_motor)
 javier = Javier(javier_actuator)
-
+roof = Roof(roof_actuator)
 head_punch = HeadPunch(head_punch_motor, head_punch_actuator)
 staircase = Staircase(staircase_actuator)
 headless_monkey = HeadlessMonkey(headless_linear_act, headless_rotary_act)
@@ -64,6 +65,6 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 
 #elmo, headpunch, staircase, headless_monkey, skeleton, body_bag, record_macro, driver_joystick, xbox_controller
 
-mc = MechController(elmo, head_punch, staircase, headless_monkey, skeleton, body_bag, driver_stick, xbox_controller)
+mc = MechController(elmo, head_punch, staircase, headless_monkey, skeleton, body_bag, roof, javier, driver_stick, xbox_controller)
 
 ds = DriverStation.getInstance()
