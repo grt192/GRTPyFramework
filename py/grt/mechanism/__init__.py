@@ -15,6 +15,24 @@ class Elmo:
     def stop(self):
         self.motor.set(0)
 
+
+class Skeleton:
+    def __init__(self, motor, pneumatic):
+        self.motor = motor
+        self.pneumatic = pneumatic
+
+    def motor_start(self, power):
+        self.motor.set(power)
+
+    def motor_stop(self):
+        self.motor.set(0)
+
+    def actuate(self):
+        self.pneumatic.set(True)
+
+    def retract(self):
+        self.pneumatic.set(False)
+
 class HeadPunch:
     #1 motor 1 actuator
     def __init__(self, motor, pneumatic):
@@ -23,9 +41,6 @@ class HeadPunch:
 
     def motor_start(self, power):
         self.motor.set(power)
-
-    def motor_reverse(self):
-        self.motor.set(-1)
 
     def motor_stop(self):
         self.motor.set(0)
@@ -68,6 +83,7 @@ class HeadlessMonkey:
     def retract_all(self):
         self.retract_1()
         self.retract_2()
+
 
 
 

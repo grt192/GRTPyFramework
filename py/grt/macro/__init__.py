@@ -1,9 +1,65 @@
 __author__ = 'dhruv'
 
 from grt.core import GRTMacro
-from grt.mechanism import Elmo, HeadlessMonkey, Staircase
+from grt.mechanism import Elmo, HeadlessMonkey, Staircase, Skeleton, HeadPunch
 import time
 
+
+class HeadPunchMacro(GRTMacro):
+    def __init__(self, headpunch: HeadPunch, timeout=None)
+        super().__init__(timeout=timeout)
+        self.headpunch = headpunch
+        self.enabled=False
+
+    def macro_periodic(self):
+        if self.enabled:
+            self.headpunch.motor_start(0.2)
+            time.sleep(3)
+            self.headpunch.motor_stop()
+            time.sleep(0.3)
+            self.headpunch.actuate()
+            time.sleep(0.3)
+            self.headpunch.retract()
+            time.sleep(0.3)
+            self.headpunch.actuate()
+            time.sleep(0.3)
+            self.headpunch.retract()
+            time.sleep(1)
+            self.headpunch.actuate()
+            time.sleep(0.3)
+            self.headpunch.retract()
+            time.sleep(0.3)
+            self.headpunch.motor_start(-0.2)
+            time.sleep(3)
+            self.headpunch.motor_stop()
+
+    def macro_stop(self):
+        self.enabled = False
+
+class SkeletonMacro(GRTMacro):
+    def __init__(self, skeleton: Skeleton, timeout=None)
+        super().__init__(timeout=timeout)
+        self.skeleton = skeleton
+        self.enabled=False
+
+    def macro_periodic(self):
+        if self.enabled:
+            self.skeleton.actuate()
+            time.sleep(0.3)
+            self.skeleton.motor_start(0.2)
+            time.sleep(2)
+            self.skeleton.motor_stop()
+            self.skeleton.retract()
+            time.sleep(10)
+            self.skeleton.actuate()
+            time.sleep(0.3)
+            self.skeleton.motor_start(-0.2)
+            time.sleep(2)
+            self.skeleton.retract()
+            time.sleep(10)
+
+    def macro_stop(self):
+        self.enabled = False
 
 class ElmoMacro(GRTMacro):
     def __init__(self, elmo: Elmo, timeout=None):
@@ -34,10 +90,10 @@ class StaircaseMacro(GRTMacro):
 
     def macro_periodic(self):
         if self.enabled:
-            for x in range(5):
-                self.staircase.staircase_up()
-                time.sleep(0.5)
-                self.staircase.staircase_down()
+            self.staircase.staircase_up()
+            time.sleep(0.5)
+            self.staircase.staircase_down()
+            time.sleep(0.5)
 
     def macro_stop(self):
         self.enabled = False
