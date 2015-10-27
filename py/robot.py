@@ -25,7 +25,7 @@ class MyRobot(wpilib.SampleRobot):
             pass
         while self.isDisabled():
             tinit = time.time()
-            self.sp.poll()
+            #self.sp.poll()
             self.safeSleep(tinit, .04)
     if auto_exists:
         def autonomous(self):
@@ -33,7 +33,7 @@ class MyRobot(wpilib.SampleRobot):
             print("Autonomous started")
             while self.isAutonomous() and self.isEnabled():
                 tinit = time.time()
-                self.sp.poll()
+                #self.sp.poll()
                 self.safeSleep(tinit, .04)
             
     else:
@@ -45,7 +45,7 @@ class MyRobot(wpilib.SampleRobot):
             pass
         while self.isOperatorControl() and self.isEnabled():
             tinit = time.time()
-            self.sp.poll()
+            #self.sp.poll()
             self.hid_sp.poll()
             self.safeSleep(tinit, .04)
             

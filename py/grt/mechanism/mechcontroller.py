@@ -1,3 +1,5 @@
+from record_controller import PlaybackMacro
+
 class MechController:
     def __init__(self, elmo, headpunch, staircase, headlessmonkey, record_macro, driver_joystick, xbox_controller):
         self.elmo = elmo
@@ -10,8 +12,19 @@ class MechController:
         driver_joystick.add_listener(self._driver_joystick_listener)
         xbox_controller.add_listener(self._xbox_controller_listener)
 
+        self.elmo_instructions = []
+        self.headpunch_instructions = []
+        self.staircase_instructions = []
+        self.headless_instructions = []
+
+        self.elmo_macro = PlaybackMacro(self.elmo_instructions, [self.elmo.motor])
+        self.headpunch_macro = PlaybackMacro(self.headpunch_instructions, [self.headpunch.motor, self.headpunch.pneumatic])
+        self.staircase_macro = PlaybackMacro(self.staircase_instructions, [self.staircase.pneumatic])
+        self.headless_macro = PlaybackMacro(self.headless_instructions, [self.headlessmonkey.pneumatic_1, self.headlessmonkey.pneumatic_2])
+
+
     def _xbox_controller_listener(self, sensor, state_id, datum):
-        if state_id == 'r_y_axis':
+        if state_id == 'l_y_axis':
             if datum:
                 if abs(datum) > .05:
                     self.elmo.start_motor(datum)
@@ -34,12 +47,12 @@ class MechController:
         if state_id == "l_shoulder":
             self.staircase.staircase_down()
 
-        if state_id == "l_y_axis":
+        if state_id == "r_y_axis":
             if datum:
                 if abs(datum) > .05:
                     self.headpunch.motor_start(datum)
                 else:
-                    self.headpunch.motorstop()
+                    self.headpunch.motor_stop()
 
 
 
@@ -78,6 +91,24 @@ class MechController:
         if state_id == "button5":
             if datum:
                 self.headlessmonkey.retract_2()
+        if state_id == "button6":
+            if datum:
+                self.record_macro.start_record()
+        if state_id == "button7":
+            if datum:
+                self.headless_instructions = self.record_macro.stop_record()
+        if state_id == "button8":
+            if datum:
+                self.elmo_macro.start_playback(self.elmo_instructions)
+                self.headpunch_macro.start_playback(self.headless_instructions)
+                self.staircase_macro.start_playback()
+                self.headless_macro.start_playback()
+        if state_id == "button9":
+            if datum:
+                self.elmo_macro.stop_playback()
+                self.headpunch_macro.stop_playback()
+                self.staircase_macro.stop_playback()
+                self.headless_macro.stop_playback()
         
 
         """

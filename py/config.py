@@ -3,15 +3,17 @@ Config File for Robot
 """
 
 
-from wpilib import Solenoid, Compressor, DriverStation, DigitalInput
+from wpilib import Compressor, DriverStation, DigitalInput
 import wpilib
 import math
 
-from wpilib import Solenoid, Compressor, DriverStation, CANTalon, DigitalInput
+from wpilib import Solenoid, Compressor, DriverStation, DigitalInput
 
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.sensors.xbox_joystick import XboxJoystick
 from grt.core import SensorPoller
+from grt.sensors.solenoid import Solenoid
+from grt.sensors.can_talon import CANTalon
 
 from grt.mechanism.mechcontroller import MechController
 
@@ -40,7 +42,7 @@ elmo_arr = [elmo_motor]
 head_punch_arr = [head_punch_motor, head_punch_actuator]
 staircase_arr = [staircase_actuator]
 headless_arr = [headless_linear_act, headless_rotary_act]
-record_macro = RecordMacro(elmo_arr)
+record_macro = RecordMacro(headless_arr)
 
 
 

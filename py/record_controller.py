@@ -48,7 +48,8 @@ class RecordMacro(GRTMacro):
     def stop_record(self):
         self.enabled = False
         print(self.instructions)
-        self.save("/home/lvuser/py/instructions.py")
+        #self.save("/home/lvuser/py/instructions.py")
+        self.save("/Users/amallery/git/GRTPyFramework/py/instructions.py")
         return self.instructions
 
     def macro_periodic(self):
@@ -63,7 +64,7 @@ class RecordMacro(GRTMacro):
             tinit = time.time()
             for key in self.instructions:
                 self.instructions[key].append(self.obj_list[i].get())
-                #print(self.obj_list[i].Get())
+                print(self.obj_list[i].get())
                 i += 1
             #wpilib.Wait(.1)
             time.sleep(.1 - (time.time() - tinit))
@@ -101,12 +102,12 @@ class PlaybackMacro(GRTMacro):
         for key in self.instructions:
             i = int(key.split(',')[0])
             print(i)
-            if "Talon" in key or "Macro" in key:
+            if "Talon" in key or "Macro" in key or "Solenoid" in key:
                 self.talon_arr.append(self.instructions[key])
                 #print(self.instructions[key])
                 print(self.talon_arr)
-            if "Solenoid" in key:
-                self.solenoid_arr[i] = self.instructions[key]
+            #if "Solenoid" in key:
+            #    self.solenoid_arr[i] = self.instructions[key]
 
     def engage(self):
         """
@@ -146,7 +147,7 @@ class PlaybackMacro(GRTMacro):
         #self.running = False
         self.enabled = False
         for talon in self.talon_arr_obj:
-            if str(type(talon)) == "<class 'wpilib.cantalon.CANTalon'>":
+            if str(type(talon)) == "<class 'wpilib.cantalon.CANTalon'>" or "Talon" in str(type(talon)):
                 talon.set(0)
 
         #self.revert_controller.engage()

@@ -2,7 +2,6 @@ class Elmo:
 
 	def __init__(self, motor):
 		self.motor = motor
-		self.pneumatic = pneumatic
 
 	def raise_elmo(self):
 		self.motor.set(1)
@@ -32,10 +31,10 @@ class HeadPunch:
 		self.motor.set(0)
 
 	def actuate(self):
-		self.pneumatic.set(1)
+		self.pneumatic.set(True)
 
 	def retract(self):
-		self.pneumatic.set(0)
+		self.pneumatic.set(False)
 
 class Staircase:
 	#1 actuator
@@ -43,10 +42,10 @@ class Staircase:
 		self.pneumatic = pneumatic
 
 	def staircase_up(self):
-		self.pneumatic.set(1)
+		self.pneumatic.set(True)
 
 	def staircase_down(self):
-		self.pneumatic.set(0)
+		self.pneumatic.set(False)
 
 class HeadlessMonkey:
 	#two actuators
@@ -55,16 +54,16 @@ class HeadlessMonkey:
 		self.pneumatic_2 = pneumatic_2
 
 	def actuate_1(self):
-		self.pneumatic_1.set(1)
+		self.pneumatic_1.set(True)
 
 	def retract_1(self):
-		self.pneumatic_1.set(0)
+		self.pneumatic_1.set(False)
 
 	def actuate_2(self):
-		self.pneumatic_2.set(1)
+		self.pneumatic_2.set(True)
 
 	def retract_2(self):
-		self.pneumatic_2.set(0)
+		self.pneumatic_2.set(False)
 
 
 
