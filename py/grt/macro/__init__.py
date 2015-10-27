@@ -6,7 +6,7 @@ import time
 
 
 class HeadPunchMacro(GRTMacro):
-    def __init__(self, headpunch: HeadPunch, timeout=None)
+    def __init__(self, headpunch: HeadPunch, timeout=None):
         super().__init__(timeout=timeout)
         self.headpunch = headpunch
         self.enabled=False
@@ -37,7 +37,7 @@ class HeadPunchMacro(GRTMacro):
         self.enabled = False
 
 class SkeletonMacro(GRTMacro):
-    def __init__(self, skeleton: Skeleton, timeout=None)
+    def __init__(self, skeleton: Skeleton, timeout=None):
         super().__init__(timeout=timeout)
         self.skeleton = skeleton
         self.enabled=False
