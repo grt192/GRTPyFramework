@@ -1,3 +1,23 @@
+class Roof:
+    def __init__(self, pneumatic):
+        self.pneumatic = pneumatic
+
+    def actuate(self):
+        self.pneumatic.set(1)
+
+    def retract(self):
+        self.pneumatic.set(0)
+
+class Javier:
+    def __init__(self, pneumatic):
+        self.pneumatic = pneumatic
+
+    def actuate(self):
+        self.pneumatic.set(1)
+
+    def retract(self):
+        self.pneumatic.set(0)
+
 class Elmo:
 
     def __init__(self, motor):

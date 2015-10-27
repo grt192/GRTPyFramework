@@ -5,6 +5,39 @@ from grt.mechanism import *
 import time
 
 
+class RoofMacro(GRTMacro):
+    def __init__(self, roof: Roof, timeout=None):
+        super().__init__(timeout=timeout)
+        self.roof = roof
+        self.enabled = False
+
+    def macro_periodic(self):
+        if self.enabled:
+            self.roof.actuate()
+            time.sleep(1)
+            self.roof.retract()
+            time.sleep(10)
+
+    def macro_stop(self):
+        self.roof.retract()
+        self.enabled = False
+
+class JavierMacro(GRTMacro):
+    def __init__(self, javier: Javier, timeout=None):
+        super().__init__(timeout=timeout)
+        self.javier = javier
+        self.enabled = False
+
+    def macro_periodic(self):
+        if self.enabled:
+            self.javier.actuate()
+            time.sleep(1)
+            self.javier.retract()
+            time.sleep(10)
+
+    def macro_stop(self):
+        self.enabled = False
+
 class BodyBagMacro(GRTMacro):
     def __init__(self, body_bag: BodyBag, timeout=None):
         super().__init__(timeout=timeout)

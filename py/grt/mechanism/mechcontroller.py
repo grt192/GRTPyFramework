@@ -1,14 +1,13 @@
 from grt.macro import *
 
 class MechController:
-    def __init__(self, elmo, headpunch, staircase, headless_monkey, skeleton, body_bag, record_macro, driver_joystick, xbox_controller):
+    def __init__(self, elmo, headpunch, staircase, headless_monkey, skeleton, body_bag, driver_joystick, xbox_controller):
         self.elmo = elmo
         self.head_punch = headpunch
         self.staircase = staircase
         self.headless_monkey = headless_monkey
         self.skeleton = skeleton
         self.body_bag = body_bag
-        self.record_macro = record_macro
         self.driver_joystick = driver_joystick
         self.xbox_controller = xbox_controller
         driver_joystick.add_listener(self._driver_joystick_listener)
