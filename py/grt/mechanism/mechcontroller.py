@@ -1,13 +1,15 @@
 from grt.macro import *
 
 class MechController:
-    def __init__(self, elmo, headpunch, staircase, headless_monkey, skeleton, body_bag, driver_joystick, xbox_controller):
+    def __init__(self, elmo, headpunch, staircase, headless_monkey, skeleton, body_bag, roof, javier, driver_joystick, xbox_controller):
         self.elmo = elmo
         self.head_punch = headpunch
         self.staircase = staircase
         self.headless_monkey = headless_monkey
         self.skeleton = skeleton
         self.body_bag = body_bag
+        self.roof = roof
+        self.javier = javier
         self.driver_joystick = driver_joystick
         self.xbox_controller = xbox_controller
         driver_joystick.add_listener(self._driver_joystick_listener)
@@ -39,6 +41,14 @@ class MechController:
         self.body_bag_macro = BodyBagMacro(self.body_bag)
         self.body_bag_macro.run_threaded()
 
+        # Roof
+        self.roof_macro = RoofMacro(self.roof)
+        self.roof_macro.run_threaded()
+
+        # Javier
+        self.javier_macro = JavierMacro(self.javier)
+        self.javier_macro.run_threaded()
+
     def _xbox_controller_listener(self, sensor, state_id, datum):
 
         if state_id == "a_button":
@@ -59,11 +69,19 @@ class MechController:
 
         if state_id == "l_shoulder":
             if datum:
-                self.body_bag_macro.enabled = True
+                self.body_bag_macro.enabled = False
 
         if state_id == "r_shoulder":
             if datum:
-                self.body_bag_macro.enabled = False
+                self.body_bag_macro.enabled = True
+
+        if state_id == "l_trigger":
+            if datum:
+                self.roof_macro.enabled = False
+
+        if state_id == "r_trigger":
+            if datum:
+                self.roof_macro.enabled = True
 
     def _driver_joystick_listener(self, sensor, state_id, datum):
         if state_id == "button2":
@@ -90,9 +108,17 @@ class MechController:
             if datum:
                 self.skeleton_macro.enabled = False
 
-        if state_id == 'button10':
+        if state_id == "button10":
             if datum:
                 self.elmo_macro.run_threaded()
+
+        if state_id == "trigger":
+            if datum:
+                self.javier_macro.enabled = True
+
+        if state_id == "button11":
+            if datum:
+                self.javier_macro.enabled = False
 
     def _universal_abort_listener(self, sensor, state_id, datum):
         if state_id == 'button8':
