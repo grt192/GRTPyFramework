@@ -1,9 +1,31 @@
 __author__ = 'dhruv'
 
 from grt.core import GRTMacro
-from grt.mechanism import Elmo, HeadlessMonkey, Staircase, Skeleton, HeadPunch
+from grt.mechanism import *
 import time
 
+
+class BodyBagMacro(GRTMacro):
+    def __init__(self, body_bag: BodyBag, timeout=None):
+        super().__init__(timeout=timeout)
+        self.body_bag = body_bag
+        self.enabled = False
+
+    def macro_periodic(self):
+        if self.enabled:
+            self.body_bag.motor_start(0.2)
+            time.sleep(4)
+            self.body_bag.motor_stop()
+            self.body_bag.actuate()
+            time.sleep(4)
+            self.body_bag.motor_start(-0.2)
+            time.sleep(4)
+            self.body_bag.motor_stop()
+            self.body_bag.retract()
+            time.sleep(10)
+
+    def macro_stop(self):
+        self.enabled = False
 
 class HeadPunchMacro(GRTMacro):
     def __init__(self, headpunch: HeadPunch, timeout=None):

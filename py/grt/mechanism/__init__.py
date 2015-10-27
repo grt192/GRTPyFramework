@@ -15,6 +15,23 @@ class Elmo:
     def stop(self):
         self.motor.set(0)
 
+class BodyBag:
+    def __init__(self, motor, pneumatic):
+        self.motor = motor
+        self.pneumatic = pneumatic
+
+    def motor_start(self, power):
+        self.motor.set(power)
+
+    def motor_stop(self):
+        self.motor.set(0)
+
+    def actuate(self):
+        self.pneumatic.set(True)
+
+    def retract(self):
+        self.pneumatic.set(False)
+
 
 class Skeleton:
     def __init__(self, motor, pneumatic):
