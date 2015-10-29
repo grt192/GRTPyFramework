@@ -26,7 +26,7 @@ from collections import OrderedDict
 skeleton_motor = CANTalon(1)
 head_punch_motor = CANTalon(2)
 elmo_motor = CANTalon(3)
-body_bag_motor = CANTalon(4)
+body_bag_motor = CANTalon(6)
 
 # Pneumatic Actuators
 javier_actuator = Solenoid(0)

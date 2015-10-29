@@ -109,7 +109,7 @@ class MechController:
         #     if datum:
         #         self.skeleton_macro.enabled = False
 
-        if state_id == "button10":
+        if state_id == "button100":
             if datum:
                 self.elmo_macro.run_threaded()
 
