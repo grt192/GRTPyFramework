@@ -3,7 +3,6 @@ __author__ = "Sidd Karamcheti, Calvin Huang, Alex Mallery"
 
 import wpilib
 import inspect
-from config import hid_sp
 import time
 
 auto_exists = False
@@ -14,8 +13,9 @@ class MyRobot(wpilib.SampleRobot):
         super().__init__()
         import config
         
-        self.hid_sp = hid_sp
+        self.hid_sp = config.hid_sp
         self.ds = config.ds
+        print("Running Dhruv's Modified Code")
         
 
 

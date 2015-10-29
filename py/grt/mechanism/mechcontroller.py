@@ -87,11 +87,11 @@ class MechController:
     def _driver_joystick_listener(self, sensor, state_id, datum):
         if state_id == "button2":
             if datum:
-                self.headless_monkey.enabled = True
+                self.headless_monkey_macro.enabled = True
 
         if state_id == "button3":
             if datum:
-                self.headless_monkey.enabled = False
+                self.headless_monkey_macro.enabled = False
 
         if state_id == "button4":
             if datum:
@@ -109,7 +109,7 @@ class MechController:
         #     if datum:
         #         self.skeleton_macro.enabled = False
 
-        if state_id == "button10":
+        if state_id == "button100":
             if datum:
                 self.elmo_macro.run_threaded()
 
