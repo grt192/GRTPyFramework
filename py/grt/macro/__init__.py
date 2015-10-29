@@ -33,7 +33,7 @@ class JavierMacro(GRTMacro):
             self.javier.actuate()
             time.sleep(1)
             self.javier.retract()
-            time.sleep(10)
+            time.sleep(7)
 
     def macro_stop(self):
         self.enabled = False
@@ -46,13 +46,13 @@ class BodyBagMacro(GRTMacro):
 
     def macro_periodic(self):
         if self.enabled:
-            self.body_bag.motor_start(0.2)
-            time.sleep(4)
+            self.body_bag.motor_start(0.7)
+            time.sleep(1.5)
             self.body_bag.motor_stop()
             self.body_bag.actuate()
             time.sleep(4)
             self.body_bag.motor_start(-0.2)
-            time.sleep(4)
+            time.sleep(3)
             self.body_bag.motor_stop()
             self.body_bag.retract()
             time.sleep(10)
@@ -68,25 +68,26 @@ class HeadPunchMacro(GRTMacro):
 
     def macro_periodic(self):
         if self.enabled:
-            self.headpunch.motor_start(0.2)
-            time.sleep(3)
+            self.headpunch.motor_start(0.4)
+            time.sleep(5)
             self.headpunch.motor_stop()
             time.sleep(0.3)
             self.headpunch.actuate()
-            time.sleep(0.3)
-            self.headpunch.retract()
-            time.sleep(0.3)
-            self.headpunch.actuate()
-            time.sleep(0.3)
+            time.sleep(1)
             self.headpunch.retract()
             time.sleep(1)
             self.headpunch.actuate()
-            time.sleep(0.3)
+            time.sleep(1)
             self.headpunch.retract()
-            time.sleep(0.3)
-            self.headpunch.motor_start(-0.2)
-            time.sleep(3)
+            time.sleep(1)
+            self.headpunch.actuate()
+            time.sleep(1)
+            self.headpunch.retract()
+            time.sleep(1)
+            self.headpunch.motor_start(-0.45)
+            time.sleep(5)
             self.headpunch.motor_stop()
+            time.sleep(10)
 
     def macro_stop(self):
         self.enabled = False
@@ -131,6 +132,7 @@ class ElmoMacro(GRTMacro):
             self.elmo.start_motor(-0.2)
             time.sleep(2)
             self.elmo.stop()
+            time.sleep(10)
 
     def macro_stop(self):
         self.enabled = False
@@ -138,7 +140,7 @@ class ElmoMacro(GRTMacro):
 
 
 class StaircaseMacro(GRTMacro):
-    def __init__(self, staircase: Staircase, timeout=None):
+    def __init__(self, staircase, timeout=None):
         super().__init__(timeout=timeout)
         self.staircase = staircase
         self.enabled = False
@@ -146,9 +148,9 @@ class StaircaseMacro(GRTMacro):
     def macro_periodic(self):
         if self.enabled:
             self.staircase.staircase_up()
-            time.sleep(0.5)
+            time.sleep(2)
             self.staircase.staircase_down()
-            time.sleep(0.5)
+            time.sleep(8)
 
     def macro_stop(self):
         self.enabled = False
@@ -165,28 +167,31 @@ class HeadlessMonkeyMacro(GRTMacro):
 
     def macro_periodic(self):
         if self.enabled:
+            print("Headless macro enabled")
             # Monkey
             self.headless_monkey.actuate_1()
-            time.sleep(0.3)
+            time.sleep(1)
             self.headless_monkey.actuate_2()
-            time.sleep(0.3)
+            time.sleep(3)
             self.headless_monkey.retract_1()
-            time.sleep(0.3)
+            time.sleep(1)
             self.headless_monkey.retract_2()
             time.sleep(10)
 
             # Skeleton
             self.skeleton.actuate()
-            time.sleep(0.3)
-            self.skeleton.motor_start(0.2)
-            time.sleep(2)
+            time.sleep(1)
+            self.skeleton.motor_start(0.6)
+            time.sleep(3.5)
             self.skeleton.motor_stop()
             self.skeleton.retract()
             time.sleep(10)
             self.skeleton.actuate()
-            time.sleep(0.3)
-            self.skeleton.motor_start(-0.2)
+            time.sleep(1)
+            self.skeleton.motor_start(-0.5)
             time.sleep(2)
+            self.skeleton.motor_stop()
+            time.sleep(3)
             self.skeleton.retract()
             time.sleep(10)
 
