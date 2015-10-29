@@ -87,6 +87,7 @@ class HeadPunchMacro(GRTMacro):
             self.headpunch.motor_start(-0.45)
             time.sleep(5)
             self.headpunch.motor_stop()
+            time.sleep(10)
 
     def macro_stop(self):
         self.enabled = False
@@ -131,6 +132,7 @@ class ElmoMacro(GRTMacro):
             self.elmo.start_motor(-0.2)
             time.sleep(2)
             self.elmo.stop()
+            time.sleep(10)
 
     def macro_stop(self):
         self.enabled = False
@@ -180,7 +182,7 @@ class HeadlessMonkeyMacro(GRTMacro):
             self.skeleton.actuate()
             time.sleep(1)
             self.skeleton.motor_start(0.6)
-            time.sleep(2)
+            time.sleep(3.5)
             self.skeleton.motor_stop()
             self.skeleton.retract()
             time.sleep(10)
