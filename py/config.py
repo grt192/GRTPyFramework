@@ -7,16 +7,17 @@ from wpilib import Compressor, DriverStation, DigitalInput
 import wpilib
 import math
 
-from wpilib import Solenoid, Compressor, DriverStation, DigitalInput
+from wpilib import Solenoid, Compressor, DriverStation, DigitalInput, CANTalon
 
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.sensors.xbox_joystick import XboxJoystick
 from grt.core import SensorPoller
 from grt.sensors.solenoid import Solenoid
-from grt.sensors.can_talon import CANTalon
+#from grt.sensors.can_talon import CANTalon
 
 from grt.mechanism.mechcontroller import MechController
-from grt.mechanism import *
+from grt.mechanism.drivetrain import DriveTrain
+from grt.mechanism.drivecontroller import ArcadeDriveController
 
 from record_controller import RecordMacro, PlaybackMacro
 from collections import OrderedDict

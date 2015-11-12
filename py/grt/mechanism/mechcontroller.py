@@ -12,10 +12,10 @@ class MechController:
 
     def _xbox_controller_listener(self, sensor, state_id, datum):
 
-        
+        pass
 
     def _driver_joystick_listener(self, sensor, state_id, datum):
-        
+        pass
 
         
 

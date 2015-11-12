@@ -44,8 +44,8 @@ class DriveTrain:
         #    left_output = (left_output ** 3) / abs(left_output)
         #if not right_output == 0:
         #    right_output = (right_output ** 3) / abs(right_output)
-        self.left_motor.set(-left_output)
-        self.right_motor.set(+right_output)
+        self.left_motor.set(left_output)
+        self.right_motor.set(-right_output)
         #print("left output %f" % left_output)
         #print("right travel: %f" % self.right_encoder.distance)
         #print("left travel: %f" % self.left_encoder.distance)
