@@ -68,7 +68,7 @@ class LeaningOut:
 
 class SpikeMat:
 
-    def __init__(self, pneumatic, motor):
+    def __init__(self, pneumatic):
 
         self.pneumatic = pneumatic
         self.motor = motor
@@ -79,8 +79,6 @@ class SpikeMat:
     def retract(self):
         self.pneumatic.set(0)
 
-    def set_motor(self, power):
-        self.motor.set(power)
 
 class Cat:
 
@@ -109,12 +107,12 @@ class MarionetteHands:
         self.motor1.set(power)
 
     def set_motor2(self,power):
-        self.motor2.set(power)
+        self.motor2.set(-power)
 
     def set_all(self,power):
 
         self.motor1.set(power)
-        self.motor2.set(power)
+        self.motor2.set(-power)
 
 class BloodyHand:
 

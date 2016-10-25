@@ -1,14 +1,153 @@
-class MechController:
+from grt.macro import *
 
-    def __init__(self, driver_joystick, xbox_controller): # mechanisms belong in arguments
-        # define mechanisms here
+class MechController:
+    def __init__(bats, door_body, stair_mouth, rocking_chair, leaning_out, spike_mat, cat, marionette_hands, bloody_hands, shanked_guy, driver_joystick, xbox_controller):
+        self.bat = bat
+        self.door_body = door_body
+        self.stair_mouth = stair_mouth
+        self.rocking_chair = rocking_chair
+        self.leaning_out = leaning_out
+        self.spike_mat = spike_mat
+        self.cat = cat
+        self.marionette_hands = marionette_hands
+        self.bloody_hands = bloody_hands
+        self.shanked_guy = shanked_guy
         self.driver_joystick = driver_joystick
         self.xbox_controller = xbox_controller
         driver_joystick.add_listener(self._driver_joystick_listener)
         xbox_controller.add_listener(self._xbox_controller_listener)
 
+        # Elmo
+        self.bats_macro = BatsMacro(bats)
+        self.bats_macro.run_threaded()
+
+        # self.headpunch_macro = PlaybackMacro(self.headpunch_instructions, [self.head_punch.motor, self.head_punch.pneumatic])
+
+        # Staircase
+        self.door_body_macro = DoorBody(self.door_body)
+        self.door_body_macro.run_threaded()
+
+        # Headless Monkey
+        self.stair_mouth_macro = StairMouthMacro(self.stair_mouth)
+        self.stair_mouth_macro.run_threaded()
+
+        # Skeleton
+        self.rocking_chair_macro = RockingChairMacro(self.rocking_chair)
+        self.rocking_chair_macro.run_threaded()
+
+        # HeadPunch
+        self.leaning_out_macro = LeaningOutMacro(self.leaning_out)
+        self.leaning_out_macro.run_threaded()
+
+        # Body Bag
+        self.spike_mat_macro = SpikeMatMacro(self.spike_mat)
+        self.spike_mat_macro.run_threaded()
+
+        # Roof
+        self.cat_macro = Cat(self.cat)
+        self.cat_macro.run_threaded()
+
+        # Javier
+        self.marionette_hands_macro = MarionetteHandsMacro(self.marionette_hands)
+        self.marionette_hands_macro.run_threaded()
+
+        self.bloody_hands_macro = BloodyHandsMacro(self.bloody_hands)
+        self.bloody_hands_macro.run_threaded()
+
+        self.shanked_guy_macro = ShankedGuyMacro(self.shanked_guy)
+        self.shanked_guy_macro.run_threaded()
+
+
+
     def _xbox_controller_listener(self, sensor, state_id, datum):
-        pass
+
+        if state_id == "a_button":
+            if datum:
+                self.bats_macro.enabled = True
+
+        if state_id == "b_button":
+            if datum:
+                self.bats_macro.enabled = False
+
+        if state_id == "x_button":
+            if datum:
+                self.door_body_macro.enabled = True
+
+        if state_id == "y_button":
+            if datum:
+                self.door_body_macro.enabled = False
+
+        if state_id == "l_shoulder":
+            if datum:
+                self.stair_mouth_macro.enabled = True
+
+        if state_id == "r_shoulder":
+            if datum:
+                self.stair_mouth_macro.enabled = False
+
+        if state_id == "l_trigger":
+            if datum:
+                self.rocking_chair_macro.enabled = True
+
+        if state_id == "r_trigger":
+            if datum:
+                self.rocking_chair_macro.enabled = False
+
+        if state_if == "back_button":
+            if datum:
+                self.bloody_hands_macro.enabled = True
+
+        if state_id == "start_button":
+            if datum:
+                self.bloody_hands_macro.enabled = False
+
+        if state_id == "trigger_pos":
+            if datum:
+                self.shanked_guy_macro.enabled = True
+        if state_id == "keypad_pos":
+            if datum:
+                self.shanked_guy_macro.enabled = False
 
     def _driver_joystick_listener(self, sensor, state_id, datum):
-        pass
+        if state_id == "button2":
+            if datum:
+                self.leaning_out_macro.enabled = True
+
+        if state_id == "button3":
+            if datum:
+                self.leaning_out_macro.enabled = False
+
+        if state_id == "button4":
+            if datum:
+                self.spike_mat_macro.enabled = True
+
+        if state_id == "button5":
+            if datum:
+                self.spike_mat_macro.enabled = False
+
+        if state_id == "button6":
+            if datum:
+                self.cat_macro.enabled = True
+        
+        if state_id == "button7":
+            if datum:
+                self.cat_macro.enabled = False
+
+        # if state_id == "button100":
+        #     if datum:
+        #         self.elmo_macro.run_threaded()
+
+        if state_id == "trigger":
+            if datum:
+                self.marionette_hands_macro.enabled = True
+
+        if state_id == "button11":
+            if datum:
+                self.marionette_hands_macro.enabled = False
+
+
+
+    def _universal_abort_listener(self, sensor, state_id, datum):
+        if state_id == 'button8':
+            if datum:
+                pass
