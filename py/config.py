@@ -2,18 +2,18 @@ from wpilib import Compressor, DriverStation, DigitalInput
 import wpilib
 import math
 
-from wpilib import Solenoid, Compressor, DriverStation, DigitalInput
+from wpilib import Solenoid, Compressor, DriverStation, CANTalon, DigitalInput
 
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.sensors.xbox_joystick import XboxJoystick
 from grt.core import SensorPoller
-from grt.sensors.solenoid import Solenoid
-from grt.sensors.can_talon import CANTalon
+#from grt.sensors.solenoid import Solenoid
+#from grt.sensors.can_talon import CANTalon
 
 from grt.mechanism.mechcontroller import MechController
 from grt.mechanism import *
 
-from record_controller import RecordMacro, PlaybackMacro
+#from record_controller import RecordMacro, PlaybackMacro
 from collections import OrderedDict
 
 
@@ -28,14 +28,14 @@ marionette_hands_motor2 = CANTalon(7)
 
 
 # Pneumatic Actuators
-bat_actuator = Solenoid(0)
+#bat_actuator = Solenoid(0)
 door_body_actuator = Solenoid(1)
 leaning_out_actuator = Solenoid(2)
-spike_mouth_actuator = Solenoid(3)
-cat_actuator = Solenoid(4)
-body_bag_actuator = Solenoid(5)
+spike_mouth_actuator = Solenoid(4)
+cat_actuator = Solenoid(5)
+body_bag_actuator = Solenoid(6)
 bloody_hands_actuator2 = Solenoid(7)
-shanked_guy_actuator = Solenoid(8)
+shanked_guy_actuator = Solenoid(0)
 
 compressor = Compressor()
 compressor.start()
