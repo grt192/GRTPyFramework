@@ -1,8 +1,8 @@
-from grt.macro import *
+from grt.macro.hh_macros import *
 
 class MechController:
-    def __init__(bats, door_body, stair_mouth, rocking_chair, leaning_out, spike_mat, cat, marionette_hands, bloody_hands, shanked_guy, driver_joystick, xbox_controller):
-        self.bat = bat
+    def __init__(self, bats, door_body, stair_mouth, rocking_chair, leaning_out, spike_mat, cat, marionette_hands, bloody_hands, shanked_guy, driver_joystick, xbox_controller):
+        self.bats = bats
         self.door_body = door_body
         self.stair_mouth = stair_mouth
         self.rocking_chair = rocking_chair
@@ -18,60 +18,82 @@ class MechController:
         xbox_controller.add_listener(self._xbox_controller_listener)
 
         # Elmo
-        self.bats_macro = BatsMacro(bats)
-        self.bats_macro.run_threaded()
+        self.bats_macro = BatsMacro(self.bats)
+        #self.bats_macro.run_threaded()
 
         # self.headpunch_macro = PlaybackMacro(self.headpunch_instructions, [self.head_punch.motor, self.head_punch.pneumatic])
 
         # Staircase
-        self.door_body_macro = DoorBody(self.door_body)
-        self.door_body_macro.run_threaded()
+        self.door_body_macro = DoorBodyMacro(self.door_body)
+        #self.door_body_macro.run_threaded()
 
         # Headless Monkey
         self.stair_mouth_macro = StairMouthMacro(self.stair_mouth)
-        self.stair_mouth_macro.run_threaded()
+        #self.stair_mouth_macro.run_threaded()
 
         # Skeleton
         self.rocking_chair_macro = RockingChairMacro(self.rocking_chair)
-        self.rocking_chair_macro.run_threaded()
+        #self.rocking_chair_macro.run_threaded()
 
         # HeadPunch
         self.leaning_out_macro = LeaningOutMacro(self.leaning_out)
-        self.leaning_out_macro.run_threaded()
+        #self.leaning_out_macro.run_threaded()
 
         # Body Bag
         self.spike_mat_macro = SpikeMatMacro(self.spike_mat)
-        self.spike_mat_macro.run_threaded()
+        #self.spike_mat_macro.run_threaded()
 
         # Roof
-        self.cat_macro = Cat(self.cat)
-        self.cat_macro.run_threaded()
+        self.cat_macro = CatMacro(self.cat)
+        #self.cat_macro.run_threaded()
 
         # Javier
         self.marionette_hands_macro = MarionetteHandsMacro(self.marionette_hands)
-        self.marionette_hands_macro.run_threaded()
+        #self.marionette_hands_macro.run_threaded()
 
         self.bloody_hands_macro = BloodyHandsMacro(self.bloody_hands)
-        self.bloody_hands_macro.run_threaded()
+        #self.bloody_hands_macro.run_threaded()
 
         self.shanked_guy_macro = ShankedGuyMacro(self.shanked_guy)
-        self.shanked_guy_macro.run_threaded()
+        #self.shanked_guy_macro.run_threaded()
 
 
 
     def _xbox_controller_listener(self, sensor, state_id, datum):
 
+
+        #TESTING CODE
+
         if state_id == "a_button":
             if datum:
-                self.bats_macro.enabled = True
+                
+                self.door_body.set_motor(-.3)
+
+            else:
+                self.door_body.set_motor(0)
 
         if state_id == "b_button":
             if datum:
-                self.bats_macro.enabled = False
+                
+                self.door_body.actuate()
+
 
         if state_id == "x_button":
             if datum:
-                self.door_body_macro.enabled = True
+                self.door_body.retract()
+
+        # if state_id == "a_button":
+        #     if datum:
+        #         self.bats_macro.enabled = True
+                
+
+        # if state_id == "b_button":
+        #     if datum:
+        #         self.bats_macro.enabled = False
+
+        # if state_id == "x_button":
+        #     if datum:
+        #         self.door_body_macro.enabled = True
 
         if state_id == "y_button":
             if datum:
@@ -93,7 +115,7 @@ class MechController:
             if datum:
                 self.rocking_chair_macro.enabled = False
 
-        if state_if == "back_button":
+        if state_id == "back_button":
             if datum:
                 self.bloody_hands_macro.enabled = True
 

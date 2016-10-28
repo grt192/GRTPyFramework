@@ -12,30 +12,32 @@ from grt.core import SensorPoller
 
 from grt.mechanism.mechcontroller import MechController
 from grt.mechanism import *
+from grt.mechanism.mechs import *
 
 #from record_controller import RecordMacro, PlaybackMacro
 from collections import OrderedDict
 
 
 # Motors / CANTalons
-door_body_motor = CANTalon(1)
+door_body_motor = CANTalon(12)
 stair_mouth_motor = CANTalon(2)
-rocking_chair_motor = CANTalon(3)
+rocking_chair_motor = CANTalon(8)
 spike_mouth_motor = CANTalon(4)
-cat_motor = CANTalon(5)
-marionette_hands_motor1 = CANTalon(6)
-marionette_hands_motor2 = CANTalon(7)
+cat_motor = CANTalon(7)
+marionette_hands_motor1 = CANTalon(10)
+marionette_hands_motor2 = CANTalon(11)
 
 
 # Pneumatic Actuators
-#bat_actuator = Solenoid(0)
-door_body_actuator = Solenoid(1)
+bat_actuator = None
+door_body_actuator = Solenoid(4)
 leaning_out_actuator = Solenoid(2)
-spike_mouth_actuator = Solenoid(4)
+spike_mouth_actuator = Solenoid(1)
 cat_actuator = Solenoid(5)
-body_bag_actuator = Solenoid(6)
+bloody_hands_actuator1 = Solenoid(6)
 bloody_hands_actuator2 = Solenoid(7)
 shanked_guy_actuator = Solenoid(0)
+stair_mouth_actuator = Solenoid(3)
 
 compressor = Compressor()
 compressor.start()

@@ -12,6 +12,8 @@ class Bats:
 
 class DoorBody:
 
+#negative power to bring homer up
+
     def __init__(self, pneumatic, motor):
 
         self.pneumatic = pneumatic
@@ -68,7 +70,7 @@ class LeaningOut:
 
 class SpikeMat:
 
-    def __init__(self, pneumatic):
+    def __init__(self, pneumatic, motor):
 
         self.pneumatic = pneumatic
         self.motor = motor
@@ -81,6 +83,8 @@ class SpikeMat:
 
 
 class Cat:
+
+# NOTE: positive turns the cat alive, negative power kills it
 
     def __init__(self, pneumatic, motor):
 
@@ -114,7 +118,7 @@ class MarionetteHands:
         self.motor1.set(power)
         self.motor2.set(-power)
 
-class BloodyHand:
+class BloodyHands:
 
     def __init__(self, pneumatic1, pneumatic2):
 

@@ -4,8 +4,8 @@ import time
 
 class BatsMacro(GRTMacro):
 
-    def __init__(self, bats: Bats, timeout=None):
-        super().__init__(timeout=timout)
+    def __init__(self, bats, timeout=None):
+        super().__init__(timeout=timeout)
         self.bats = bats
         self.enabled = False
 
@@ -22,8 +22,8 @@ class BatsMacro(GRTMacro):
 
 class DoorBodyMacro(GRTMacro):
 
-    def __init__(self, door_body: DoorBody, timeout=None):
-        super().__init__(timeout=timout)
+    def __init__(self, door_body, timeout=None):
+        super().__init__(timeout=timeout)
         self.door_body = door_body
         self.enabled = False
 
@@ -49,8 +49,8 @@ class DoorBodyMacro(GRTMacro):
 
 class StairMouthMacro(GRTMacro):
 
-    def __init__(self, stair_mouth: StairMouth, timeout=None):
-        super().__init__(timeout=timout)
+    def __init__(self, stair_mouth, timeout=None):
+        super().__init__(timeout=timeout)
         self.stair_mouth = stair_mouth
         self.enabled = False
 
@@ -80,8 +80,8 @@ class StairMouthMacro(GRTMacro):
 
 class RockingChairMacro(GRTMacro):
 
-    def __init__(self, rocking_chair: RockingChair, timeout=None):
-        super().__init__(timeout=timout)
+    def __init__(self, rocking_chair, timeout=None):
+        super().__init__(timeout=timeout)
         self.rocking_chair = rocking_chair
         self.enabled = False
 
@@ -103,7 +103,7 @@ class RockingChairMacro(GRTMacro):
 
 class LeaningOutMacro(GRTMacro):
 
-    def __init__(self, leaning_out: LeaningOut, timeout=None):
+    def __init__(self, leaning_out, timeout=None):
         super(). __init__(timeout=timeout)
         self.leaning_out = leaning_out
         self.enabled = False
@@ -118,7 +118,7 @@ class LeaningOutMacro(GRTMacro):
         self.enabled = False
 
 class SpikeMatMacro(GRTMacro):
-     def __init__(self, spike_mat: SpikeMat, timeout=None):
+    def __init__(self, spike_mat, timeout=None):
         super(). __init__(timeout=timeout)
         self.spike_mat = spike_mat
         self.enabled = False
@@ -133,9 +133,9 @@ class SpikeMatMacro(GRTMacro):
         self.spike_mat.retract()
         self.enabled = False
 
-#check the order
+#UPDATED
 class CatMacro(GRTMacro):
-     def __init__(self, cat: Cat, timeout=None):
+    def __init__(self, cat, timeout=None):
         super(). __init__(timeout=timeout)
         self.cat = cat
         self.enabled = False
@@ -143,10 +143,21 @@ class CatMacro(GRTMacro):
     def macro_periodic(self):
          if self.enabled:
             self.cat.actuate()
-            self.cat.set_motor(.7)
+            time.sleep(4)
+            self.cat.set_motor(-.3)
             time.sleep(1)
-            self.cat.set_motor(-.7)
+            self.cat.set_motor(0)
+            time.sleep(4)
+            self.cat.retract()
+            time.sleep(5)
+            self.cat.actuate()
+            time.sleep(4)
+            self.cat.set_motor(.3)
             time.sleep(1)
+            self.cat.set_motor(0)
+            time.sleep(4)
+            self.cat.retract()
+            time.sleep(5)
 
     def macro_stop(self):
 
@@ -156,17 +167,21 @@ class CatMacro(GRTMacro):
 
 #check the order
 class MarionetteHandsMacro(GRTMacro):
-     def __init__(self, marionette_hands: MarionetteHands, timeout=None):
+    def __init__(self, marionette_hands, timeout=None):
         super(). __init__(timeout=timeout)
         self.marionette_hands = marionette_hands
         self.enabled = False
 
     def macro_periodic(self):
         if self.enabled:
-            self.set_all(.7)
-            time.sleep(5)
-            self.set_all(-.7)
-            time.sleep(5)
+            self.set_all(.4)
+            time.sleep(1.5)
+            self.set_all(0)
+            time.sleep(.5)
+            self.set_all(-.4)
+            time.sleep(1.5)
+            self.set_all(0)
+            time.sleep(.5)
 
 
     def macro_stop(self):
@@ -176,7 +191,7 @@ class MarionetteHandsMacro(GRTMacro):
 
 #check the order
 class BloodyHandsMacro(GRTMacro):
-     def __init__(self, bloody_hands: BloodyHands, timeout=None):
+    def __init__(self, bloody_hands, timeout=None):
         super(). __init__(timeout=timeout)
         self.bloody_hands = bloody_hands
         self.enabled = False
@@ -195,7 +210,7 @@ class BloodyHandsMacro(GRTMacro):
 
 #check the order
 class ShankedGuyMacro(GRTMacro):
-     def __init__(self, shanked_guy: ShankedGuy, timeout=None):
+    def __init__(self, shanked_guy, timeout=None):
         super(). __init__(timeout=timeout)
         self.shanked_guy = shanked_guy
         self.enabled = False
