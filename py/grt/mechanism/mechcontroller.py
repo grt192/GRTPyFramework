@@ -52,6 +52,9 @@ class MechController:
         # Javier
         self.marionette_hands_macro = MarionetteHandsMacro(self.marionette_hands)
         self.marionette_hands_macro.run_threaded()
+
+        # self.body_bag_macro = BodyBagMacro(self.body_bag)
+        # self.body_bag_macro.run_threaded()
         #self.marionette_hands_macro.run_threaded()
 
         self.bloody_hands_macro = BloodyHandsMacro(self.bloody_hands)
