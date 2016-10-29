@@ -199,6 +199,15 @@ class GRTMacro(object):
         self.thread = threading.Thread(target=self.execute)
         self.thread.start()
 
+    def run_threaded(self, no_initialize=False):
+        """
+        Start macro in new thread.
+        See execute() for more details on macro execution.
+        """
+        self.no_initialize = no_initialize
+        self.process = threading.Thread(target=self.run_linear)
+        self.process.start()
+
     def _wait(self, duration):
         """
         Sleeps for some time.
