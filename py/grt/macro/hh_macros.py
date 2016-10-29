@@ -29,18 +29,15 @@ class DoorBodyMacro(GRTMacro):
 
     def macro_periodic(self):
         if self.enabled:
-            self.door_body.set_motor(0.7)
-            time.sleep(5)
+            self.door_body.set_motor(-0.4)
+            time.sleep(2.5)
             self.door_body.set_motor(0)
             time.sleep(1)
             self.door_body.actuate()
             time.sleep(1)
             self.door_body.retract()
             time.sleep(1)
-            self.door_body.set_motor(-0.7)
-            time.sleep(5)
-            self.door_body.set_motor(0)
-            time.sleep(1)
+            
 
     def macro_stop(self):
         self.door_body.set_motor(0)
@@ -59,19 +56,37 @@ class StairMouthMacro(GRTMacro):
             self.stair_mouth.mouth_and_eyes(.7)
             time.sleep(.2)
             self.stair_mouth.set_motor(0)
-            time.sleep(.1)
+            time.sleep(.5)
+            self.stair_mouth.set_cat_motor(.3)
             self.stair_mouth.set_motor(.2)
-            time.sleep(.1)
+            time.sleep(.5)
             self.stair_mouth.set_motor(0)
-            time.sleep(.1)
+            time.sleep(.5)
             self.stair_mouth.set_motor(.2)
-            time.sleep(.1)
+            time.sleep(.5)
             self.stair_mouth.set_motor(-.7)
             time.sleep(.2)
             self.stair_mouth.set_motor(0)
             time.sleep(1)
             self.stair_mouth.retract()
-            time.sleep(5)
+            time.sleep(3)
+            self.stair_mouth.mouth_and_eyes(.7)
+            time.sleep(.2)
+            self.stair_mouth.set_motor(0)
+            time.sleep(.5)
+            self.stair_mouth.set_cat_motor(-.3)
+            self.stair_mouth.set_motor(.2)
+            time.sleep(.5)
+            self.stair_mouth.set_motor(0)
+            time.sleep(.5)
+            self.stair_mouth.set_motor(.2)
+            time.sleep(.5)
+            self.stair_mouth.set_motor(-.7)
+            time.sleep(.2)
+            self.stair_mouth.set_motor(0)
+            time.sleep(1)
+            self.stair_mouth.retract()
+            time.sleep(3)
 
     def macro_stop(self):
         self.stair_mouth.set_motor(0)
@@ -174,14 +189,15 @@ class MarionetteHandsMacro(GRTMacro):
 
     def macro_periodic(self):
         if self.enabled:
-            self.set_all(.4)
-            time.sleep(1.5)
-            self.set_all(0)
-            time.sleep(.5)
-            self.set_all(-.4)
-            time.sleep(1.5)
-            self.set_all(0)
-            time.sleep(.5)
+            print("running mhands macro")
+            self.marionette_hands.set_all(.3)
+            time.sleep(.2)
+            self.marionette_hands.set_all(0)
+            time.sleep(.1)
+            self.marionette_hands.set_all(-.3)
+            time.sleep(.2)
+            self.marionette_hands.set_all(0)
+            time.sleep(.1)
 
 
     def macro_stop(self):

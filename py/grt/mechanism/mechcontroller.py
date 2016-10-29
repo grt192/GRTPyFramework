@@ -1,7 +1,7 @@
 from grt.macro.hh_macros import *
 
 class MechController:
-    def __init__(self, bats, door_body, stair_mouth, rocking_chair, leaning_out, spike_mat, cat, marionette_hands, bloody_hands, shanked_guy, driver_joystick, xbox_controller):
+    def __init__(self, bats, door_body, stair_mouth, rocking_chair, leaning_out, spike_mat, cat, marionette_hands, bloody_hands, shanked_guy, spider, driver_joystick, xbox_controller):
         self.bats = bats
         self.door_body = door_body
         self.stair_mouth = stair_mouth
@@ -12,6 +12,8 @@ class MechController:
         self.marionette_hands = marionette_hands
         self.bloody_hands = bloody_hands
         self.shanked_guy = shanked_guy
+        self.spider = spider
+
         self.driver_joystick = driver_joystick
         self.xbox_controller = xbox_controller
         driver_joystick.add_listener(self._driver_joystick_listener)
@@ -66,21 +68,53 @@ class MechController:
 
         if state_id == "a_button":
             if datum:
-                
-                self.door_body.set_motor(-.3)
+
+                self.stair_mouth.set_motor(-.5)
 
             else:
-                self.door_body.set_motor(0)
-
+                self.stair_mouth.set_motor(0)
+                
+                
         if state_id == "b_button":
             if datum:
                 
-                self.door_body.actuate()
+                pass
 
 
         if state_id == "x_button":
             if datum:
-                self.door_body.retract()
+
+                self.marionette_hands_macro.enabled = True
+                print("mc enabled")
+               
+
+
+        if state_id == "y_button":
+            if datum:
+                
+                self.marionette_hands_macro.enabled = False
+                print("mc disabled")
+
+
+        if state_id == "r_shoulder":
+            if datum:
+                self.stair_mouth.actuate()
+
+        if state_id == "l_shoulder":
+            if datum:
+                self.stair_mouth.retract()
+
+        if state_id == "r_y_axis":
+            if datum:
+
+                self.spider.set_motor(-datum)
+                print("spider")
+
+        if state_id == "l_y_axis":
+            if datum:
+                if abs(datum) > .05:
+                    self.marionette_hands.set_all(datum)
+
 
         # if state_id == "a_button":
         #     if datum:
@@ -95,17 +129,17 @@ class MechController:
         #     if datum:
         #         self.door_body_macro.enabled = True
 
-        if state_id == "y_button":
-            if datum:
-                self.door_body_macro.enabled = False
+        # if state_id == "y_button":
+        #     if datum:
+        #         self.door_body_macro.enabled = False
 
-        if state_id == "l_shoulder":
-            if datum:
-                self.stair_mouth_macro.enabled = True
+        # if state_id == "l_shoulder":
+        #     if datum:
+        #         self.stair_mouth_macro.enabled = True
 
-        if state_id == "r_shoulder":
-            if datum:
-                self.stair_mouth_macro.enabled = False
+        # if state_id == "r_shoulder":
+        #     if datum:
+        #         self.stair_mouth_macro.enabled = False
 
         if state_id == "l_trigger":
             if datum:

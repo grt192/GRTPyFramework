@@ -20,12 +20,13 @@ from collections import OrderedDict
 
 # Motors / CANTalons
 door_body_motor = CANTalon(12)
-stair_mouth_motor = CANTalon(2)
+stair_mouth_motor = CANTalon(6)
 rocking_chair_motor = CANTalon(8)
 spike_mouth_motor = CANTalon(4)
 cat_motor = CANTalon(7)
 marionette_hands_motor1 = CANTalon(10)
 marionette_hands_motor2 = CANTalon(11)
+spider_motor = CANTalon(9)
 
 
 # Pneumatic Actuators
@@ -33,18 +34,18 @@ bat_actuator = None
 door_body_actuator = Solenoid(4)
 leaning_out_actuator = Solenoid(2)
 spike_mouth_actuator = Solenoid(1)
-cat_actuator = Solenoid(5)
-bloody_hands_actuator1 = Solenoid(6)
-bloody_hands_actuator2 = Solenoid(7)
-shanked_guy_actuator = Solenoid(0)
-stair_mouth_actuator = Solenoid(3)
+cat_actuator = None
+bloody_hands_actuator1 = Solenoid(0)
+bloody_hands_actuator2 = Solenoid(6)
+shanked_guy_actuator = None
+stair_mouth_actuator = Solenoid(5)
 
 compressor = Compressor()
 compressor.start()
 
 bats = Bats(bat_actuator)
 door_body = DoorBody(door_body_actuator, door_body_motor)
-stair_mouth = StairMouth(stair_mouth_actuator, stair_mouth_motor)
+stair_mouth = StairMouth(stair_mouth_actuator, stair_mouth_motor, cat_motor)
 rocking_chair = RockingChair(rocking_chair_motor)
 leaning_out = LeaningOut(leaning_out_actuator)
 spike_mat = SpikeMat(spike_mouth_actuator, spike_mouth_motor)
@@ -52,6 +53,7 @@ cat = Cat(cat_actuator, cat_motor)
 marionette_hands = MarionetteHands(marionette_hands_motor1, marionette_hands_motor2)
 bloody_hands = BloodyHands(bloody_hands_actuator1, bloody_hands_actuator2)
 shanked_guy = ShankedGuy(shanked_guy_actuator)
+spider = Spider(spider_motor)
 
 
 
@@ -64,6 +66,6 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 
 
 
-mc = MechController(bats, door_body, stair_mouth, rocking_chair, leaning_out, spike_mat, cat, marionette_hands, bloody_hands, shanked_guy, driver_stick, xbox_controller)
+mc = MechController(bats, door_body, stair_mouth, rocking_chair, leaning_out, spike_mat, cat, marionette_hands, bloody_hands, shanked_guy, spider, driver_stick, xbox_controller)
 
 ds = DriverStation.getInstance()

@@ -30,7 +30,7 @@ class DoorBody:
 
 class StairMouth:
 
-    def __init__(self, pneumatic, motor):
+    def __init__(self, pneumatic, motor, cat_motor):
 
         self.pneumatic = pneumatic
         self.motor = motor
@@ -44,11 +44,22 @@ class StairMouth:
     def set_motor(self, power):
         self.motor.set(power)
 
+    def set_cat_motor(self,power):
+        self.cat_motor.set(power)
+
     def mouth_and_eyes(self,power):
         self.motor.set(power)
         self.pneumatic.set(1)
 
 class RockingChair:
+
+    def __init__(self,motor):
+        self.motor = motor
+
+    def set_motor(self,power):
+        self.motor.set(power)
+
+class Spider:
 
     def __init__(self,motor):
         self.motor = motor
@@ -115,8 +126,8 @@ class MarionetteHands:
 
     def set_all(self,power):
 
-        self.motor1.set(power)
-        self.motor2.set(-power)
+        self.motor1.set(.5*power)
+        self.motor2.set(-.5*power)
 
 class BloodyHands:
 
