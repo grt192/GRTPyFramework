@@ -30,10 +30,10 @@ spider_motor = CANTalon(9)
 
 
 # Pneumatic Actuators
-bat_actuator = None
+bat_actuator = Solenoid(1)
 door_body_actuator = Solenoid(4)
 leaning_out_actuator = Solenoid(2)
-spike_mouth_actuator = Solenoid(1)
+spike_mouth_actuator = None
 cat_actuator = None
 bloody_hands_actuator1 = Solenoid(0)
 bloody_hands_actuator2 = Solenoid(6)

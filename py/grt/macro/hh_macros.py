@@ -190,12 +190,12 @@ class MarionetteHandsMacro(GRTMacro):
     def macro_periodic(self):
         if self.enabled:
             print("running mhands macro")
-            self.marionette_hands.set_all(.3)
-            time.sleep(.2)
+            self.marionette_hands.set_all(.6)
+            time.sleep(.5)
             self.marionette_hands.set_all(0)
             time.sleep(.1)
-            self.marionette_hands.set_all(-.3)
-            time.sleep(.2)
+            self.marionette_hands.set_all(-.6)
+            time.sleep(.5)
             self.marionette_hands.set_all(0)
             time.sleep(.1)
 

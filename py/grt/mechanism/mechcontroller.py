@@ -51,7 +51,7 @@ class MechController:
 
         # Javier
         self.marionette_hands_macro = MarionetteHandsMacro(self.marionette_hands)
-        #self.marionette_hands_macro.run_threaded()
+        self.marionette_hands_macro.run_threaded()
 
         # self.body_bag_macro = BodyBagMacro(self.body_bag)
         # self.body_bag_macro.run_threaded()
@@ -82,7 +82,10 @@ class MechController:
         if state_id == "b_button":
             if datum:
                 
-                pass
+                self.door_body.set_motor(-.3)
+
+            else:
+                self.door_body.set_motor(0)
 
 
         if state_id == "x_button":
@@ -107,6 +110,7 @@ class MechController:
         if state_id == "l_shoulder":
             if datum:
                 self.stair_mouth.retract()
+
 
         if state_id == "r_y_axis":
             if datum:
@@ -169,29 +173,35 @@ class MechController:
                 self.shanked_guy_macro.enabled = False
 
     def _driver_joystick_listener(self, sensor, state_id, datum):
-        if state_id == "button2":
+        if state_id == "button6":
             if datum:
-                self.leaning_out_macro.enabled = True
+                print("homer")
+                self.door_body.actuate()
+                #self.leaning_out_macro.enabled = True
 
-        if state_id == "button3":
+        if state_id == "button7":
             if datum:
-                self.leaning_out_macro.enabled = False
+                print("homer")
+                self.door_body.retract()
+                #self.leaning_out_macro.enabled = False
 
         if state_id == "button4":
             if datum:
-                self.spike_mat_macro.enabled = True
+                self.bats.actuate()
+                #self.spike_mat_macro.enabled = True
 
         if state_id == "button5":
             if datum:
-                self.spike_mat_macro.enabled = False
+                self.bats.retract()
+                #self.spike_mat_macro.enabled = False
 
-        if state_id == "button6":
-            if datum:
-                self.cat_macro.enabled = True
+        # if state_id == "button6":
+        #     if datum:
+        #         self.cat_macro.enabled = True
         
-        if state_id == "button7":
-            if datum:
-                self.cat_macro.enabled = False
+        # if state_id == "button7":
+        #     if datum:
+        #         self.cat_macro.enabled = False
 
         # if state_id == "button100":
         #     if datum:
