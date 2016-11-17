@@ -1,6 +1,6 @@
 class MechController:
 
-    def __init__(self, driver_joystick, xbox_controller): # mechanisms belong in arguments
+    def __init__(self, driver_joystick, xbox_controller, Opener, Clamp): # mechanisms belong in arguments
         # define mechanisms here
         self.driver_joystick = driver_joystick
         self.xbox_controller = xbox_controller
