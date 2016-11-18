@@ -16,6 +16,7 @@ from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
+from grt.mechanism.GMechs import *
 
 
 #DT Talons and Objects
@@ -45,6 +46,13 @@ dt_l4.set(7)
 
 dt = DriveTrain(dt_left, dt_right, left_encoder=None, right_encoder=None)
 
+om_open = CANTalon(11)
+om_move = CANTalon(12)
+pu_open = Solenoid(0)
+pu_up = Solenoid(1)
+
+om = Opener(om_open, om_move)
+pu = Clamp(pu_up, pu_open)
 
 #Skeleton sensor poller
 gyro = Gyro(1)
@@ -63,12 +71,7 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 # Mech Talons, objects, and controller
 
 # define MechController
-mc = MechController()
+mc = MechController(driver_stick, xbox_controller, om, pu)
 
 # define DriverStation
 ds = DriverStation.getInstance()
-
-
-
-
-
