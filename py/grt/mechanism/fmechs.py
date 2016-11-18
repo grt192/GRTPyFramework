@@ -23,9 +23,9 @@ class Ramp:
         self.p1.set(1)
     def arm_back(self):
         self.p1.set(0)
-    def flap_down(self)
+    def flap_down(self):
         self.p2.set(1)
-    def ramp_tilt(self)
+    def ramp_tilt(self):
         self.p3.set(1)
-    def ramp_down(self)
+    def ramp_down(self):
         self.p3.set(0)
