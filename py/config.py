@@ -21,39 +21,37 @@ from grt.mechanism.fmechs import *
 
 #DT Talons and Objects
 
-dt_right = CANTalon(1)
-dt_r2 = CANTalon(2)
-dt_r3 = CANTalon(3)
-dt_r4 = CANTalon(4)
+dt_right = CANTalon(11)
+dt_r2 = CANTalon(12)
 
-dt_left = CANTalon(7)
-dt_l2 = CANTalon(8)
-dt_l3 = CANTalon(9)
-dt_l4 = CANTalon(10)
 
-m1 = CANTalon(5)
-m2 = CANTalon(6)
+dt_left = CANTalon(3)
+dt_l2 = CANTalon(4)
+
+
+m1 = CANTalon(1)
+m2 = CANTalon(2)
 opener_p1 = Solenoid(0)
-opener_p2 = Solenoid(1)
-ramp_p1 = Solenoid(2)
+opener_p2 = Solenoid(2)
+ramp_p1 = Solenoid(1)
 ramp_p2 = Solenoid(3)
 ramp_p3 = Solenoid(4)
 
-opener = Opener(m1, m2, opener_p1, opener_p2)
+opener = Opener(opener_p1, opener_p2, m1, m2)
 ramp = Ramp(ramp_p1, ramp_p2, ramp_p3)
 
 dt_r2.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r3.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r4.changeControlMode(CANTalon.ControlMode.Follower)
+# dt_r3.changeControlMode(CANTalon.ControlMode.Follower)
+# dt_r4.changeControlMode(CANTalon.ControlMode.Follower)
 dt_l2.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l3.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l4.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r2.set(1)
-dt_r3.set(1)
-dt_r4.set(1)
-dt_l2.set(7)
-dt_l3.set(7)
-dt_l4.set(7)
+# dt_l3.changeControlMode(CANTalon.ControlMode.Follower)
+# dt_l4.changeControlMode(CANTalon.ControlMode.Follower)
+dt_r2.set(11)
+# dt_r3.set(1)
+# dt_r4.set(1)
+dt_l2.set(3)
+# dt_l3.set(7)
+# dt_l4.set(7)
 
 dt = DriveTrain(dt_left, dt_right, left_encoder=None, right_encoder=None)
 

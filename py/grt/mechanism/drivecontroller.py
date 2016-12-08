@@ -23,8 +23,8 @@ class ArcadeDriveController:
             power = -self.l_joystick.y_axis
             turnval = self.r_joystick.x_axis if self.r_joystick else self.l_joystick.x_axis
             # get turn value from r_joystick if it exists, else get it from l_joystick
-            self.dt.set_dt_output(power + turnval,
-                                  power - turnval)
+            self.dt.set_dt_output(power - turnval,
+                                  -(power + turnval))
         elif sensor == self.l_joystick and state_id == 'trigger':
             if datum:
                 self.dt.upshift()

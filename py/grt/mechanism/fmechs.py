@@ -5,13 +5,21 @@ class Opener:
         self.m1 = m1
         self.m2 = m2
     def extend(self):
-        self.p1.set(1)
-    def retract(self):
-        self.p1.set(0)
-    def go_to_drawers(self):
         self.p2.set(1)
+    def retract(self):
+        self.p2.set(0)
+    def go_to_drawers(self):
+        self.p1.set(1)
+    def go_back_from_drawers(self):
+        self.p1.set(0)
     def open_drawers(self, power):
         self.m1.set(power)
+        self.m2.set(power)
+
+    def open_1(self,power):
+        self.m1.set(power)
+
+    def open_2(self,power):
         self.m2.set(power)
 
 class Ramp:
@@ -25,6 +33,8 @@ class Ramp:
         self.p1.set(0)
     def flap_down(self):
         self.p2.set(1)
+    def flap_up(self):
+        self.p2.set(0)
     def ramp_tilt(self):
         self.p3.set(1)
     def ramp_down(self):
