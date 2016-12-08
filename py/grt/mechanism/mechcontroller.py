@@ -31,14 +31,27 @@ class MechController:
                 self.Clamp.closeClamp()
 
         if state_id == 'r_y_axis':
-            if datum > 0.05:
+            if abs(datum) > 0.05:
 
                 self.Opener.turnOpener(datum)
 
+        #    elif datum < -0.05:
+        #        self.Opener.turnOpener(datum)
+
+            else:
+                self.Opener.turnOpener(0)
+
         if state_id == 'l_y_axis':
-            if datum > 0.05:
+            if abs(datum) > 0.05:
 
                 self.Opener.moveOpener(datum)
+
+            #elif datum < -0.05:
+
+            #    self.Opener.moveOpener(datum)
+
+            else:
+                self.Opener.moveOpener(0)
 
     def _driver_joystick_listener(self, sensor, state_id, datum):
         pass

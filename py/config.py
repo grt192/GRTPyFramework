@@ -21,13 +21,13 @@ from grt.mechanism.GMechs import *
 
 #DT Talons and Objects
 
-dt_right = CANTalon(1)
-dt_r2 = CANTalon(2)
+dt_right = CANTalon(4)
+dt_r2 = CANTalon(12)
 #dt_r3 = CANTalon(3)
 #dt_r4 = CANTalon(4)
 
 dt_left = CANTalon(3)
-dt_l2 = CANTalon(4)
+dt_l2 = CANTalon(6)
 #dt_l3 = CANTalon(9)
 #dt_l4 = CANTalon(10)
 
@@ -37,17 +37,17 @@ dt_r2.changeControlMode(CANTalon.ControlMode.Follower)
 dt_l2.changeControlMode(CANTalon.ControlMode.Follower)
 #dt_l3.changeControlMode(CANTalon.ControlMode.Follower)
 #dt_l4.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r2.set(3)
+dt_r2.set(7)
 #dt_r3.set(1)
 #dt_r4.set(1)
-dt_l2.set(1)
+dt_l2.set(8)
 #dt_l3.set(3)
 #dt_l4.set(3)
 
 dt = DriveTrain(dt_left, dt_right, left_encoder=None, right_encoder=None)
 
-om_open = CANTalon(5)
-om_move = CANTalon(6)
+om_open = CANTalon(11)
+om_move = CANTalon(10)
 pu_open = Solenoid(0)
 pu_up = Solenoid(1)
 
