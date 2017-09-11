@@ -2,17 +2,15 @@ __author__ = "dhruv, Sidd Karamcheti"
 
 from grt.core import GRTMacro
 import wpilib
+import logging
 
-#constants = Constants()
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class TurnMacro(GRTMacro):
     """
     Macro that turns a set distance.
     """
-   # TP = constants['TP']
-    #TI = constants['TI']
-    #TD = constants['TD']
-    #TOLERANCE = constants['TMtol']
 
     class PIDTurnSource(wpilib.PIDSource):
         """
@@ -79,4 +77,4 @@ class TurnMacro(GRTMacro):
         target_angle = start_angle + self.turn_angle
         self.controller.SetSetpoint(target_angle)
         self.controller.Enable()
-        print('MacroTurn is initialized')
+        logger.info('MacroTurn is initialized')

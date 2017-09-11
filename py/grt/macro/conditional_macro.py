@@ -5,7 +5,10 @@ Executes one macro or another depending on the return value of a function.
 """
 
 from grt.core import GRTMacro
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class ConditionalMacro(GRTMacro):
     """

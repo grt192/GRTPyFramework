@@ -5,8 +5,10 @@ Executes macros in a list/tuple/whatever sequentially.
 """
 
 from grt.core import GRTMacro
+import logging
 
-
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 class SequentialMacros(GRTMacro):
     """
     Executes macros sequentially. Less efficient compared to GRTMacroController,
@@ -29,7 +31,7 @@ class SequentialMacros(GRTMacro):
                 self.kill()
                 return
             self.curr_macro = self.macro_queue.pop(0)
-            print('starting sequential macro')
+            logger.info('starting sequential macro')
             self.curr_macro.reset()
             self.curr_macro.run()
         # if curr_macro is still running, do nothing

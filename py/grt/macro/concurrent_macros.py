@@ -6,7 +6,10 @@ macros to finish if they aren't daemons.
 """
 
 from grt.core import GRTMacro
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class ConcurrentMacros(GRTMacro):
     """
