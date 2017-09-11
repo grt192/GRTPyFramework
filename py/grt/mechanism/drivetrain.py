@@ -5,10 +5,8 @@ class DriveTrain:
     """
     Standard 6-motor drivetrain, with standard tankdrive.
     """
-    power = 1.0
 
-
-    def __init__(self,
+    def __init__(self, power, 
                  left_motor, right_motor,
                  left_shifter=None, right_shifter=None,
                  left_encoder=None, right_encoder=None):
@@ -22,6 +20,7 @@ class DriveTrain:
         self.right_shifter = right_shifter
         self.left_encoder = left_encoder
         self.right_encoder = right_encoder
+        self.power = 1.0
 
     def set_dt_output(self, left_output, right_output):
         """

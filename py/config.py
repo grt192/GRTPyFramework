@@ -43,7 +43,7 @@ dt_l2.set(7)
 dt_l3.set(7)
 dt_l4.set(7)
 
-dt = DriveTrain(dt_left, dt_right, left_encoder=None, right_encoder=None)
+dt = DriveTrain(1.0, dt_left, dt_right, left_encoder=None, right_encoder=None)
 
 
 #Skeleton sensor poller
