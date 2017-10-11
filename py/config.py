@@ -43,6 +43,11 @@ dt_l2.set(7)
 dt_l3.set(7)
 dt_l4.set(7)
 
+shooter_act = Solenoid(1)
+
+turntable_motor = CANTalon(5)
+
+
 dt = DriveTrain(1.0, dt_left, dt_right, left_encoder=None, right_encoder=None)
 
 
@@ -63,7 +68,7 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 # Mech Talons, objects, and controller
 
 # define MechController
-mc = MechController(driver_stick, xbox_controller)
+mc = MechController(shooter_act, turntable_motor, driver_stick, xbox_controller)
 
 # define DriverStation
 ds = DriverStation.getInstance()
