@@ -29,6 +29,7 @@ class MyRobot(wpilib.SampleRobot):
 
         try:
             f = open('/home/lvuser/py/gyro.txt','w')
+            f.write("gyro_x, gyro_y, gyro_z" + "\n")
         except IOError:
             print('cannot open', arg)
         else:
@@ -64,7 +65,6 @@ class MyRobot(wpilib.SampleRobot):
                 print(gyro_y)
                 print(gyro_z)
 
-                f.write("gyro_x, gyro_y, gyro_z" + "\n")
                 #print("working")
                 f.write(str(gyro_x) + ", " + str(gyro_y) + ", " + str(gyro_z) + "\n")
 
