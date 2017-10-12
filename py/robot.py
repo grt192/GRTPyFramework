@@ -4,7 +4,6 @@ import wpilib
 import time
 import os
 
-
 class MyRobot(wpilib.SampleRobot):
     def __init__(self):
         super().__init__()
@@ -24,12 +23,13 @@ class MyRobot(wpilib.SampleRobot):
         pass
     
     def operatorControl(self):
+        now = time.time()
         i2c = wpilib.I2C(wpilib.I2C.Port.kOnboard, 40)
         i2c.transaction(bytes([61, 7]), 1)
 
         try:
             f = open('/home/lvuser/py/gyro.txt','w')
-            f.write("gyro_x, gyro_y, gyro_z" + "\n")
+            f.write("gyro_x, gyro_y, gyro_z, time" + "\n")
         except IOError:
             print('cannot open', arg)
         else:
@@ -39,12 +39,14 @@ class MyRobot(wpilib.SampleRobot):
                 tinit = time.time()
                 self.hid_sp.poll()
 
-                #data = i2c.read(0x18, 2)
-                data = i2c.transaction(bytes([0]), 40)
+                datax = i2c.read(0x14, 2)
+                datay = i2c.read(0x16, 2)
+                dataz = i2c.read(0x18, 2)
+                #data = i2c.transaction(bytes([0]), 40)
                 #print(str(data[0x14] + 256 * data[0x15]) + ", " + str(data[0x16] + 256 * data[0x17]) + ", " + str(data[0x18] + 256 * data[0x19]))
-                gyro_x = data[0x14] + 256 * data[0x15]
-                gyro_y = data[0x16] + 256 * data[0x17]
-                gyro_z = data[0x18] + 256 * data[0x19]
+                gyro_x = datax[0x14] + 256 * data[0x15]
+                gyro_y = datay[0x16] + 256 * data[0x17]
+                gyro_z = dataz[0x18] + 256 * data[0x19]
                 
                 if (gyro_x < (2**15)):
                     gyro_x = gyro_x
@@ -61,12 +63,13 @@ class MyRobot(wpilib.SampleRobot):
                 else:
                     gyro_z = gyro_z - 2**16
 
-                print(gyro_x)
-                print(gyro_y)
-                print(gyro_z)
-
+                #print(gyro_x)
+                #print(gyro_y)
+                #print(gyro_z)
+                #print(time.time()-now)
+                timer = time.time()-now
                 #print("working")
-                f.write(str(gyro_x) + ", " + str(gyro_y) + ", " + str(gyro_z) + "\n")
+                f.write(str(gyro_x) + ", " + str(gyro_y) + ", " + str(gyro_z) + ", " + str(timer) + "\n")
 
 
                 self.safeSleep(tinit, .04)

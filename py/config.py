@@ -4,7 +4,6 @@ Config File for Robot
 
 #@dhruv_rajan is editing config.py
 from wpilib import Solenoid, Compressor, DriverStation, CANTalon, DigitalInput
-
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.sensors.xbox_joystick import XboxJoystick
 #from grt.sensors.gyro import Gyro
@@ -49,7 +48,6 @@ turntable_motor = CANTalon(5)
 
 
 dt = DriveTrain(1.0, dt_left, dt_right, left_encoder=None, right_encoder=None)
-
 
 #Skeleton sensor poller
 #gyro = Gyro(1)

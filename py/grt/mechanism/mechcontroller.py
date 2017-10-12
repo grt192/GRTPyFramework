@@ -1,3 +1,5 @@
+from wpilib import CANTalon
+
 class MechController:
 
     def __init__(self, rails_actuator, turntablemotor, driver_joystick, xbox_controller): # mechanisms belong in arguments
@@ -15,6 +17,7 @@ class MechController:
         if state_id == "l_x_axis":
             if datum:
                 self.turntablemotor.set(-datum*.5)
+                #print(self.turntablemotor.getOutputCurrent())
         if state_id == "x_button":
             if datum:
                 self.rails_actuator.set(True)
