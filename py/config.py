@@ -14,6 +14,7 @@ from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
 from grt.mechanism.apple import Apple
 from grt.mechanism.spider import Spider
+from grt.mechanism.cookie import Cookie
 
 
 
@@ -26,6 +27,9 @@ apple_mech = Apple(m1, p1, p2)
 spider_actuator = Solenoid(1)
 
 spider = Spider(spider_actuator)
+
+p3 = Solenoid(3)
+cookie = Cookie(p3)
 
 
 # Drive Controllers
