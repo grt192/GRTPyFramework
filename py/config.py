@@ -17,6 +17,7 @@ from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
+from grt.mechanism.apple import Apple
 
 
 #DT Talons and Objects
@@ -44,6 +45,12 @@ dt_l2.set(7)
 dt_l3.set(7)
 dt_l4.set(7)
 
+m1 = CANTalon(11)
+p1 = Solenoid(1)
+p2 = Solenoid(2)
+
+apple_mech = Apple(m1, p1, p2) 
+
 dt = DriveTrain(1.0, dt_left, dt_right, left_encoder=None, right_encoder=None)
 
 
@@ -64,7 +71,7 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 # Mech Talons, objects, and controller
 
 # define MechController
-mc = MechController(driver_stick, xbox_controller)
+mc = MechController(apple_mech, driver_stick, xbox_controller)
 
 # define DriverStation
 ds = DriverStation.getInstance()
