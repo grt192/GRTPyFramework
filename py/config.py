@@ -9,55 +9,23 @@ from ctre import CANTalon
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.sensors.xbox_joystick import XboxJoystick
 #from grt.sensors.gyro import Gyro
-from grt.core import SensorPoller
-from grt.mechanism.drivetrain import DriveTrain
-from grt.mechanism.drivecontroller import ArcadeDriveController
-from grt.mechanism.motorset import Motorset
-from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
 from grt.mechanism.apple import Apple
+from grt.mechanism.spider import Spider
 
 
-#DT Talons and Objects
-
-dt_right = CANTalon(1)
-dt_r2 = CANTalon(2)
-dt_r3 = CANTalon(3)
-dt_r4 = CANTalon(4)
-
-dt_left = CANTalon(7)
-dt_l2 = CANTalon(8)
-dt_l3 = CANTalon(9)
-dt_l4 = CANTalon(10)
-
-dt_r2.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r3.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r4.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l2.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l3.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l4.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r2.set(1)
-dt_r3.set(1)
-dt_r4.set(1)
-dt_l2.set(7)
-dt_l3.set(7)
-dt_l4.set(7)
 
 m1 = CANTalon(11)
 p1 = Solenoid(1)
 p2 = Solenoid(2)
 
-apple_mech = Apple(m1, p1, p2) 
+apple_mech = Apple(m1, p1, p2)
 
-dt = DriveTrain(1.0, dt_left, dt_right, left_encoder=None, right_encoder=None)
+spider_actuator = Solenoid(1)
 
-
-#Skeleton sensor poller
-#gyro = Gyro(1)
-# define sensor poller
-# sp = SensorPoller()
+spider = Spider(spider_actuator)
 
 
 # Drive Controllers
@@ -71,12 +39,7 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 # Mech Talons, objects, and controller
 
 # define MechController
-mc = MechController(apple_mech, driver_stick, xbox_controller)
+mc = MechController(apple_mech, spider, driver_stick, xbox_controller)
 
 # define DriverStation
 ds = DriverStation.getInstance()
-
-
-
-
-
