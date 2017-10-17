@@ -22,31 +22,7 @@ from grt.mechanism.cat import Cat
 
 #DT Talons and Objects
 
-dt_right = CANTalon(1)
-dt_r2 = CANTalon(2)
-dt_r3 = CANTalon(3)
-dt_r4 = CANTalon(4)
-
-dt_left = CANTalon(7)
-dt_l2 = CANTalon(8)
-dt_l3 = CANTalon(9)
-dt_l4 = CANTalon(10)
-motor = CANTalon(12)
-
-dt_r2.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r3.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r4.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l2.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l3.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l4.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r2.set(1)
-dt_r3.set(1)
-dt_r4.set(1)
-dt_l2.set(7)
-dt_l3.set(7)
-dt_l4.set(7)
-
-dt = DriveTrain(1.0, dt_left, dt_right, left_encoder=None, right_encoder=None)
+motor = CANTalon(1)
 
 
 #Skeleton sensor poller
@@ -58,7 +34,6 @@ dt = DriveTrain(1.0, dt_left, dt_right, left_encoder=None, right_encoder=None)
 # Drive Controllers
 driver_stick = Attack3Joystick(0)
 xbox_controller = XboxJoystick(1)
-ac = ArcadeDriveController(dt, driver_stick)
 hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface devices
 
 
