@@ -9,7 +9,7 @@ class MechController:
         xbox_controller.add_listener(self._xbox_controller_listener)
 
     def _xbox_controller_listener(self, sensor, state_id, datum):
-        if state_id:
+        if datum:
 			self.cat_mech.turn()
 		else:
 			self.cat_mech.stop_turning()
