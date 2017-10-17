@@ -16,6 +16,7 @@ from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
+from grt.mechanism.cat import Cat
 
 
 #DT Talons and Objects
@@ -29,6 +30,7 @@ dt_left = CANTalon(7)
 dt_l2 = CANTalon(8)
 dt_l3 = CANTalon(9)
 dt_l4 = CANTalon(10)
+motor = CANTalon(12)
 
 dt_r2.changeControlMode(CANTalon.ControlMode.Follower)
 dt_r3.changeControlMode(CANTalon.ControlMode.Follower)
@@ -62,8 +64,10 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 
 # Mech Talons, objects, and controller
 
+cat = Cat(motor)
+
 # define MechController
-mc = MechController(driver_stick, xbox_controller)
+mc = MechController(cat, driver_stick, xbox_controller)
 
 # define DriverStation
 ds = DriverStation.getInstance()
