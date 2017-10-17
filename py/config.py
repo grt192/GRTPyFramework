@@ -3,7 +3,8 @@ Config File for Robot
 """
 
 #@dhruv_rajan is editing config.py
-from wpilib import Solenoid, Compressor, DriverStation, CANTalon, DigitalInput
+from wpilib import Solenoid, Compressor, DriverStation, DigitalInput
+from ctre import CANTalon
 
 from grt.sensors.attack_joystick import Attack3Joystick
 from grt.sensors.xbox_joystick import XboxJoystick
