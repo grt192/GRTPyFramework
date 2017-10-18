@@ -16,6 +16,7 @@ from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
 from grt.mechanism.spider import Spider
 from grt.mechanism.cookie import Cookie
+from grt.mechanism.giraffe import Giraffe
 
 
 spider_actuator = Solenoid(1)
@@ -24,6 +25,9 @@ spider = Spider(spider_actuator)
 
 p3 = Solenoid(1)
 cookie = Cookie(p3)
+
+p1 = Solenoid(1)
+giraffe = Giraffe(p1)
 
 
 # Drive Controllers
@@ -36,7 +40,7 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 # Mech Talons, objects, and controller
 
 # define MechController
-mc = MechController(cookie, spider, driver_stick, xbox_controller)
+mc = MechController(cookie, spider, giraffe, driver_stick, xbox_controller)
 
 # define DriverStation
 ds = DriverStation.getInstance()
