@@ -17,18 +17,18 @@ class AppleMacro:
             self.apple.open_curtains()
             time.sleep(5)
 
-class SpiderMacro:
-	def __init__(self, spider, timeout=None):
-		super().__init__(timeout=timeout)
-		self.spider = spider
+class BigGhostMacro:
+	def __init__(self, big_ghost, timeout=None):
+		spuer().__init__(timeout=timeout)
+		self.big_ghost = big_ghost
 		self.enabled = False
 
 	def macro_periodic(self):
 		if self.enabled:
-			self.spider.lower()
+			self.big_ghost.extend()
             time.sleep(3)
-            self.spider.raise_()
-            time.sleep(5)
+            self.big_ghost.retract()
+            time.sleep(4)
 
 class CookieMacro:
 	def __init__(self, cookie, timeout=None):
@@ -43,16 +43,29 @@ class CookieMacro:
             self.cookie.hand_up()
             time.sleep(3)
 
-class BigGhostMacro:
-	def __init__(self, big_ghost, timeout=None):
-		spuer().__init__(timeout=timeout)
-		self.big_ghost = big_ghost
+class GiraffeMacro:
+	def __init__(self, giraffe, timeout=None):
+		super().__init__(timeout=timeout)
+		self.giraffe = giraffe
 		self.enabled = False
 
 	def macro_periodic(self):
 		if self.enabled:
-			self.big_ghost.extend()
+		    self.giraffe.head_down()
+		    time.sleep(3)
+		    self.giraffe.head_up()
+		    time.sleep(5)
+
+class SpiderMacro:
+	def __init__(self, spider, timeout=None):
+		super().__init__(timeout=timeout)
+		self.spider = spider
+		self.enabled = False
+
+	def macro_periodic(self):
+		if self.enabled:
+			self.spider.lower()
             time.sleep(3)
-            self.big_ghost.retract()
-            time.sleep(4)
+            self.spider.raise_()
+            time.sleep(5)
 

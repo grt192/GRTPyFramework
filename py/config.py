@@ -17,9 +17,11 @@ from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
-from grt.mechanism.spider import Spider
+from grt.mechanism.apple import Apple
+from grt.mechanism.big_ghost import BigGhost
 from grt.mechanism.cookie import Cookie
 from grt.mechanism.giraffe import Giraffe
+from grt.mechanism.spider import Spider
 
 apple_motor = CANTalon(11)
 apple_p1 = Solenoid(1)
