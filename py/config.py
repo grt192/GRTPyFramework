@@ -31,6 +31,9 @@ spider = Spider(spider_actuator)
 cookie_p1 = Solenoid(1)
 cookie = Cookie(cookie_p1)
 
+big_ghost_actuator = Solenoid(3)
+big_ghost = BigGhost(big_ghost_actuator)
+
 
 # Drive Controllers
 driver_stick = Attack3Joystick(0)
@@ -44,7 +47,7 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 # Mech Talons, objects, and controller
 
 # define MechController
-mc = MechController(cookie, spider, driver_stick, xbox_controller)
+mc = MechController(apple, cookie, spider, big_ghost, driver_stick, xbox_controller)
 
 # define DriverStation
 ds = DriverStation.getInstance()

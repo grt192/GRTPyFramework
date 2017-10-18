@@ -2,10 +2,12 @@ import time
 
 class MechController:
 
-    def __init__(self, spider, cookie, driver_joystick, xbox_controller): # mechanisms belong in arguments
+    def __init__(self, apple, spider, cookie, big_ghost, driver_joystick, xbox_controller): # mechanisms belong in arguments
         # define mechanisms here
+        self.apple = apple
         self.spider = spider
         self.cookie = cookie
+        self.big_ghost = big_ghost
         self.driver_joystick = driver_joystick
         self.xbox_controller = xbox_controller
         driver_joystick.add_listener(self._driver_joystick_listener)
@@ -32,12 +34,12 @@ class MechController:
                 time.sleep(2)
                 self.cookie.hand_up()
                 time.sleep(2)
+        if state_id == 'l_shoulder':
+            if datum:
+                self.big_ghost.extend()
+                time.sleep(4)
+                self.big_ghost.retract()
+                time.sleep(4)
 
     def _driver_joystick_listener(self, sensor, state_id, datum):
-        if state_id == "switch1":
-            if datum:
-                print("switch1")
-                self.spider.lower()
-                time.sleep(5)
-                self.spider.raise_()
-                time.sleep(5)
+        pass
