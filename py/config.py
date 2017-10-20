@@ -24,21 +24,21 @@ from grt.mechanism.giraffe import Giraffe
 from grt.mechanism.spider import Spider
 
 apple_motor = CANTalon(11)
-apple_p1 = Solenoid(1)
-apple_p2 = Solenoid(2)
+apple_p1 = Solenoid(0)
+apple_p2 = Solenoid(1)
 apple_mech = Apple(apple_motor, apple_p1, apple_p2)
 
-spider_actuator = Solenoid(0)
-spider = Spider(spider_actuator)
+spider_p1 = Solenoid(2)
+spider = Spider(spider_p1)
 
-cookie_p1 = Solenoid(1)
+cookie_p1 = Solenoid(3)
 cookie = Cookie(cookie_p1)
 
-big_ghost_actuator = Solenoid(3)
-big_ghost = BigGhost(big_ghost_actuator)
+big_ghost_p1 = Solenoid(4)
+big_ghost = BigGhost(big_ghost_p1)
 
-p1 = Solenoid(1)
-giraffe = Giraffe(p1)
+giraffe_p1 = Solenoid(5)
+giraffe = Giraffe(giraffe_p1)
 
 
 # Drive Controllers
