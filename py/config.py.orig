@@ -3,7 +3,10 @@ Config File for Robot
 """
 
 #@dhruv_rajan is editing config.py
-
+<<<<<<< HEAD
+=======
+#from wpilib import Solenoid, Compressor, DriverStation, CANTalon, DigitalInput
+>>>>>>> VictorZStairs
 from wpilib import Solenoid, Compressor, DriverStation, DigitalInput
 from ctre import CANTalon
 
