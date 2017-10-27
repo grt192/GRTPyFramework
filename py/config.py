@@ -22,6 +22,7 @@ from grt.mechanism.big_ghost import BigGhost
 from grt.mechanism.cookie import Cookie
 from grt.mechanism.giraffe import Giraffe
 from grt.mechanism.spider import Spider
+from grt.mechanism.hand import Hand
 
 apple_motor = CANTalon(11)
 apple_p1 = Solenoid(0)
@@ -39,6 +40,9 @@ big_ghost = BigGhost(big_ghost_p1)
 
 giraffe_p1 = Solenoid(5)
 giraffe = Giraffe(giraffe_p1)
+
+hand_p1 = Solenoid(6)
+hand_mech = Hand(hand_p1)
 
 
 # Drive Controllers
