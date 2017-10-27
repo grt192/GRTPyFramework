@@ -23,11 +23,12 @@ from grt.mechanism.cookie import Cookie
 from grt.mechanism.giraffe import Giraffe
 from grt.mechanism.spider import Spider
 from grt.mechanism.hand import Hand
+from grt.mechanism.stair_monster import StairMonster
 
 apple_motor = CANTalon(11)
 apple_p1 = Solenoid(0)
 apple_p2 = Solenoid(1)
-apple_mech = Apple(apple_motor, apple_p1, apple_p2)
+apple = Apple(apple_motor, apple_p1, apple_p2)
 
 spider_p1 = Solenoid(2)
 spider = Spider(spider_p1)
@@ -41,9 +42,14 @@ big_ghost = BigGhost(big_ghost_p1)
 giraffe_p1 = Solenoid(5)
 giraffe = Giraffe(giraffe_p1)
 
-hand_p1 = Solenoid(6)
-hand_mech = Hand(hand_p1)
+# hand_p1 = Solenoid(6)
+# hand_mech = Hand(hand_p1)
+hand = None
 
+stair_motor = CANTalon(0)
+stair_p1 = Solenoid(6)
+stair_p2 = Solenoid(7)
+stair_monster = StairMonster(stair_motor, stair_p1, stair_p2)
 
 # Drive Controllers
 driver_stick = Attack3Joystick(0)
@@ -58,7 +64,7 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 
 # define MechController
 
-mc = MechController(apple, cookie, spider, big_ghost, giraffe, driver_stick, xbox_controller)
+mc = MechController(apple, cookie, spider, big_ghost, giraffe, hand, stair_monster, driver_stick, xbox_controller)
 
 # define DriverStation
 ds = DriverStation.getInstance()
