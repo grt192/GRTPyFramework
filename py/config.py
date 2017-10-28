@@ -12,8 +12,9 @@ from grt.sensors.xbox_joystick import XboxJoystick
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
-from grt.mechanism.apple import Apple
+grt.mechanism.apple import Apple
 from grt.mechanism.spider import Spider
+from grt.mechanism.cat import Cat
 
 
 
@@ -27,19 +28,30 @@ spider_actuator = Solenoid(1)
 
 spider = Spider(spider_actuator)
 
+motor = CANTalon(1)
+
+
+#Skeleton sensor poller
+#gyro = Gyro(1)
+# define sensor poller
+# sp = SensorPoller()
+
+
 
 # Drive Controllers
 driver_stick = Attack3Joystick(0)
 xbox_controller = XboxJoystick(1)
-ac = ArcadeDriveController(dt, driver_stick)
 hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface devices
 
 
 
 # Mech Talons, objects, and controller
 
+cat = Cat(motor)
+
 # define MechController
-mc = MechController(apple_mech, spider, driver_stick, xbox_controller)
+mc = MechController(apple_mech, spider, cat, driver_stick, xbox_controller)
+
 
 # define DriverStation
 ds = DriverStation.getInstance()
