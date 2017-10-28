@@ -3,8 +3,9 @@ class Motorset:
     Drop-in replacement for wpilib.SpeedController. Useful for grouping
     bunches of motors together.
     """
+    val = 0
 
-    def __init__(self, val, motors, scalefactors=None):
+    def __init__(self, motors, scalefactors=None):
         """
         Takes a tuple of motors and possibly a tuple of
         scalefactors, with which the motor outputs are multiplied.
@@ -14,7 +15,6 @@ class Motorset:
         self.setscalefactors(scalefactors)
         self.Set = self.set
         self.Get = self.get
-        self.val = 0
 
     def set(self, value):
         """
