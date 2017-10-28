@@ -21,7 +21,6 @@ from grt.mechanism.mechcontroller import MechController
 
 #DT Talons and Objects
 
-motor = CANTalon(1)
 dt_right = CANTalon(1)
 dt_r2 = CANTalon(2)
 dt_r3 = CANTalon(3)
@@ -63,10 +62,8 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 
 # Mech Talons, objects, and controller
 
-cat = Cat(motor)
-
 # define MechController
-mc = MechController(cat, driver_stick, xbox_controller)
+mc = MechController(driver_stick, xbox_controller)
 
 # define DriverStation
 ds = DriverStation.getInstance()
