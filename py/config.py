@@ -17,14 +17,11 @@ from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
-from grt.mechanism.cat import Cat
 
 
 #DT Talons and Objects
 
-<<<<<<< HEAD
 motor = CANTalon(1)
-=======
 dt_right = CANTalon(1)
 dt_r2 = CANTalon(2)
 dt_r3 = CANTalon(3)
@@ -49,7 +46,6 @@ dt_l3.set(7)
 dt_l4.set(7)
 
 dt = DriveTrain(dt_left, dt_right, left_encoder=None, right_encoder=None)
->>>>>>> parent of 66818d6... updated mechanism files
 
 
 #Skeleton sensor poller
