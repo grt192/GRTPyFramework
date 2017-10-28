@@ -17,7 +17,11 @@ from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
+<<<<<<< HEAD
+grt.mechanism.apple import Apple
+from grt.mechanism.spider import Spider
 from grt.mechanism.cat import Cat
+=======
 from grt.mechanism.apple import Apple
 from grt.mechanism.big_ghost import BigGhost
 from grt.mechanism.cookie import Cookie
@@ -25,6 +29,7 @@ from grt.mechanism.giraffe import Giraffe
 from grt.mechanism.spider import Spider
 from grt.mechanism.hand import Hand
 from grt.mechanism.stair_monster import StairMonster
+>>>>>>> 9e2ec23f52625d450fb8fc4ccba7f921d964d188
 
 apple_motor = CANTalon(11)
 apple_p1 = Solenoid(0)
@@ -47,7 +52,8 @@ giraffe = Giraffe(giraffe_p1)
 # hand_mech = Hand(hand_p1)
 hand = None
 
-cat_motor = CANTalon(1)
+<<<<<<< HEAD
+motor = CANTalon(1)
 
 
 #Skeleton sensor poller
@@ -56,27 +62,37 @@ cat_motor = CANTalon(1)
 # sp = SensorPoller()
 
 
+=======
 stair_motor = CANTalon(0)
 stair_p1 = Solenoid(6)
 stair_p2 = Solenoid(7)
 stair_monster = StairMonster(stair_motor, stair_p1, stair_p2)
+>>>>>>> 9e2ec23f52625d450fb8fc4ccba7f921d964d188
 
 # Drive Controllers
 driver_stick = Attack3Joystick(0)
 xbox_controller = XboxJoystick(1)
+<<<<<<< HEAD
+=======
 
 # ac = ArcadeDriveController(dt, driver_stick)
+>>>>>>> 9e2ec23f52625d450fb8fc4ccba7f921d964d188
 hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface devices
 
 
 
 # Mech Talons, objects, and controller
 
-cat = Cat(cat_motor)
+cat = Cat(motor)
 
 # define MechController
+<<<<<<< HEAD
+mc = MechController(apple_mech, spider, cat, driver_stick, xbox_controller)
 
-mc = MechController(apple, cookie, spider, big_ghost, giraffe, hand, stair_monster, cat, driver_stick, xbox_controller)
+=======
+
+mc = MechController(apple, cookie, spider, big_ghost, giraffe, hand, stair_monster, driver_stick, xbox_controller)
+>>>>>>> 9e2ec23f52625d450fb8fc4ccba7f921d964d188
 
 # define DriverStation
 ds = DriverStation.getInstance()
