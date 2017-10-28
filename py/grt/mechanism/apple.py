@@ -1,7 +1,7 @@
 import time
 
 class Apple:
-    def _init_(self, m1, p1, p2):
+    def __init__(self, m1, p1, p2):
         self.m1 = m1
         self.p1 = p1
         self.p2 = p2
