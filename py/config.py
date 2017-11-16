@@ -17,35 +17,50 @@ from grt.sensors.ticker import Ticker
 from grt.sensors.encoder import Encoder
 from grt.sensors.talon import Talon
 from grt.mechanism.mechcontroller import MechController
+from grt.mechanism.swerve import Swerve
 
 
 #DT Talons and Objects
 
-dt_right = CANTalon(1)
-dt_r2 = CANTalon(2)
-dt_r3 = CANTalon(3)
-dt_left = CANTalon(11)
-dt_l2 = CANTalon(12)
-dt_l3 = CANTalon(13)
-dt_shifter = Solenoid(0)
+turn_l2 = CANTalon(4) 
+turn_l2.changeControlMode(CANTalon.ControlMode.Position)
+turn_l2.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder)
+turn_l2.setPID(1.0, 0.0, 0.0)
+
+turn_r2 = CANTalon(1)
+turn_r2.changeControlMode(CANTalon.ControlMode.Position)
+turn_r2.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder)
+turn_r2.setPID(1.0, 0.0, 0.0)
+
+turn_left = CANTalon(5)
+turn_left.changeControlMode(CANTalon.ControlMode.Position)
+turn_left.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder)
+turn_left.setPID(1.0, 0.0, 0.0)
+
+turn_right = CANTalon(6)#5
+turn_right.changeControlMode(CANTalon.ControlMode.Position)
+turn_right.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder)
+turn_right.setPID(1.0, 0.0, 0.0)
 
 
-dt_r2.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r3.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l2.changeControlMode(CANTalon.ControlMode.Follower)
-dt_l3.changeControlMode(CANTalon.ControlMode.Follower)
-dt_r2.set(dt_right.getDeviceID())
-dt_r3.set(dt_right.getDeviceID())
-dt_l2.set(dt_left.getDeviceID())
-dt_l3.set(dt_left.getDeviceID())
+dt_right = CANTalon(9)
+dt_left = CANTalon(7)
 
-dt = DriveTrain(dt_left, dt_right, left_encoder=None, right_encoder=None)
+dt_l2 = CANTalon(3)
+dt_r2 = CANTalon(10)
+
+
+# shooter1_m1 = CANTalon(11)
+# shooter1_m2 = CANTalon(9)
+
 
 
 #Skeleton sensor poller
 #gyro = Gyro(1)
 # define sensor poller
 # sp = SensorPoller()
+
+swerve = Swerve(turn_right, turn_r2, turn_left, turn_l2, dt_right, dt_r2, dt_left, dt_l2)
 
 
 # Drive Controllers
@@ -58,7 +73,7 @@ hid_sp = SensorPoller((driver_stick, xbox_controller))  # human interface device
 # Mech Talons, objects, and controller
 
 # define MechController
-mc = MechController(driver_stick, xbox_controller)
+mc = MechController(driver_stick, xbox_controller, swerve)
 
 # define DriverStation
 ds = DriverStation.getInstance()
