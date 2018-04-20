@@ -1,6 +1,5 @@
-
-
 import wpilib
+from wpilib import CANTalon
 import time
 
 
@@ -17,6 +16,15 @@ class MyRobot(wpilib.SampleRobot):
             tinit = time.time()
             self.hid_sp.poll()
             self.safeSleep(tinit, .04)
+
+    def test(self):
+        for i in range(1,17):
+            print(i)
+            CANTalon(i).set(1.0)
+            time.sleep(1.0)
+            CANTalon(i).set(0.0)
+            time.sleep(3.0)
+
     
     def autonomous(self):
         # define auto here

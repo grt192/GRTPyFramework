@@ -27,9 +27,9 @@ pickup_achange_motor1.reverseOutput(True)
 
 pickup_roller_motor = CANTalon(9) #good
 pickup = Pickup(pickup_achange_motor1, pickup_achange_motor2, pickup_roller_motor)
-flywheel_motor = CANTalon(8) #good
+flywheel_motor = CANTalon(4) #good
 shooter_act = Solenoid(1)
-turntable_motor = CANTalon(12)
+turntable_motor = CANTalon(5)
 manual_shooter = ManualShooter(flywheel_motor, shooter_act, turntable_motor)
 
 #DT Talons and Objects
@@ -37,7 +37,7 @@ manual_shooter = ManualShooter(flywheel_motor, shooter_act, turntable_motor)
 dt_right = CANTalon(1)#1
 #dt_r2 = CANTalon(2)#2
 #dt_r3 = CANTalon(3)#3
-dt_left = CANTalon(10)#11
+dt_left = CANTalon(11)#12/13/14
 #dt_l2 = CANTalon(11)#12
 #dt_l3 = CANTalon(12)#13
 dt_shifter = Solenoid(0)
