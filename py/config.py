@@ -34,10 +34,10 @@ manual_shooter = ManualShooter(flywheel_motor, shooter_act, turntable_motor)
 
 #DT Talons and Objects
 
-dt_right = CANTalon(1)#1
+dt_right = CANTalon(11)#1
 #dt_r2 = CANTalon(2)#2
 #dt_r3 = CANTalon(3)#3
-dt_left = CANTalon(11)#12/13/14
+dt_left = CANTalon(1)#12/13/14
 #dt_l2 = CANTalon(11)#12
 #dt_l3 = CANTalon(12)#13
 dt_shifter = Solenoid(0)
