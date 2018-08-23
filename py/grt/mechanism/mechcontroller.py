@@ -15,7 +15,9 @@ class MechController:
  
         if state_id == "l_y_axis":
             if datum:
-                self.pickup.angle_change(datum)
+                if abs(datum) < 0.1:
+                    datum = 0
+                self.manual_shooter.spin_flywheel(datum)
  
         if state_id == "a_button": 
             if datum:
